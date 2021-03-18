@@ -7,11 +7,12 @@ import (
 	"log"
 	"math/big"
 	"os"
+	"regexp"
 )
 
 // Constants
 const DefaultPwLenght int = 20
-const VersionString string = "0.1.0"
+const VersionString string = "0.2.0"
 const PwLowerCharsHuman string = "abcdefghjkmnpqrstuvwxyz"
 const PwUpperCharsHuman string = "ABCDEFGHJKMNPQRSTUVWXYZ"
 const PwLowerChars string = "abcdefghijklmnopqrstuvwxyz"
@@ -54,7 +55,8 @@ func init() {
 	flag.IntVar(&config.maxPassLen, "x", DefaultPwLenght, "Maxiumum password length")
 	flag.IntVar(&config.numOfPass, "n", 1, "Number of passwords to generate")
 
-	// TODO: Exclude chars are missing, yet
+	// String flags
+	flag.StringVar(&config.excludeChars, "E", "", "Exclude list of characters from generated password")
 
 	flag.Parse()
 	if config.showVersion {
@@ -103,15 +105,15 @@ func main() {
 	if config.useSpecial {
 		charRange = charRange + pwSpecialChars
 	}
+	if config.excludeChars != "" {
+		regExp := regexp.MustCompile("[" + config.excludeChars + "]")
+		charRange = regExp.ReplaceAllLiteralString(charRange, "")
+	}
 
-	/*
-		for i := 1; i <= config.numOfPass; i++ {
-			fmt.Println(i)
-		}
-	*/
-	pwString := getRandChar(&charRange, pwLength)
-	fmt.Println(pwString)
-
+	for i := 1; i <= config.numOfPass; i++ {
+		pwString := getRandChar(&charRange, pwLength)
+		fmt.Println(pwString)
+	}
 }
 
 func getRandChar(charRange *string, pwLength int) string {
