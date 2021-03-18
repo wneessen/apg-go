@@ -30,6 +30,7 @@ all-build: $(addprefix build-, $(subst /,_, $(ALL_PLATFORMS)))
 OUTBINS = $(foreach bin,$(BINS),bin/v$(VERSION)/$(OS)_$(ARCH)/$(bin)$(BIN_EXTENSION))
 build: $(OUTBINS)
 BUILD_DIRS := bin/v$(VERSION)/$(OS)_$(ARCH)     \
+              bin/zip-files/v$(VERSION)         \
               .go/bin/v$(VERSION)/$(OS)_$(ARCH) \
               .go/cache
 
@@ -54,6 +55,7 @@ $(STAMPS): go-build
 	@echo "binary: $(OUTBIN)"
 	@if ! cmp -s .go/$(OUTBIN) $(OUTBIN); then  \
 	    mv .go/$(OUTBIN) $(OUTBIN);             \
+	    zip -9 ./bin/zip-files/v$(VERSION)/apg_v$(VERSION)_$(OS)_$(ARCH).zip $(OUTBIN) \
 	    date >$@;                               \
 	fi
 
