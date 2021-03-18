@@ -1,10 +1,24 @@
 # apg.go
-_apg.pl_ is a simple APG-like password generator script written in Go. It tries to replicate the functionality of the "[Automated Password Generator](https://web.archive.org/web/20130313042424/http://www.adel.nursat.kz:80/apg)", which hasn't been maintained since 2003. Since more and more Unix distributions are abondoning the tool, I was looking for an alternative. FreeBSD for example recommends "security/makepasswd", which is also written in Perl but requires much more dependency packages and doesn't offer the feature-set/flexibility of APG. Therefore I decided to write my own implementation. As I never used the "pronouncable password" functionality, I left this out in my version.
+_apg.pl_ is a simple APG-like password generator script written in Go. It tries to replicate the
+functionality of the
+"[Automated Password Generator](https://web.archive.org/web/20130313042424/http://www.adel.nursat.kz:80/apg)",
+which hasn't been maintained since 2003. Since more and more Unix distributions are abondoning the tool, I was
+looking for an alternative. FreeBSD for example recommends "security/makepasswd", which is written in Perl
+but requires a lot of dependency packages and doesn't offer the feature-set/flexibility of APG. Therefore, as a
+first attempt, I decided to write [my own implementation in Perl](https://github.com/wneessen/passwordGen), but since
+I just started learning Go, I gave it another try and reproduced apg.pl in Go as apg.go. Again, as I never used
+the "pronouncable password" functionality, I left this out in this version.
 
 ## Usage
-Simply add the execute-flag to the script and run it
+Either use the binary releases, unzip them and simply execute them:
 ```sh
+$ unzip apg_v0.2.0_linux_amd64.zip
 $ chmod +x apg
+$ ./apg
+```
+Or download the sources and build the binary yourselves:
+```sh
+$ go build apg.go
 $ ./apg
 ```
 
