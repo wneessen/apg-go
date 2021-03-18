@@ -5,6 +5,8 @@
 *.so
 *.dylib
 apg
+bin/
+.go/
 
 # Test binary, built with `go test -c`
 *.test
