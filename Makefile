@@ -2,7 +2,12 @@
 BINS := apg
 
 VERSION ?= $(shell grep VersionString apg.go | head -1 | awk '{print $$5}' | sed 's/"//g')
-ALL_PLATFORMS := darwin/amd64 linux/amd64 linux/arm linux/arm64 linux/ppc64le linux/s390x windows/amd64
+ALL_PLATFORMS := darwin/amd64 darwin/arm64                      \
+    linux/amd64 linux/arm linux/arm64 linux/ppc64le linux/s390x \
+    freebsd/386 freebsd/amd64 freebsd/arm                       \
+    openbsd/386 openbsd/amd64 openbsd/arm                       \
+    netbsd/386 netbsd/amd64 netbsd/arm                          \
+    windows/386 windows/amd64
 OS := $(if $(GOOS),$(GOOS),$(shell go env GOOS))
 ARCH := $(if $(GOARCH),$(GOARCH),$(shell go env GOARCH))
 TAG := $(VERSION)__$(OS)_$(ARCH)

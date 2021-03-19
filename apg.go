@@ -12,7 +12,7 @@ import (
 
 // Constants
 const DefaultPwLenght int = 20
-const VersionString string = "0.2.0"
+const VersionString string = "0.2.1"
 const PwLowerCharsHuman string = "abcdefghjkmnpqrstuvwxyz"
 const PwUpperCharsHuman string = "ABCDEFGHJKMNPQRSTUVWXYZ"
 const PwLowerChars string = "abcdefghijklmnopqrstuvwxyz"
