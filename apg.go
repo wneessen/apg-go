@@ -12,7 +12,7 @@ import (
 
 // Constants
 const DefaultPwLenght int = 20
-const VersionString string = "0.2.1"
+const VersionString string = "0.2.2"
 const PwLowerCharsHuman string = "abcdefghjkmnpqrstuvwxyz"
 const PwUpperCharsHuman string = "ABCDEFGHJKMNPQRSTUVWXYZ"
 const PwLowerChars string = "abcdefghijklmnopqrstuvwxyz"
@@ -131,7 +131,7 @@ func getRandNum(maxNum int) int {
 	maxNumBigInt := big.NewInt(int64(maxNum))
 	randNum64, err := rand.Int(rand.Reader, maxNumBigInt)
 	if err != nil {
-		log.Fatal("An error occured generating random number: %v", err)
+		log.Fatalf("An error occured generating random number: %v", err)
 	}
 	randNum := int(randNum64.Int64())
 	return randNum
