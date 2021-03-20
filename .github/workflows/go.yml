@@ -5,8 +5,23 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  release:
+    types: [ created ]
 
 jobs:
+  releases-matrix:
+    name: Release Go Binary
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        goos: [linux, windows, darwin, freebsd, openbsd, netbsd]
+        goarch: ["386", amd64]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: wangyoucao577/go-release-action@v1.15
+        with:
+          goos: ${{ matrix.goos }}
+          goarch: ${{ matrix.goarch }}
 
   build:
     runs-on: ubuntu-latest
@@ -19,7 +34,7 @@ jobs:
         go-version: 1.15
 
     - name: Build
-      run: go build -v ./apg.go
+      run: go build -v ./...
 
     - name: Test
-      run: go test -v ./apg_test.go
+      run: go test -v ./...
