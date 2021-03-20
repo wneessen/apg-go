@@ -19,4 +19,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           goos: ${{ matrix.goos }}
           goarch: ${{ matrix.goarch }}
+          binary_name: "apg"
           extra_files: LICENSE README.md
+          sha256sum: true
+          md5sum: false
