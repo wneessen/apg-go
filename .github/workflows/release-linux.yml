@@ -6,12 +6,12 @@ on:
 
 jobs:
   releases-matrix:
-    name: Release Go Binary
+    name: Release Go Binary (Linux)
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        goos: [linux, windows, darwin, freebsd, openbsd, netbsd]
-        goarch: ["386", amd64]
+        goos: [linux]
+        goarch: ["386", amd64, arm, arm64, ppc64le, s390x]
     steps:
       - uses: actions/checkout@v2
       - uses: wangyoucao577/go-release-action@v1.15
@@ -19,3 +19,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           goos: ${{ matrix.goos }}
           goarch: ${{ matrix.goarch }}
+          binary_name: "apg"
+          extra_files: LICENSE README.md
+          sha256sum: true
+          md5sum: false
