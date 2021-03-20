@@ -4,7 +4,6 @@ import (
 	"crypto/rand"
 	"flag"
 	"fmt"
-	"log"
 	"math/big"
 	"os"
 	"regexp"
@@ -119,7 +118,7 @@ func main() {
 func getRandChar(charRange *string, pwLength int) string {
 	availCharsLength := len(*charRange)
 	charSlice := []byte(*charRange)
-	returnString := []byte{}
+	returnString := make([]byte, pwLength)
 	for i := 0; i < pwLength; i++ {
 		randNum := getRandNum(availCharsLength)
 		returnString = append(returnString, charSlice[randNum])
@@ -131,7 +130,8 @@ func getRandNum(maxNum int) int {
 	maxNumBigInt := big.NewInt(int64(maxNum))
 	randNum64, err := rand.Int(rand.Reader, maxNumBigInt)
 	if err != nil {
-		log.Fatalf("An error occured generating random number: %v", err)
+		fmt.Printf("An error occured while generating random number: %v", err)
+		os.Exit(1)
 	}
 	randNum := int(randNum64.Int64())
 	return randNum
