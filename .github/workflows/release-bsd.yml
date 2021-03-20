@@ -6,7 +6,7 @@ on:
 
 jobs:
   releases-matrix:
-    name: Release Go Binary
+    name: Release Go Binary (BSDs)
     runs-on: ubuntu-latest
     strategy:
       matrix:
