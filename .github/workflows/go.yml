@@ -8,6 +8,8 @@ on:
 
 jobs:
   build:
+    env:
+      GO111MODULE: auto
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
