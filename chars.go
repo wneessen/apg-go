@@ -29,7 +29,7 @@ func getCharRange() string {
 		charRange = charRange + pwSpecialChars
 	}
 	if config.excludeChars != "" {
-		regExp := regexp.MustCompile("[" + config.excludeChars + "]")
+		regExp := regexp.MustCompile("[" + regexp.QuoteMeta(config.excludeChars) + "]")
 		charRange = regExp.ReplaceAllLiteralString(charRange, "")
 	}
 

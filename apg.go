@@ -8,7 +8,7 @@ import (
 
 // Constants
 const DefaultPwLenght int = 20
-const VersionString string = "0.2.4"
+const VersionString string = "0.2.5"
 const PwLowerCharsHuman string = "abcdefghjkmnpqrstuvwxyz"
 const PwUpperCharsHuman string = "ABCDEFGHJKMNPQRSTUVWXYZ"
 const PwLowerChars string = "abcdefghijklmnopqrstuvwxyz"
@@ -42,8 +42,8 @@ var config cliOpts
 func init() {
 	// Bool flags
 	flag.BoolVar(&config.useLowerCase, "L", true, "Use lower case characters in passwords")
-	flag.BoolVar(&config.useUpperCase, "U", false, "Use upper case characters in passwords")
-	flag.BoolVar(&config.useNumber, "N", false, "Use numbers in passwords")
+	flag.BoolVar(&config.useUpperCase, "U", true, "Use upper case characters in passwords")
+	flag.BoolVar(&config.useNumber, "N", true, "Use numbers in passwords")
 	flag.BoolVar(&config.useSpecial, "S", false, "Use special characters in passwords")
 	flag.BoolVar(&config.useComplex, "C", false, "Generate complex passwords (implies -L -U -N -S, disables -H)")
 	flag.BoolVar(&config.spellPassword, "l", false, "Spell generated password")
@@ -51,7 +51,7 @@ func init() {
 	flag.BoolVar(&config.showVersion, "v", false, "Show version")
 
 	// Int flags
-	flag.IntVar(&config.minPassLen, "m", 10, "Minimum password length")
+	flag.IntVar(&config.minPassLen, "m", DefaultPwLenght, "Minimum password length")
 	flag.IntVar(&config.maxPassLen, "x", DefaultPwLenght, "Maxiumum password length")
 	flag.IntVar(&config.numOfPass, "n", 1, "Number of passwords to generate")
 
@@ -63,6 +63,7 @@ func init() {
 	flag.Parse()
 	if config.showVersion {
 		_, _ = os.Stderr.WriteString("Winni's Advanced Password Generator Clone (apg.go) v" + VersionString + "\n")
+		_, _ = os.Stderr.WriteString("© 2021 by Winni Neessen\n")
 		os.Exit(0)
 	}
 }
