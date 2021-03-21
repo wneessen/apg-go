@@ -8,7 +8,7 @@ import (
 
 // Constants
 const DefaultPwLenght int = 20
-const VersionString string = "0.2.5"
+const VersionString string = "0.2.6"
 const PwLowerCharsHuman string = "abcdefghjkmnpqrstuvwxyz"
 const PwUpperCharsHuman string = "ABCDEFGHJKMNPQRSTUVWXYZ"
 const PwLowerChars string = "abcdefghijklmnopqrstuvwxyz"
@@ -90,6 +90,7 @@ func main() {
 					os.Exit(1)
 				}
 				fmt.Printf("%v (%v)\n", pwString, spelledPw)
+				break
 			}
 		default:
 			{
