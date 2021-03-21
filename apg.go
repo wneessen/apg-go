@@ -30,8 +30,10 @@ type cliOpts struct {
 	humanReadable bool
 	excludeChars  string
 	newStyleModes string
+	spellPassword bool
 	showHelp      bool
 	showVersion   bool
+	outputMode    int
 }
 
 var config cliOpts
@@ -43,7 +45,8 @@ func init() {
 	flag.BoolVar(&config.useUpperCase, "U", false, "Use upper case characters in passwords")
 	flag.BoolVar(&config.useNumber, "N", false, "Use numbers in passwords")
 	flag.BoolVar(&config.useSpecial, "S", false, "Use special characters in passwords")
-	flag.BoolVar(&config.useComplex, "C", true, "Generate complex passwords (implies -L -U -N -S, disables -H)")
+	flag.BoolVar(&config.useComplex, "C", false, "Generate complex passwords (implies -L -U -N -S, disables -H)")
+	flag.BoolVar(&config.spellPassword, "l", false, "Spell generated password")
 	flag.BoolVar(&config.humanReadable, "H", false, "Generate human-readable passwords")
 	flag.BoolVar(&config.showVersion, "v", false, "Show version")
 
@@ -76,6 +79,22 @@ func main() {
 			fmt.Printf("getRandChar returned an error: %q\n", err.Error())
 			os.Exit(1)
 		}
-		fmt.Println(pwString)
+
+		switch config.outputMode {
+		case 1:
+			{
+				spelledPw, err := spellPasswordString(pwString)
+				if err != nil {
+					fmt.Printf("spellPasswordString returned an error: %q\n", err.Error())
+					os.Exit(1)
+				}
+				fmt.Printf("%v (%v)\n", pwString, spelledPw)
+			}
+		default:
+			{
+				fmt.Println(pwString)
+				break
+			}
+		}
 	}
 }

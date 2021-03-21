@@ -207,6 +207,72 @@ func TestGetCharRange(t *testing.T) {
 	})
 }
 
+// Test Conversions
+func TestConvert(t *testing.T) {
+	t.Run("convert_A_to_Alfa", func(t *testing.T) {
+		charToString, err := convertCharToName('A')
+		if err != nil {
+			t.Errorf("Character to string conversion failed: %v", err.Error())
+		}
+		if charToString != "Alfa" {
+			t.Errorf("Converting 'A' to string did not return the correct value of 'Alfa': %q", charToString)
+		}
+	})
+	t.Run("convert_a_to_alfa", func(t *testing.T) {
+		charToString, err := convertCharToName('a')
+		if err != nil {
+			t.Errorf("Character to string conversion failed: %v", err.Error())
+		}
+		if charToString != "alfa" {
+			t.Errorf("Converting 'a' to string did not return the correct value of 'alfa': %q", charToString)
+		}
+	})
+	t.Run("convert_0_to_ZERO", func(t *testing.T) {
+		charToString, err := convertCharToName('0')
+		if err != nil {
+			t.Errorf("Character to string conversion failed: %v", err.Error())
+		}
+		if charToString != "ZERO" {
+			t.Errorf("Converting '0' to string did not return the correct value of 'ZERO': %q", charToString)
+		}
+	})
+	t.Run("convert_/_to_SLASH", func(t *testing.T) {
+		charToString, err := convertCharToName('/')
+		if err != nil {
+			t.Errorf("Character to string conversion failed: %v", err.Error())
+		}
+		if charToString != "SLASH" {
+			t.Errorf("Converting '/' to string did not return the correct value of 'SLASH': %q", charToString)
+		}
+	})
+	t.Run("all_chars_convert_to_string", func(t *testing.T) {
+		config.useUpperCase = true
+		config.useLowerCase = true
+		config.useNumber = true
+		config.useSpecial = true
+		config.humanReadable = false
+		charRange := getCharRange()
+		for _, curChar := range charRange {
+			_, err := convertCharToName(byte(curChar))
+			if err != nil {
+				t.Errorf("Character to string conversion failed: %v", err.Error())
+			}
+		}
+	})
+	t.Run("spell_Ab!_to_strings", func(t *testing.T) {
+		pwString := "Ab!"
+		spelledString, err := spellPasswordString(pwString)
+		if err != nil {
+			t.Errorf("password spelling failed: %v", err.Error())
+		}
+		if spelledString != "Alfa/bravo/EXCLAMATION_POINT" {
+			t.Errorf(
+				"Spelling pwString 'Ab!' is expected to provide 'Alfa/bravo/EXCLAMATION_POINT', but returned: %q",
+				spelledString)
+		}
+	})
+}
+
 // Forced failures
 func TestForceFailures(t *testing.T) {
 	t.Run("too_big_big.NewInt_value", func(t *testing.T) {
@@ -238,6 +304,21 @@ func BenchmarkGetRandChar(b *testing.B) {
 	charRange := "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890\"#/!\\$%&+-*.,?=()[]{}:;~^|"
 	for i := 0; i < b.N; i++ {
 		_, _ = getRandChar(&charRange, 20)
+	}
+}
+
+// Benchmark: Random char generation
+func BenchmarkConvertChar(b *testing.B) {
+	config.useUpperCase = true
+	config.useLowerCase = true
+	config.useNumber = true
+	config.useSpecial = true
+	config.humanReadable = false
+	charRange := getCharRange()
+	for i := 0; i < b.N; i++ {
+		charToConv, _ := getRandChar(&charRange, 1)
+		charBytes := []byte(charToConv)
+		_, _ = convertCharToName(charBytes[0])
 	}
 }
 
