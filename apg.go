@@ -4,7 +4,6 @@ import (
 	"crypto/rand"
 	"flag"
 	"fmt"
-	"log"
 	"math/big"
 	"os"
 	"regexp"
@@ -12,13 +11,13 @@ import (
 
 // Constants
 const DefaultPwLenght int = 20
-const VersionString string = "0.2.2"
+const VersionString string = "0.2.3"
 const PwLowerCharsHuman string = "abcdefghjkmnpqrstuvwxyz"
 const PwUpperCharsHuman string = "ABCDEFGHJKMNPQRSTUVWXYZ"
 const PwLowerChars string = "abcdefghijklmnopqrstuvwxyz"
 const PwUpperChars string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-const PwSpecialCharsHuman string = "\"#/\\$%&+-*"
-const PwSpecialChars string = "\"#/!\\$%&+-*.,?=()[]{}:;~^|"
+const PwSpecialCharsHuman string = "\"#%*+-/:;=\\_|~"
+const PwSpecialChars string = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
 const PwNumbersHuman string = "23456789"
 const PwNumbers string = "1234567890"
 
@@ -60,11 +59,12 @@ func init() {
 
 	flag.Parse()
 	if config.showVersion {
-		_, _ = os.Stderr.WriteString("Advanced Password Generator v" + VersionString + "\n")
+		_, _ = os.Stderr.WriteString("Winni's Advanced Password Generator Clone (apg.go) v" + VersionString + "\n")
 		os.Exit(0)
 	}
 }
 
+// Main function that generated the passwords and returns them
 func main() {
 	pwLength := config.minPassLen
 	if pwLength < config.minPassLen {
@@ -81,6 +81,20 @@ func main() {
 		config.humanReadable = false
 	}
 
+	charRange := getCharRange()
+
+	for i := 1; i <= config.numOfPass; i++ {
+		pwString, err := getRandChar(&charRange, pwLength)
+		if err != nil {
+			fmt.Printf("getRandChar returned an error: %q\n", err.Error())
+			os.Exit(1)
+		}
+		fmt.Println(pwString)
+	}
+}
+
+// Provide the range of available characters based on provided parameters
+func getCharRange() string {
 	pwUpperChars := PwUpperChars
 	pwLowerChars := PwLowerChars
 	pwNumbers := PwNumbers
@@ -110,29 +124,48 @@ func main() {
 		charRange = regExp.ReplaceAllLiteralString(charRange, "")
 	}
 
-	for i := 1; i <= config.numOfPass; i++ {
-		pwString := getRandChar(&charRange, pwLength)
-		fmt.Println(pwString)
-	}
+	return charRange
 }
 
-func getRandChar(charRange *string, pwLength int) string {
+// Generate random characters based on given character range
+// and password length
+func getRandChar(charRange *string, pwLength int) (string, error) {
+	if pwLength <= 0 {
+		err := fmt.Errorf("provided pwLength value is <= 0: %v", pwLength)
+		return "", err
+	}
 	availCharsLength := len(*charRange)
 	charSlice := []byte(*charRange)
-	returnString := []byte{}
+	returnString := make([]byte, pwLength)
 	for i := 0; i < pwLength; i++ {
-		randNum := getRandNum(availCharsLength)
-		returnString = append(returnString, charSlice[randNum])
+		randNum, err := getRandNum(availCharsLength)
+		if err != nil {
+			return "", err
+		}
+		returnString[i] = charSlice[randNum]
 	}
-	return string(returnString)
+	return string(returnString), nil
 }
 
-func getRandNum(maxNum int) int {
+// Generate a random number with given maximum value
+func getRandNum(maxNum int) (int, error) {
+	if maxNum <= 0 {
+		err := fmt.Errorf("provided maxNum is <= 0: %v", maxNum)
+		return 0, err
+	}
 	maxNumBigInt := big.NewInt(int64(maxNum))
+	if !maxNumBigInt.IsUint64() {
+		err := fmt.Errorf("big.NewInt() generation returned negative value: %v", maxNumBigInt)
+		return 0, err
+	}
 	randNum64, err := rand.Int(rand.Reader, maxNumBigInt)
 	if err != nil {
-		log.Fatalf("An error occured generating random number: %v", err)
+		return 0, err
 	}
 	randNum := int(randNum64.Int64())
-	return randNum
+	if randNum < 0 {
+		err := fmt.Errorf("generated random number does not fit as int64: %v", randNum64)
+		return 0, err
+	}
+	return randNum, nil
 }
