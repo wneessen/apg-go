@@ -88,6 +88,10 @@ func TestGetCharRange(t *testing.T) {
 		allowedBytes := []int{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
 			's', 't', 'u', 'v', 'w', 'x', 'y', 'z'}
 		config.useLowerCase = true
+		config.useUpperCase = false
+		config.useNumber = false
+		config.useSpecial = false
+		config.humanReadable = false
 		charRange := getCharRange()
 		for _, curChar := range charRange {
 			searchAllowedBytes := containsByte(allowedBytes, int(curChar))
@@ -102,6 +106,10 @@ func TestGetCharRange(t *testing.T) {
 	t.Run("lower_case_only_human_readable", func(t *testing.T) {
 		allowedBytes := []int{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'm', 'n', 'p', 'q', 'r',
 			's', 't', 'u', 'v', 'w', 'x', 'y', 'z'}
+		config.useLowerCase = true
+		config.useUpperCase = false
+		config.useNumber = false
+		config.useSpecial = false
 		config.humanReadable = true
 		charRange := getCharRange()
 		for _, curChar := range charRange {
@@ -117,9 +125,11 @@ func TestGetCharRange(t *testing.T) {
 	t.Run("upper_case_only", func(t *testing.T) {
 		allowedBytes := []int{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
 			'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'}
-		config.humanReadable = false
 		config.useLowerCase = false
 		config.useUpperCase = true
+		config.useNumber = false
+		config.useSpecial = false
+		config.humanReadable = false
 		charRange := getCharRange()
 		for _, curChar := range charRange {
 			searchAllowedBytes := containsByte(allowedBytes, int(curChar))
@@ -134,6 +144,10 @@ func TestGetCharRange(t *testing.T) {
 	t.Run("upper_case_only_human_readable", func(t *testing.T) {
 		allowedBytes := []int{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'M', 'N', 'P', 'Q',
 			'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'}
+		config.useLowerCase = false
+		config.useUpperCase = true
+		config.useNumber = false
+		config.useSpecial = false
 		config.humanReadable = true
 		charRange := getCharRange()
 		for _, curChar := range charRange {
@@ -148,9 +162,11 @@ func TestGetCharRange(t *testing.T) {
 	// Numbers only
 	t.Run("numbers_only", func(t *testing.T) {
 		allowedBytes := []int{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}
-		config.humanReadable = false
+		config.useLowerCase = false
 		config.useUpperCase = false
 		config.useNumber = true
+		config.useSpecial = false
+		config.humanReadable = false
 		charRange := getCharRange()
 		for _, curChar := range charRange {
 			searchAllowedBytes := containsByte(allowedBytes, int(curChar))
@@ -164,6 +180,10 @@ func TestGetCharRange(t *testing.T) {
 	// Numbers only (human readable)
 	t.Run("numbers_only_human_readable", func(t *testing.T) {
 		allowedBytes := []int{'2', '3', '4', '5', '6', '7', '8', '9'}
+		config.useLowerCase = false
+		config.useUpperCase = false
+		config.useNumber = true
+		config.useSpecial = false
 		config.humanReadable = true
 		charRange := getCharRange()
 		for _, curChar := range charRange {
@@ -179,9 +199,11 @@ func TestGetCharRange(t *testing.T) {
 	t.Run("special_chars_only", func(t *testing.T) {
 		allowedBytes := []int{'!', '"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.', '/', ':',
 			';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~'}
-		config.humanReadable = false
+		config.useLowerCase = false
+		config.useUpperCase = false
 		config.useNumber = false
 		config.useSpecial = true
+		config.humanReadable = false
 		charRange := getCharRange()
 		for _, curChar := range charRange {
 			searchAllowedBytes := containsByte(allowedBytes, int(curChar))
@@ -195,6 +217,10 @@ func TestGetCharRange(t *testing.T) {
 	// Special characters only (human readable)
 	t.Run("special_chars_only_human_readable", func(t *testing.T) {
 		allowedBytes := []int{'"', '#', '%', '*', '+', '-', '/', ':', ';', '=', '\\', '_', '|', '~'}
+		config.useLowerCase = false
+		config.useUpperCase = false
+		config.useNumber = false
+		config.useSpecial = true
 		config.humanReadable = true
 		charRange := getCharRange()
 		for _, curChar := range charRange {
