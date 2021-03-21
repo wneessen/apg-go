@@ -83,7 +83,7 @@ clean: # @HELP removes built binaries and temporary files
 clean: bin-clean
 
 bin-clean:
-	rm -rf .go bin
+	rm -rf .go bin *.exe
 
 help: # @HELP prints this message
 help:
