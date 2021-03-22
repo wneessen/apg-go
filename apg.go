@@ -3,12 +3,13 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"os"
 )
 
 // Constants
 const DefaultPwLenght int = 20
-const VersionString string = "0.2.5"
+const VersionString string = "0.2.6"
 const PwLowerCharsHuman string = "abcdefghjkmnpqrstuvwxyz"
 const PwUpperCharsHuman string = "ABCDEFGHJKMNPQRSTUVWXYZ"
 const PwLowerChars string = "abcdefghijklmnopqrstuvwxyz"
@@ -63,9 +64,11 @@ func init() {
 	flag.Parse()
 	if config.showVersion {
 		_, _ = os.Stderr.WriteString("Winni's Advanced Password Generator Clone (apg.go) v" + VersionString + "\n")
-		_, _ = os.Stderr.WriteString("© 2021 by Winni Neessen\n")
+		_, _ = os.Stderr.WriteString("(C) 2021 by Winni Neessen\n")
 		os.Exit(0)
 	}
+
+	log.SetFlags(log.Ltime | log.Ldate | log.Lshortfile)
 }
 
 // Main function that generated the passwords and returns them
@@ -77,8 +80,7 @@ func main() {
 	for i := 1; i <= config.numOfPass; i++ {
 		pwString, err := getRandChar(&charRange, pwLength)
 		if err != nil {
-			fmt.Printf("getRandChar returned an error: %q\n", err.Error())
-			os.Exit(1)
+			log.Fatalf("getRandChar returned an error: %q\n", err)
 		}
 
 		switch config.outputMode {
@@ -86,10 +88,10 @@ func main() {
 			{
 				spelledPw, err := spellPasswordString(pwString)
 				if err != nil {
-					fmt.Printf("spellPasswordString returned an error: %q\n", err.Error())
-					os.Exit(1)
+					log.Fatalf("spellPasswordString returned an error: %q\n", err.Error())
 				}
 				fmt.Printf("%v (%v)\n", pwString, spelledPw)
+				break
 			}
 		default:
 			{

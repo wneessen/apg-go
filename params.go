@@ -1,8 +1,7 @@
 package main
 
 import (
-	"fmt"
-	"os"
+	"log"
 )
 
 // Parse the parameters and set the according config flags
@@ -22,8 +21,7 @@ func parseParams() {
 		config.useLowerCase == false &&
 		config.useNumber == false &&
 		config.useSpecial == false {
-		fmt.Printf("No password mode set. Cannot generate password from empty character set.")
-		os.Exit(1)
+		log.Fatalf("No password mode set. Cannot generate password from empty character set.")
 	}
 
 	// Set output mode
@@ -90,8 +88,7 @@ func parseNewStyleParams() {
 			config.useComplex = false
 			break
 		default:
-			fmt.Printf("Unknown password style parameter: %q\n", string(curParam))
-			os.Exit(1)
+			log.Fatalf("Unknown password style parameter: %q\n", string(curParam))
 		}
 	}
 }

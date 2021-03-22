@@ -16,31 +16,31 @@ func TestGetRandNum(t *testing.T) {
 	t.Run("maxNum_is_1000", func(t *testing.T) {
 		randNum, err := getRandNum(1000)
 		if err != nil {
-			t.Errorf("Random number generation failed: %v", err.Error())
+			t.Fatalf("Random number generation failed: %v", err.Error())
 		}
 		if randNum > 1000 {
-			t.Errorf("Generated random number between 0 and 1000 is too big: %v", randNum)
+			t.Fatalf("Generated random number between 0 and 1000 is too big: %v", randNum)
 		}
 		if randNum < 0 {
-			t.Errorf("Generated random number between 0 and 1000 is too small: %v", randNum)
+			t.Fatalf("Generated random number between 0 and 1000 is too small: %v", randNum)
 		}
 	})
 	t.Run("maxNum_is_1", func(t *testing.T) {
 		randNum, err := getRandNum(1)
 		if err != nil {
-			t.Errorf("Random number generation failed: %v", err.Error())
+			t.Fatalf("Random number generation failed: %v", err.Error())
 		}
 		if randNum > 1 {
-			t.Errorf("Generated random number between 0 and 1000 is too big: %v", randNum)
+			t.Fatalf("Generated random number between 0 and 1000 is too big: %v", randNum)
 		}
 		if randNum < 0 {
-			t.Errorf("Generated random number between 0 and 1000 is too small: %v", randNum)
+			t.Fatalf("Generated random number between 0 and 1000 is too small: %v", randNum)
 		}
 	})
 	t.Run("maxNum_is_0", func(t *testing.T) {
 		randNum, err := getRandNum(0)
 		if err == nil {
-			t.Errorf("Random number expected to fail, but provided a value instead: %v", randNum)
+			t.Fatalf("Random number expected to fail, but provided a value instead: %v", randNum)
 		}
 	})
 }
@@ -51,10 +51,10 @@ func TestGetRandChar(t *testing.T) {
 		charRange := "ABC"
 		randChar, err := getRandChar(&charRange, 1)
 		if err != nil {
-			t.Errorf("Random character generation failed => %v", err.Error())
+			t.Fatalf("Random character generation failed => %v", err.Error())
 		}
 		if randChar != "A" && randChar != "B" && randChar != "C" {
-			t.Errorf("Random character generation failed. Expected A, B or C but got: %v", randChar)
+			t.Fatalf("Random character generation failed. Expected A, B or C but got: %v", randChar)
 		}
 	})
 
@@ -62,10 +62,10 @@ func TestGetRandChar(t *testing.T) {
 		charRange := "ABC"
 		randChar, err := getRandChar(&charRange, 1000)
 		if err != nil {
-			t.Errorf("Random character generation failed => %v", err.Error())
+			t.Fatalf("Random character generation failed => %v", err.Error())
 		}
 		if len(randChar) != 1000 {
-			t.Errorf("Generated random characters with 1000 chars returned wrong amount of chars: %v",
+			t.Fatalf("Generated random characters with 1000 chars returned wrong amount of chars: %v",
 				len(randChar))
 		}
 	})
@@ -74,7 +74,7 @@ func TestGetRandChar(t *testing.T) {
 		charRange := "ABC"
 		randChar, err := getRandChar(&charRange, -2000)
 		if err == nil {
-			t.Errorf("Generated random characters expected to fail, but returned a value => %v",
+			t.Fatalf("Generated random characters expected to fail, but returned a value => %v",
 				randChar)
 		}
 	})
@@ -96,7 +96,7 @@ func TestGetCharRange(t *testing.T) {
 		for _, curChar := range charRange {
 			searchAllowedBytes := containsByte(allowedBytes, int(curChar))
 			if !searchAllowedBytes {
-				t.Errorf("Character range for lower-case only returned invalid value: %v",
+				t.Fatalf("Character range for lower-case only returned invalid value: %v",
 					string(curChar))
 			}
 		}
@@ -115,7 +115,7 @@ func TestGetCharRange(t *testing.T) {
 		for _, curChar := range charRange {
 			searchAllowedBytes := containsByte(allowedBytes, int(curChar))
 			if !searchAllowedBytes {
-				t.Errorf("Character range for lower-case only (human readable) returned invalid value: %v",
+				t.Fatalf("Character range for lower-case only (human readable) returned invalid value: %v",
 					string(curChar))
 			}
 		}
@@ -134,7 +134,7 @@ func TestGetCharRange(t *testing.T) {
 		for _, curChar := range charRange {
 			searchAllowedBytes := containsByte(allowedBytes, int(curChar))
 			if !searchAllowedBytes {
-				t.Errorf("Character range for upper-case only returned invalid value: %v",
+				t.Fatalf("Character range for upper-case only returned invalid value: %v",
 					string(curChar))
 			}
 		}
@@ -153,7 +153,7 @@ func TestGetCharRange(t *testing.T) {
 		for _, curChar := range charRange {
 			searchAllowedBytes := containsByte(allowedBytes, int(curChar))
 			if !searchAllowedBytes {
-				t.Errorf("Character range for upper-case only (human readable) returned invalid value: %v",
+				t.Fatalf("Character range for upper-case only (human readable) returned invalid value: %v",
 					string(curChar))
 			}
 		}
@@ -171,7 +171,7 @@ func TestGetCharRange(t *testing.T) {
 		for _, curChar := range charRange {
 			searchAllowedBytes := containsByte(allowedBytes, int(curChar))
 			if !searchAllowedBytes {
-				t.Errorf("Character range for numbers only returned invalid value: %v",
+				t.Fatalf("Character range for numbers only returned invalid value: %v",
 					string(curChar))
 			}
 		}
@@ -189,7 +189,7 @@ func TestGetCharRange(t *testing.T) {
 		for _, curChar := range charRange {
 			searchAllowedBytes := containsByte(allowedBytes, int(curChar))
 			if !searchAllowedBytes {
-				t.Errorf("Character range for numbers (human readable) only returned invalid value: %v",
+				t.Fatalf("Character range for numbers (human readable) only returned invalid value: %v",
 					string(curChar))
 			}
 		}
@@ -208,7 +208,7 @@ func TestGetCharRange(t *testing.T) {
 		for _, curChar := range charRange {
 			searchAllowedBytes := containsByte(allowedBytes, int(curChar))
 			if !searchAllowedBytes {
-				t.Errorf("Character range for special characters only returned invalid value: %v",
+				t.Fatalf("Character range for special characters only returned invalid value: %v",
 					string(curChar))
 			}
 		}
@@ -226,7 +226,7 @@ func TestGetCharRange(t *testing.T) {
 		for _, curChar := range charRange {
 			searchAllowedBytes := containsByte(allowedBytes, int(curChar))
 			if !searchAllowedBytes {
-				t.Errorf("Character range for special characters only returned invalid value: %v",
+				t.Fatalf("Character range for special characters only returned invalid value: %v",
 					string(curChar))
 			}
 		}
@@ -238,37 +238,37 @@ func TestConvert(t *testing.T) {
 	t.Run("convert_A_to_Alfa", func(t *testing.T) {
 		charToString, err := convertCharToName('A')
 		if err != nil {
-			t.Errorf("Character to string conversion failed: %v", err.Error())
+			t.Fatalf("Character to string conversion failed: %v", err.Error())
 		}
 		if charToString != "Alfa" {
-			t.Errorf("Converting 'A' to string did not return the correct value of 'Alfa': %q", charToString)
+			t.Fatalf("Converting 'A' to string did not return the correct value of 'Alfa': %q", charToString)
 		}
 	})
 	t.Run("convert_a_to_alfa", func(t *testing.T) {
 		charToString, err := convertCharToName('a')
 		if err != nil {
-			t.Errorf("Character to string conversion failed: %v", err.Error())
+			t.Fatalf("Character to string conversion failed: %v", err.Error())
 		}
 		if charToString != "alfa" {
-			t.Errorf("Converting 'a' to string did not return the correct value of 'alfa': %q", charToString)
+			t.Fatalf("Converting 'a' to string did not return the correct value of 'alfa': %q", charToString)
 		}
 	})
 	t.Run("convert_0_to_ZERO", func(t *testing.T) {
 		charToString, err := convertCharToName('0')
 		if err != nil {
-			t.Errorf("Character to string conversion failed: %v", err.Error())
+			t.Fatalf("Character to string conversion failed: %v", err.Error())
 		}
 		if charToString != "ZERO" {
-			t.Errorf("Converting '0' to string did not return the correct value of 'ZERO': %q", charToString)
+			t.Fatalf("Converting '0' to string did not return the correct value of 'ZERO': %q", charToString)
 		}
 	})
 	t.Run("convert_/_to_SLASH", func(t *testing.T) {
 		charToString, err := convertCharToName('/')
 		if err != nil {
-			t.Errorf("Character to string conversion failed: %v", err.Error())
+			t.Fatalf("Character to string conversion failed: %v", err.Error())
 		}
 		if charToString != "SLASH" {
-			t.Errorf("Converting '/' to string did not return the correct value of 'SLASH': %q", charToString)
+			t.Fatalf("Converting '/' to string did not return the correct value of 'SLASH': %q", charToString)
 		}
 	})
 	t.Run("all_chars_convert_to_string", func(t *testing.T) {
@@ -281,7 +281,7 @@ func TestConvert(t *testing.T) {
 		for _, curChar := range charRange {
 			_, err := convertCharToName(byte(curChar))
 			if err != nil {
-				t.Errorf("Character to string conversion failed: %v", err.Error())
+				t.Fatalf("Character to string conversion failed: %v", err.Error())
 			}
 		}
 	})
@@ -289,10 +289,10 @@ func TestConvert(t *testing.T) {
 		pwString := "Ab!"
 		spelledString, err := spellPasswordString(pwString)
 		if err != nil {
-			t.Errorf("password spelling failed: %v", err.Error())
+			t.Fatalf("password spelling failed: %v", err.Error())
 		}
 		if spelledString != "Alfa/bravo/EXCLAMATION_POINT" {
-			t.Errorf(
+			t.Fatalf(
 				"Spelling pwString 'Ab!' is expected to provide 'Alfa/bravo/EXCLAMATION_POINT', but returned: %q",
 				spelledString)
 		}
@@ -305,14 +305,14 @@ func TestForceFailures(t *testing.T) {
 		maxNum := 9223372036854775807
 		maxNumBigInt := big.NewInt(int64(maxNum) + 1)
 		if maxNumBigInt.IsUint64() {
-			t.Errorf("Calling big.NewInt() with too large number expected to fail: %v", maxNumBigInt)
+			t.Fatalf("Calling big.NewInt() with too large number expected to fail: %v", maxNumBigInt)
 		}
 	})
 
 	t.Run("negative value for big.NewInt()", func(t *testing.T) {
 		randNum, err := getRandNum(-20000)
 		if err == nil {
-			t.Errorf("Calling getRandNum() with negative value is expected to fail, but returned value: %v",
+			t.Fatalf("Calling getRandNum() with negative value is expected to fail, but returned value: %v",
 				randNum)
 		}
 	})
