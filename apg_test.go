@@ -1,7 +1,6 @@
 package main
 
 import (
-	"math/big"
 	"testing"
 )
 
@@ -13,36 +12,42 @@ var _ = func() bool {
 
 // Test getRandNum with max 1000
 func TestGetRandNum(t *testing.T) {
-	t.Run("maxNum_is_1000", func(t *testing.T) {
-		randNum, err := getRandNum(1000)
-		if err != nil {
-			t.Fatalf("Random number generation failed: %v", err.Error())
-		}
-		if randNum > 1000 {
-			t.Fatalf("Generated random number between 0 and 1000 is too big: %v", randNum)
-		}
-		if randNum < 0 {
-			t.Fatalf("Generated random number between 0 and 1000 is too small: %v", randNum)
-		}
-	})
-	t.Run("maxNum_is_1", func(t *testing.T) {
-		randNum, err := getRandNum(1)
-		if err != nil {
-			t.Fatalf("Random number generation failed: %v", err.Error())
-		}
-		if randNum > 1 {
-			t.Fatalf("Generated random number between 0 and 1000 is too big: %v", randNum)
-		}
-		if randNum < 0 {
-			t.Fatalf("Generated random number between 0 and 1000 is too small: %v", randNum)
-		}
-	})
-	t.Run("maxNum_is_0", func(t *testing.T) {
-		randNum, err := getRandNum(0)
-		if err == nil {
-			t.Fatalf("Random number expected to fail, but provided a value instead: %v", randNum)
-		}
-	})
+	testTable := []struct {
+		testName   string
+		givenVal   int
+		maxRet     int
+		minRet     int
+		shouldFail bool
+	}{
+		{"randNum up to 1000", 1000, 1000, 0, false},
+		{"randNum should be 1", 1, 1, 0, false},
+		{"randNum should fail on 0", 0, 0, 0, true},
+		{"randNum should fail on negative", -1, 0, 0, true},
+	}
+
+	for _, testCase := range testTable {
+		t.Run(testCase.testName, func(t *testing.T) {
+			randNum, err := getRandNum(testCase.givenVal)
+			if testCase.shouldFail {
+				if err == nil {
+					t.Errorf("Random number generation succeeded but was expected to fail. Given: %v, returned: %v",
+						testCase.givenVal, randNum)
+				}
+			} else {
+				if err != nil {
+					t.Errorf("Random number generation failed: %v", err.Error())
+				}
+				if randNum > testCase.maxRet {
+					t.Errorf("Random number generation returned too big value. Given %v, expected max: %v, got: %v",
+						testCase.givenVal, testCase.maxRet, randNum)
+				}
+				if randNum < testCase.minRet {
+					t.Errorf("Random number generation returned too small value. Given %v, expected max: %v, got: %v",
+						testCase.givenVal, testCase.minRet, randNum)
+				}
+			}
+		})
+	}
 }
 
 // Test getRandChar
@@ -82,196 +87,89 @@ func TestGetRandChar(t *testing.T) {
 
 // Test getCharRange() with different config settings
 func TestGetCharRange(t *testing.T) {
-
-	t.Run("lower_case_only", func(t *testing.T) {
-		// Lower case only
-		allowedBytes := []int{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
-			's', 't', 'u', 'v', 'w', 'x', 'y', 'z'}
-		config.useLowerCase = true
-		config.useUpperCase = false
-		config.useNumber = false
-		config.useSpecial = false
-		config.humanReadable = false
-		charRange := getCharRange()
-		for _, curChar := range charRange {
-			searchAllowedBytes := containsByte(allowedBytes, int(curChar))
-			if !searchAllowedBytes {
-				t.Fatalf("Character range for lower-case only returned invalid value: %v",
-					string(curChar))
+	lowerCaseBytes := []int{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
+		's', 't', 'u', 'v', 'w', 'x', 'y', 'z'}
+	lowerCaseHumanBytes := []int{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'm', 'n', 'p', 'q', 'r',
+		's', 't', 'u', 'v', 'w', 'x', 'y', 'z'}
+	upperCaseBytes := []int{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
+		'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'}
+	upperCaseHumanBytes := []int{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'M', 'N', 'P', 'Q',
+		'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'}
+	numberBytes := []int{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}
+	numberHumanBytes := []int{'2', '3', '4', '5', '6', '7', '8', '9'}
+	specialBytes := []int{'!', '"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.', '/', ':',
+		';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~'}
+	specialHumanBytes := []int{'"', '#', '%', '*', '+', '-', '/', ':', ';', '=', '\\', '_', '|', '~'}
+	testTable := []struct {
+		testName      string
+		allowedBytes  []int
+		useLowerCase  bool
+		useUpperCase  bool
+		useNumber     bool
+		useSpecial    bool
+		humanReadable bool
+	}{
+		{"lowercase_only", lowerCaseBytes, true, false, false, false, false},
+		{"lowercase_only_human", lowerCaseHumanBytes, true, false, false, false, true},
+		{"uppercase_only", upperCaseBytes, false, true, false, false, false},
+		{"uppercase_only_human", upperCaseHumanBytes, false, true, false, false, true},
+		{"number_only", numberBytes, false, false, true, false, false},
+		{"number_only_human", numberHumanBytes, false, false, true, false, true},
+		{"special_only", specialBytes, false, false, false, true, false},
+		{"special_only_human", specialHumanBytes, false, false, false, true, true},
+	}
+	for _, testCase := range testTable {
+		t.Run(testCase.testName, func(t *testing.T) {
+			config.useLowerCase = testCase.useLowerCase
+			config.useUpperCase = testCase.useUpperCase
+			config.useNumber = testCase.useNumber
+			config.useSpecial = testCase.useSpecial
+			config.humanReadable = testCase.humanReadable
+			charRange := getCharRange()
+			for _, curChar := range charRange {
+				searchAllowedBytes := containsByte(testCase.allowedBytes, int(curChar))
+				if !searchAllowedBytes {
+					t.Errorf("Character range returned invalid value: %v", string(curChar))
+				}
 			}
-		}
-	})
-
-	// Lower case only (human readable)
-	t.Run("lower_case_only_human_readable", func(t *testing.T) {
-		allowedBytes := []int{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'm', 'n', 'p', 'q', 'r',
-			's', 't', 'u', 'v', 'w', 'x', 'y', 'z'}
-		config.useLowerCase = true
-		config.useUpperCase = false
-		config.useNumber = false
-		config.useSpecial = false
-		config.humanReadable = true
-		charRange := getCharRange()
-		for _, curChar := range charRange {
-			searchAllowedBytes := containsByte(allowedBytes, int(curChar))
-			if !searchAllowedBytes {
-				t.Fatalf("Character range for lower-case only (human readable) returned invalid value: %v",
-					string(curChar))
-			}
-		}
-	})
-
-	// Upper case only
-	t.Run("upper_case_only", func(t *testing.T) {
-		allowedBytes := []int{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
-			'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'}
-		config.useLowerCase = false
-		config.useUpperCase = true
-		config.useNumber = false
-		config.useSpecial = false
-		config.humanReadable = false
-		charRange := getCharRange()
-		for _, curChar := range charRange {
-			searchAllowedBytes := containsByte(allowedBytes, int(curChar))
-			if !searchAllowedBytes {
-				t.Fatalf("Character range for upper-case only returned invalid value: %v",
-					string(curChar))
-			}
-		}
-	})
-
-	// Upper case only (human readable)
-	t.Run("upper_case_only_human_readable", func(t *testing.T) {
-		allowedBytes := []int{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'M', 'N', 'P', 'Q',
-			'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'}
-		config.useLowerCase = false
-		config.useUpperCase = true
-		config.useNumber = false
-		config.useSpecial = false
-		config.humanReadable = true
-		charRange := getCharRange()
-		for _, curChar := range charRange {
-			searchAllowedBytes := containsByte(allowedBytes, int(curChar))
-			if !searchAllowedBytes {
-				t.Fatalf("Character range for upper-case only (human readable) returned invalid value: %v",
-					string(curChar))
-			}
-		}
-	})
-
-	// Numbers only
-	t.Run("numbers_only", func(t *testing.T) {
-		allowedBytes := []int{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}
-		config.useLowerCase = false
-		config.useUpperCase = false
-		config.useNumber = true
-		config.useSpecial = false
-		config.humanReadable = false
-		charRange := getCharRange()
-		for _, curChar := range charRange {
-			searchAllowedBytes := containsByte(allowedBytes, int(curChar))
-			if !searchAllowedBytes {
-				t.Fatalf("Character range for numbers only returned invalid value: %v",
-					string(curChar))
-			}
-		}
-	})
-
-	// Numbers only (human readable)
-	t.Run("numbers_only_human_readable", func(t *testing.T) {
-		allowedBytes := []int{'2', '3', '4', '5', '6', '7', '8', '9'}
-		config.useLowerCase = false
-		config.useUpperCase = false
-		config.useNumber = true
-		config.useSpecial = false
-		config.humanReadable = true
-		charRange := getCharRange()
-		for _, curChar := range charRange {
-			searchAllowedBytes := containsByte(allowedBytes, int(curChar))
-			if !searchAllowedBytes {
-				t.Fatalf("Character range for numbers (human readable) only returned invalid value: %v",
-					string(curChar))
-			}
-		}
-	})
-
-	// Special characters only
-	t.Run("special_chars_only", func(t *testing.T) {
-		allowedBytes := []int{'!', '"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.', '/', ':',
-			';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~'}
-		config.useLowerCase = false
-		config.useUpperCase = false
-		config.useNumber = false
-		config.useSpecial = true
-		config.humanReadable = false
-		charRange := getCharRange()
-		for _, curChar := range charRange {
-			searchAllowedBytes := containsByte(allowedBytes, int(curChar))
-			if !searchAllowedBytes {
-				t.Fatalf("Character range for special characters only returned invalid value: %v",
-					string(curChar))
-			}
-		}
-	})
-
-	// Special characters only (human readable)
-	t.Run("special_chars_only_human_readable", func(t *testing.T) {
-		allowedBytes := []int{'"', '#', '%', '*', '+', '-', '/', ':', ';', '=', '\\', '_', '|', '~'}
-		config.useLowerCase = false
-		config.useUpperCase = false
-		config.useNumber = false
-		config.useSpecial = true
-		config.humanReadable = true
-		charRange := getCharRange()
-		for _, curChar := range charRange {
-			searchAllowedBytes := containsByte(allowedBytes, int(curChar))
-			if !searchAllowedBytes {
-				t.Fatalf("Character range for special characters only returned invalid value: %v",
-					string(curChar))
-			}
-		}
-	})
+		})
+	}
 }
 
 // Test Conversions
 func TestConvert(t *testing.T) {
-	t.Run("convert_A_to_Alfa", func(t *testing.T) {
-		charToString, err := convertCharToName('A')
-		if err != nil {
-			t.Fatalf("Character to string conversion failed: %v", err.Error())
-		}
-		if charToString != "Alfa" {
-			t.Fatalf("Converting 'A' to string did not return the correct value of 'Alfa': %q", charToString)
-		}
-	})
-	t.Run("convert_a_to_alfa", func(t *testing.T) {
-		charToString, err := convertCharToName('a')
-		if err != nil {
-			t.Fatalf("Character to string conversion failed: %v", err.Error())
-		}
-		if charToString != "alfa" {
-			t.Fatalf("Converting 'a' to string did not return the correct value of 'alfa': %q", charToString)
-		}
-	})
-	t.Run("convert_0_to_ZERO", func(t *testing.T) {
-		charToString, err := convertCharToName('0')
-		if err != nil {
-			t.Fatalf("Character to string conversion failed: %v", err.Error())
-		}
-		if charToString != "ZERO" {
-			t.Fatalf("Converting '0' to string did not return the correct value of 'ZERO': %q", charToString)
-		}
-	})
-	t.Run("convert_/_to_SLASH", func(t *testing.T) {
-		charToString, err := convertCharToName('/')
-		if err != nil {
-			t.Fatalf("Character to string conversion failed: %v", err.Error())
-		}
-		if charToString != "SLASH" {
-			t.Fatalf("Converting '/' to string did not return the correct value of 'SLASH': %q", charToString)
-		}
-	})
-	t.Run("all_chars_convert_to_string", func(t *testing.T) {
+	testTable := []struct {
+		testName   string
+		givenVal   byte
+		expVal     string
+		shouldFail bool
+	}{
+		{"convert_A_to_Alfa", 'A', "Alfa", false},
+		{"convert_a_to_alfa", 'a', "alfa", false},
+		{"convert_0_to_ZERO", '0', "ZERO", false},
+		{"convert_/_to_SLASH", '/', "SLASH", false},
+	}
+	for _, testCase := range testTable {
+		t.Run(testCase.testName, func(t *testing.T) {
+			charToString, err := convertCharToName(testCase.givenVal)
+			if testCase.shouldFail {
+				if err == nil {
+					t.Errorf("Character to string conversion succeeded but was expected to fail. Given: %v, returned: %v",
+						testCase.givenVal, charToString)
+				}
+			} else {
+				if err != nil {
+					t.Errorf("Character to string conversion failed: %v", err.Error())
+				}
+				if charToString != testCase.expVal {
+					t.Errorf("Character to String conversion fail. Given: %q, expected: %q, got: %q",
+						testCase.givenVal, testCase.expVal, charToString)
+				}
+			}
+		})
+	}
+
+	t.Run("all_chars_must_return_a_conversion_string", func(t *testing.T) {
 		config.useUpperCase = true
 		config.useLowerCase = true
 		config.useNumber = true
@@ -295,25 +193,6 @@ func TestConvert(t *testing.T) {
 			t.Fatalf(
 				"Spelling pwString 'Ab!' is expected to provide 'Alfa/bravo/EXCLAMATION_POINT', but returned: %q",
 				spelledString)
-		}
-	})
-}
-
-// Forced failures
-func TestForceFailures(t *testing.T) {
-	t.Run("too_big_big.NewInt_value", func(t *testing.T) {
-		maxNum := 9223372036854775807
-		maxNumBigInt := big.NewInt(int64(maxNum) + 1)
-		if maxNumBigInt.IsUint64() {
-			t.Fatalf("Calling big.NewInt() with too large number expected to fail: %v", maxNumBigInt)
-		}
-	})
-
-	t.Run("negative value for big.NewInt()", func(t *testing.T) {
-		randNum, err := getRandNum(-20000)
-		if err == nil {
-			t.Fatalf("Calling getRandNum() with negative value is expected to fail, but returned value: %v",
-				randNum)
 		}
 	})
 }
