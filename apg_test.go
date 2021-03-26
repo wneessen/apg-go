@@ -1,14 +1,9 @@
 package main
 
 import (
+	"github.com/wneessen/apg.go/config"
 	"testing"
 )
-
-// Make sure the flags are initalized
-var _ = func() bool {
-	testing.Init()
-	return true
-}()
 
 // Test getRandNum with max 1000
 func TestGetRandNum(t *testing.T) {
@@ -118,16 +113,19 @@ func TestGetCharRange(t *testing.T) {
 		{"special_only", specialBytes, false, false, false, true, false},
 		{"special_only_human", specialHumanBytes, false, false, false, true, true},
 	}
+
+	conf := config.NewConfig()
+	conf.ParseParams()
 	for _, testCase := range testTable {
 		t.Run(testCase.testName, func(t *testing.T) {
-			config.useLowerCase = testCase.useLowerCase
-			config.useUpperCase = testCase.useUpperCase
-			config.useNumber = testCase.useNumber
-			config.useSpecial = testCase.useSpecial
-			config.humanReadable = testCase.humanReadable
-			charRange := getCharRange()
+			conf.UseLowerCase = testCase.useLowerCase
+			conf.UseUpperCase = testCase.useUpperCase
+			conf.UseNumber = testCase.useNumber
+			conf.UseSpecial = testCase.useSpecial
+			conf.HumanReadable = testCase.humanReadable
+			charRange := getCharRange(conf)
 			for _, curChar := range charRange {
-				searchAllowedBytes := containsByte(testCase.allowedBytes, int(curChar))
+				searchAllowedBytes := containsByte(testCase.allowedBytes, int(curChar), t)
 				if !searchAllowedBytes {
 					t.Errorf("Character range returned invalid value: %v", string(curChar))
 				}
@@ -149,6 +147,9 @@ func TestConvert(t *testing.T) {
 		{"convert_0_to_ZERO", '0', "ZERO", false},
 		{"convert_/_to_SLASH", '/', "SLASH", false},
 	}
+	conf := config.NewConfig()
+	conf.ParseParams()
+
 	for _, testCase := range testTable {
 		t.Run(testCase.testName, func(t *testing.T) {
 			charToString, err := convertCharToName(testCase.givenVal)
@@ -170,12 +171,12 @@ func TestConvert(t *testing.T) {
 	}
 
 	t.Run("all_chars_must_return_a_conversion_string", func(t *testing.T) {
-		config.useUpperCase = true
-		config.useLowerCase = true
-		config.useNumber = true
-		config.useSpecial = true
-		config.humanReadable = false
-		charRange := getCharRange()
+		conf.UseUpperCase = true
+		conf.UseLowerCase = true
+		conf.UseNumber = true
+		conf.UseSpecial = true
+		conf.HumanReadable = false
+		charRange := getCharRange(conf)
 		for _, curChar := range charRange {
 			_, err := convertCharToName(byte(curChar))
 			if err != nil {
@@ -214,12 +215,15 @@ func BenchmarkGetRandChar(b *testing.B) {
 
 // Benchmark: Random char generation
 func BenchmarkConvertChar(b *testing.B) {
-	config.useUpperCase = true
-	config.useLowerCase = true
-	config.useNumber = true
-	config.useSpecial = true
-	config.humanReadable = false
-	charRange := getCharRange()
+	conf := config.NewConfig()
+	conf.ParseParams()
+
+	conf.UseUpperCase = true
+	conf.UseLowerCase = true
+	conf.UseNumber = true
+	conf.UseSpecial = true
+	conf.HumanReadable = false
+	charRange := getCharRange(conf)
 	for i := 0; i < b.N; i++ {
 		charToConv, _ := getRandChar(&charRange, 1)
 		charBytes := []byte(charToConv)
@@ -228,7 +232,9 @@ func BenchmarkConvertChar(b *testing.B) {
 }
 
 // Contains function to search a given slice for values
-func containsByte(allowedBytes []int, currentChar int) bool {
+func containsByte(allowedBytes []int, currentChar int, t *testing.T) bool {
+	t.Helper()
+
 	for _, charInt := range allowedBytes {
 		if charInt == currentChar {
 			return true
