@@ -1,14 +1,26 @@
 package main
 
-import "regexp"
+import (
+	"github.com/wneessen/apg.go/config"
+	"regexp"
+)
+
+const PwLowerCharsHuman string = "abcdefghjkmnpqrstuvwxyz"
+const PwUpperCharsHuman string = "ABCDEFGHJKMNPQRSTUVWXYZ"
+const PwLowerChars string = "abcdefghijklmnopqrstuvwxyz"
+const PwUpperChars string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+const PwSpecialCharsHuman string = "\"#%*+-/:;=\\_|~"
+const PwSpecialChars string = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
+const PwNumbersHuman string = "23456789"
+const PwNumbers string = "1234567890"
 
 // Provide the range of available characters based on provided parameters
-func getCharRange() string {
+func getCharRange(config *config.Config) string {
 	pwUpperChars := PwUpperChars
 	pwLowerChars := PwLowerChars
 	pwNumbers := PwNumbers
 	pwSpecialChars := PwSpecialChars
-	if config.humanReadable {
+	if config.HumanReadable {
 		pwUpperChars = PwUpperCharsHuman
 		pwLowerChars = PwLowerCharsHuman
 		pwNumbers = PwNumbersHuman
@@ -16,20 +28,20 @@ func getCharRange() string {
 	}
 
 	var charRange string
-	if config.useLowerCase {
+	if config.UseLowerCase {
 		charRange = charRange + pwLowerChars
 	}
-	if config.useUpperCase {
+	if config.UseUpperCase {
 		charRange = charRange + pwUpperChars
 	}
-	if config.useNumber {
+	if config.UseNumber {
 		charRange = charRange + pwNumbers
 	}
-	if config.useSpecial {
+	if config.UseSpecial {
 		charRange = charRange + pwSpecialChars
 	}
-	if config.excludeChars != "" {
-		regExp := regexp.MustCompile("[" + regexp.QuoteMeta(config.excludeChars) + "]")
+	if config.ExcludeChars != "" {
+		regExp := regexp.MustCompile("[" + regexp.QuoteMeta(config.ExcludeChars) + "]")
 		charRange = regExp.ReplaceAllLiteralString(charRange, "")
 	}
 
