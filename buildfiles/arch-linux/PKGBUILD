@@ -1,0 +1,36 @@
+# Maintainer: "Winni Neessen (https://pebcak.de)
+
+pkgname=apg.go
+pkgver=0.2.7
+pkgrel=1
+pkgdesc='Advanced Password Generator Clone'
+arch=('i686' 'x86_64' 'armv6h' 'armv7h' 'aarch64')
+url='https://github.com/wneessen/apg.go'
+license=('MIT')
+makedepends=('go' 'git')
+source=("https://github.com/wneessen/${pkgname}/archive/refs/tags/v${pkgver}.tar.gz")
+sha256sums=('9bf9df1214b266f02a715854fb2ddf2fc454d788604bf31f1b62d16d4457e2eb')
+
+prepare() {
+    cd "${pkgname}-${pkgver}"
+    mkdir -p build/
+}
+
+build() {
+    cd "${pkgname}-${pkgver}"
+    export CGO_CPPFLAGS="${CPPFLAGS}"
+    export CGO_CFLAGS="${CFLAGS}"
+    export CGO_CXXFLAGS="${CXXFLAGS}"
+    _LDFLAGS="-extldflags ${LDFLAGS}"
+    go build -o build -ldflags="${_LDFLAGS}" "."
+}
+
+package() {
+    # binary
+    install -D -m755 "${srcdir}/${pkgname}-${pkgver}/build/apg.go" \
+        "${pkgdir}/usr/bin/apg"
+
+    # license
+    install -Dm644 "${srcdir}/${pkgname}-${pkgver}/LICENSE" \
+        "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
