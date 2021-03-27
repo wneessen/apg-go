@@ -1,9 +1,15 @@
 package main
 
-import (
-	"github.com/wneessen/apg.go/config"
-	"testing"
-)
+import "testing"
+
+var config Config
+
+// Make sure the flags are initalized
+var _ = func() bool {
+	testing.Init()
+	config = parseFlags()
+	return true
+}()
 
 // Test getRandNum with max 1000
 func TestGetRandNum(t *testing.T) {
@@ -114,16 +120,14 @@ func TestGetCharRange(t *testing.T) {
 		{"special_only_human", specialHumanBytes, false, false, false, true, true},
 	}
 
-	conf := config.NewConfig()
-	conf.ParseParams()
 	for _, testCase := range testTable {
 		t.Run(testCase.testName, func(t *testing.T) {
-			conf.UseLowerCase = testCase.useLowerCase
-			conf.UseUpperCase = testCase.useUpperCase
-			conf.UseNumber = testCase.useNumber
-			conf.UseSpecial = testCase.useSpecial
-			conf.HumanReadable = testCase.humanReadable
-			charRange := getCharRange(conf)
+			config.useLowerCase = testCase.useLowerCase
+			config.useUpperCase = testCase.useUpperCase
+			config.useNumber = testCase.useNumber
+			config.useSpecial = testCase.useSpecial
+			config.humanReadable = testCase.humanReadable
+			charRange := getCharRange(&config)
 			for _, curChar := range charRange {
 				searchAllowedBytes := containsByte(testCase.allowedBytes, int(curChar), t)
 				if !searchAllowedBytes {
@@ -147,8 +151,6 @@ func TestConvert(t *testing.T) {
 		{"convert_0_to_ZERO", '0', "ZERO", false},
 		{"convert_/_to_SLASH", '/', "SLASH", false},
 	}
-	conf := config.NewConfig()
-	conf.ParseParams()
 
 	for _, testCase := range testTable {
 		t.Run(testCase.testName, func(t *testing.T) {
@@ -171,12 +173,12 @@ func TestConvert(t *testing.T) {
 	}
 
 	t.Run("all_chars_must_return_a_conversion_string", func(t *testing.T) {
-		conf.UseUpperCase = true
-		conf.UseLowerCase = true
-		conf.UseNumber = true
-		conf.UseSpecial = true
-		conf.HumanReadable = false
-		charRange := getCharRange(conf)
+		config.useUpperCase = true
+		config.useLowerCase = true
+		config.useNumber = true
+		config.useSpecial = true
+		config.humanReadable = false
+		charRange := getCharRange(&config)
 		for _, curChar := range charRange {
 			_, err := convertCharToName(byte(curChar))
 			if err != nil {
@@ -215,15 +217,13 @@ func BenchmarkGetRandChar(b *testing.B) {
 
 // Benchmark: Random char generation
 func BenchmarkConvertChar(b *testing.B) {
-	conf := config.NewConfig()
-	conf.ParseParams()
 
-	conf.UseUpperCase = true
-	conf.UseLowerCase = true
-	conf.UseNumber = true
-	conf.UseSpecial = true
-	conf.HumanReadable = false
-	charRange := getCharRange(conf)
+	config.useUpperCase = true
+	config.useLowerCase = true
+	config.useNumber = true
+	config.useSpecial = true
+	config.humanReadable = false
+	charRange := getCharRange(&config)
 	for i := 0; i < b.N; i++ {
 		charToConv, _ := getRandChar(&charRange, 1)
 		charBytes := []byte(charToConv)
