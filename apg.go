@@ -8,7 +8,7 @@ import (
 
 // Constants
 const DefaultPwLenght int = 20
-const VersionString string = "0.2.8"
+const VersionString string = "0.2.9"
 
 type Config struct {
 	minPassLen    int
