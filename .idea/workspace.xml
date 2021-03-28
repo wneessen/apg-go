@@ -5,7 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fbb0c733-4aa1-4d27-87d5-c7276d8aa613" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apg.go" beforeDir="false" afterPath="$PROJECT_DIR$/apg.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,7 +25,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="dev" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -69,7 +70,27 @@
       <recent name="C:\Users\Winni Neessen\go\src\apg.go\test" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.Test Application">
+  <component name="RunManager" selected="Go Build.Run Application (show help text)">
+    <configuration name="Run Application (show help text)" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="apg.go" />
+      <working_directory value="$PROJECT_DIR$" />
+      <parameters value="-h" />
+      <kind value="PACKAGE" />
+      <filePath value="$PROJECT_DIR$" />
+      <package value="github.com/wneessen/apg.go" />
+      <directory value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Run Application (show version string)" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="apg.go" />
+      <working_directory value="$PROJECT_DIR$" />
+      <parameters value="-v" />
+      <kind value="PACKAGE" />
+      <filePath value="$PROJECT_DIR$" />
+      <package value="github.com/wneessen/apg.go" />
+      <directory value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
     <configuration name="Run Application (with excludes)" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="apg.go" />
       <working_directory value="$PROJECT_DIR$" />
@@ -139,66 +160,12 @@
       <filePath value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
-    <configuration name="BenchmarkGetRandNum in apg.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="apg.go" />
-      <working_directory value="$PROJECT_DIR$" />
-      <framework value="gobench" />
-      <kind value="PACKAGE" />
-      <package value="apg.go" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <pattern value="^\QBenchmarkGetRandNum\E$" />
-      <method v="2" />
-    </configuration>
     <configuration name="Test Application" type="GoTestRunConfiguration" factoryName="Go Test">
       <module name="apg.go" />
       <working_directory value="$PROJECT_DIR$" />
       <framework value="gotest" />
       <kind value="PACKAGE" />
       <package value="github.com/wneessen/apg.go" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestConvert in github.com/wneessen/apg.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="apg.go" />
-      <working_directory value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <kind value="PACKAGE" />
-      <package value="github.com/wneessen/apg.go" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <pattern value="^\QTestConvert\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestGetCharRange in apg.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="apg.go" />
-      <working_directory value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <kind value="DIRECTORY" />
-      <package value="apg.go" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <pattern value="^\QTestGetCharRange\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestGetRandNum in github.com/wneessen/apg.go (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="apg.go" />
-      <working_directory value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <kind value="PACKAGE" />
-      <package value="github.com/wneessen/apg.go" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <pattern value="^\QTestGetRandNum\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="apg.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="apg.go" />
-      <working_directory value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <kind value="DIRECTORY" />
-      <package value="apg.go" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <method v="2" />
@@ -210,23 +177,11 @@
       <item itemvalue="Go Build.Run Application (with newstyle params)" />
       <item itemvalue="Go Build.Run Application (with newstyle params and spelling)" />
       <item itemvalue="Go Build.Run Application (with newstyle params and spelling and multiple pws)" />
+      <item itemvalue="Go Build.Run Application (show help text)" />
+      <item itemvalue="Go Build.Run Application (show version string)" />
       <item itemvalue="Go Test.Test Application" />
       <item itemvalue="Go Test.Benchmark Application" />
-      <item itemvalue="Go Test.TestGetRandNum in github.com/wneessen/apg.go (1)" />
-      <item itemvalue="Go Test.TestConvert in github.com/wneessen/apg.go" />
-      <item itemvalue="Go Test.BenchmarkGetRandNum in apg.go" />
-      <item itemvalue="Go Test.apg.go" />
-      <item itemvalue="Go Test.TestGetCharRange in apg.go" />
     </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Go Test.TestGetCharRange in apg.go" />
-        <item itemvalue="Go Test.apg.go" />
-        <item itemvalue="Go Test.BenchmarkGetRandNum in apg.go" />
-        <item itemvalue="Go Test.TestConvert in github.com/wneessen/apg.go" />
-        <item itemvalue="Go Test.TestGetRandNum in github.com/wneessen/apg.go (1)" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TypeScriptGeneratedFilesManager">
@@ -271,7 +226,11 @@
     <MESSAGE value="Tests cleanup. Used structs for tests instead of repeating code" />
     <MESSAGE value="v0.2.7: Switched global config to it's own package" />
     <MESSAGE value="Updated .gitignore" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated .gitignore" />
+    <MESSAGE value="Removed .idea from .gitignore" />
+    <MESSAGE value="Let's have centralized IDE config" />
+    <MESSAGE value="New DEV branch" />
+    <MESSAGE value="v0.2.9: Replaced standard go-help with custom usage text" />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.2.9: Replaced standard go-help with custom usage text" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
