@@ -70,7 +70,27 @@
       <recent name="C:\Users\Winni Neessen\go\src\apg.go\test" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.Benchmark Application">
+  <component name="RunManager" selected="Go Build.Run Application (show help text)">
+    <configuration name="Run Application (show help text)" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="apg.go" />
+      <working_directory value="$PROJECT_DIR$" />
+      <parameters value="-h" />
+      <kind value="PACKAGE" />
+      <filePath value="$PROJECT_DIR$" />
+      <package value="github.com/wneessen/apg.go" />
+      <directory value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Run Application (show version string)" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="apg.go" />
+      <working_directory value="$PROJECT_DIR$" />
+      <parameters value="-v" />
+      <kind value="PACKAGE" />
+      <filePath value="$PROJECT_DIR$" />
+      <package value="github.com/wneessen/apg.go" />
+      <directory value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
     <configuration name="Run Application (with excludes)" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="apg.go" />
       <working_directory value="$PROJECT_DIR$" />
@@ -157,6 +177,8 @@
       <item itemvalue="Go Build.Run Application (with newstyle params)" />
       <item itemvalue="Go Build.Run Application (with newstyle params and spelling)" />
       <item itemvalue="Go Build.Run Application (with newstyle params and spelling and multiple pws)" />
+      <item itemvalue="Go Build.Run Application (show help text)" />
+      <item itemvalue="Go Build.Run Application (show version string)" />
       <item itemvalue="Go Test.Test Application" />
       <item itemvalue="Go Test.Benchmark Application" />
     </list>
@@ -206,7 +228,9 @@
     <MESSAGE value="Updated .gitignore" />
     <MESSAGE value="Removed .idea from .gitignore" />
     <MESSAGE value="Let's have centralized IDE config" />
-    <option name="LAST_COMMIT_MESSAGE" value="Let's have centralized IDE config" />
+    <MESSAGE value="New DEV branch" />
+    <MESSAGE value="v0.2.9: Replaced standard go-help with custom usage text" />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.2.9: Replaced standard go-help with custom usage text" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

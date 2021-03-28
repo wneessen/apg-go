@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -28,12 +29,34 @@ type Config struct {
 	outputMode    int
 }
 
+// Help text
+const usage = `Usage:
+    apg [-m <length>] [-x <length>] -L -U -N -S -H
+    apg [-m <length>] [-x <length>] -M LUNsh -E <list of chars>
+
+Options:
+    -m LENGTH            Minimum length of the password to be generated (Default: 20)
+    -x LENGTH            Maximum length of the password to be generated (Default: 20)
+    -n NUMBER            Amount of password to be generated (Default: 1)
+    -E CHARS             List of characters to be excluded in the generated password
+    -M [LUNSHClunshc]    New style password parameters (upper case: on, lower case: off)
+    -L                   Use lower case characters in passwords (Default: on)
+    -U                   Use upper case characters in passwords (Default: on)
+    -N                   Use numeric characters in passwords (Default: on)
+    -S                   Use special characters in passwords (Default: on)
+    -H                   Avoid ambiguous characters in passwords (i. e.: 1, l, I, O, 0) (Default: off)
+    -C                   Enable complex password mode (implies -L -U -N -S and disables -H) (Default: off)
+    -l                   Spell generated passwords in phonetic alphabet (Default: off)
+    -h                   Show this help text
+    -v                   Show version string`
+
 // Main function that generated the passwords and returns them
 func main() {
 	// Log config
 	log.SetFlags(log.Ltime | log.Ldate | log.Lshortfile)
 
 	// Read and parse flags
+	flag.Usage = func() { _, _ = fmt.Fprintf(os.Stderr, "%s\n", usage) }
 	var config = parseFlags()
 
 	// Show version and exit
