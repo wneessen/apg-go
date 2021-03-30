@@ -1,15 +1,15 @@
 # Maintainer: "Winni Neessen (https://pebcak.de)
 
-pkgname=apg.go
+pkgname=apg-go
 pkgver=0.2.9
 pkgrel=1
 pkgdesc='Advanced Password Generator Clone'
 arch=('i686' 'x86_64' 'armv6h' 'armv7h' 'aarch64')
-url='https://github.com/wneessen/apg.go'
+url='https://github.com/wneessen/apg-go'
 license=('MIT')
 makedepends=('go' 'git')
 source=("https://github.com/wneessen/${pkgname}/archive/refs/tags/v${pkgver}.tar.gz")
-sha256sums=('7bfd13e9b1b3258be23a9b64742d07809b95d64e267885f5c77b349f50d10899')
+sha256sums=('de8b8d38e8d5b48d4b59fb01982f1fcc404cc499c7eef57fcdcc0295b8f05971')
 
 prepare() {
     cd "${pkgname}-${pkgver}"
@@ -18,16 +18,12 @@ prepare() {
 
 build() {
     cd "${pkgname}-${pkgver}"
-    export CGO_CPPFLAGS="${CPPFLAGS}"
-    export CGO_CFLAGS="${CFLAGS}"
-    export CGO_CXXFLAGS="${CXXFLAGS}"
-    _LDFLAGS="-extldflags ${LDFLAGS}"
-    go build -o build -ldflags="${_LDFLAGS}" "."
+    go build -ldflags="-s -w" -o build/${pkgname} ./...
 }
 
 package() {
     # binary
-    install -D -m755 "${srcdir}/${pkgname}-${pkgver}/build/apg.go" \
+    install -D -m755 "${srcdir}/${pkgname}-${pkgver}/build/${pkgname}" \
         "${pkgdir}/usr/bin/apg"
 
     # license
