@@ -1,4 +1,4 @@
-# Winni's Advanced Password Generator Clone
+# Advanced Password Generator Clone
 _apg.go_ is a simple APG-like password generator script written in Go. It tries to replicate the
 functionality of the
 "[Automated Password Generator](https://web.archive.org/web/20130313042424/http://www.adel.nursat.kz:80/apg)",
