@@ -9,7 +9,7 @@ import (
 
 // Constants
 const DefaultPwLenght int = 20
-const VersionString string = "0.2.9"
+const VersionString string = "0.3.0"
 
 type Config struct {
 	minPassLen    int
@@ -30,9 +30,11 @@ type Config struct {
 }
 
 // Help text
-const usage = `Usage:
-    apg [-m <length>] [-x <length>] -L -U -N -S -H
-    apg [-m <length>] [-x <length>] -M LUNsh -E <list of chars>
+const usage = `apg-go // A "Automated Password Generator"-clone
+Copyright (c) 2021 Winni Neessen
+
+apg [-m <length>] [-x <length>] [-L] [-U] [-N] [-S] [-H] [-C]
+    [-l] [-M mode] [-E char_string] [-n num_of_pass] [-v] [-h]
 
 Options:
     -m LENGTH            Minimum length of the password to be generated (Default: 20)
@@ -61,7 +63,7 @@ func main() {
 
 	// Show version and exit
 	if config.showVersion {
-		_, _ = os.Stderr.WriteString("Advanced Password Generator Clone (apg.go) v" + VersionString + "\n")
+		_, _ = os.Stderr.WriteString(`apg-go // A "Automated Password Generator"-clone v` + VersionString + "\n")
 		_, _ = os.Stderr.WriteString("(C) 2021 by Winni Neessen\n")
 		os.Exit(0)
 	}
