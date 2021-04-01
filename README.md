@@ -1,5 +1,8 @@
-# Advanced Password Generator (APG) Clone
-_apg-go_ is a simple APG-like password generator script written in Go. It tries to replicate the
+# A "Automated Password Generator"-Clone
+![Go workflow](https://github.com/wneessen/apg-go/actions/workflows/go.yml/badge.svg)
+![CodeQL workflow](https://github.com/wneessen/apg-go/actions/workflows/codeql-analysis.yml/badge.svg)
+
+_apg-go_ is a simple APG-like password generator written in Go. It tries to replicate the
 functionality of the
 "[Automated Password Generator](https://web.archive.org/web/20130313042424/http://www.adel.nursat.kz:80/apg)",
 which hasn't been maintained since 2003. Since more and more Unix distributions are abondoning the tool, I was
