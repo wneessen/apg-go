@@ -1,4 +1,4 @@
-# A "Automated Password Generator"-Clone
+# A "Automated Password Generator"-clone
 ![Go workflow](https://github.com/wneessen/apg-go/actions/workflows/go.yml/badge.svg)
 ![CodeQL workflow](https://github.com/wneessen/apg-go/actions/workflows/codeql-analysis.yml/badge.svg)
 
@@ -9,12 +9,8 @@ which hasn't been maintained since 2003. Since more and more Unix distributions 
 looking for an alternative. FreeBSD for example recommends "security/makepasswd", which is written in Perl
 but requires a lot of dependency packages and doesn't offer the feature-set/flexibility of APG.
 
-Therefore, as a first attempt, I decided to write 
-[my own implementation in Perl](https://github.com/wneessen/passwordGen), but since I just started learning Go, 
-I gave it another try and reproduced apg.pl in Go as apg.go.
-
 Since FIPS-181 (pronouncable passwords) has been withdrawn in 2015, I didn't see any use in replicating that
-feature. Therfore apg.go does not support pronouncable passwords.
+feature. Therfore apg-go does not support pronouncable passwords.
 
 ## Installation
 ### Binary releases

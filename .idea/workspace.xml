@@ -7,7 +7,6 @@
     <list default="true" id="fbb0c733-4aa1-4d27-87d5-c7276d8aa613" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apg.go" beforeDir="false" afterPath="$PROJECT_DIR$/apg.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/buildfiles/arch-linux/PKGBUILD" beforeDir="false" afterPath="$PROJECT_DIR$/buildfiles/arch-linux/PKGBUILD" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -72,7 +71,7 @@
       <recent name="C:\Users\Winni Neessen\go\src\apg.go\test" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Build.Run Application (show version string)">
+  <component name="RunManager" selected="Go Test.Test Application">
     <configuration name="Run Application (show help text)" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="apg.go" />
       <working_directory value="$PROJECT_DIR$" />
@@ -232,7 +231,8 @@
     <MESSAGE value="Let's have centralized IDE config" />
     <MESSAGE value="New DEV branch" />
     <MESSAGE value="v0.2.9: Replaced standard go-help with custom usage text" />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.2.9: Replaced standard go-help with custom usage text" />
+    <MESSAGE value="v0.3.0: Unified the naming convention" />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.3.0: Unified the naming convention" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
