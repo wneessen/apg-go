@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fbb0c733-4aa1-4d27-87d5-c7276d8aa613" name="Default Changelist" comment="v0.3.1: New password length behaviour&#10;&#10;To address issue #13, the password length behaviour of the &#10;original APG has been reproduced. Previously, when a minLength&#10;of 5 and a maxLength of 10 was given, apg-go se the pwLength to&#10;the preferred maxLength.&#10;&#10;With v0.3.1 it will choose a random length between minLength and&#10;maxLength instead, same as the original C-lang apg did. For this&#10;the minLength has been defaulted to a sane value of 12 (instead &#10;of the 8 of the original apg). The default for maxLength stayed&#10;at 20.&#10;&#10;Also the default number of generated passwords has been changed &#10;from 1 to 6, to replicate the behaviour of the original apg.">
+    <list default="true" id="fbb0c733-4aa1-4d27-87d5-c7276d8aa613" name="Default Changelist" comment="For some reason, the tests on GH fail">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apg.go" beforeDir="false" afterPath="$PROJECT_DIR$/apg.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apg_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/apg_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/config.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -231,7 +232,8 @@
     <MESSAGE value="v0.2.9: Replaced standard go-help with custom usage text" />
     <MESSAGE value="v0.3.0: Unified the naming convention" />
     <MESSAGE value="v0.3.1: New password length behaviour&#10;&#10;To address issue #13, the password length behaviour of the &#10;original APG has been reproduced. Previously, when a minLength&#10;of 5 and a maxLength of 10 was given, apg-go se the pwLength to&#10;the preferred maxLength.&#10;&#10;With v0.3.1 it will choose a random length between minLength and&#10;maxLength instead, same as the original C-lang apg did. For this&#10;the minLength has been defaulted to a sane value of 12 (instead &#10;of the 8 of the original apg). The default for maxLength stayed&#10;at 20.&#10;&#10;Also the default number of generated passwords has been changed &#10;from 1 to 6, to replicate the behaviour of the original apg." />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.3.1: New password length behaviour&#10;&#10;To address issue #13, the password length behaviour of the &#10;original APG has been reproduced. Previously, when a minLength&#10;of 5 and a maxLength of 10 was given, apg-go se the pwLength to&#10;the preferred maxLength.&#10;&#10;With v0.3.1 it will choose a random length between minLength and&#10;maxLength instead, same as the original C-lang apg did. For this&#10;the minLength has been defaulted to a sane value of 12 (instead &#10;of the 8 of the original apg). The default for maxLength stayed&#10;at 20.&#10;&#10;Also the default number of generated passwords has been changed &#10;from 1 to 6, to replicate the behaviour of the original apg." />
+    <MESSAGE value="For some reason, the tests on GH fail" />
+    <option name="LAST_COMMIT_MESSAGE" value="For some reason, the tests on GH fail" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

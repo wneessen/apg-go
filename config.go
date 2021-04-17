@@ -68,8 +68,12 @@ func getPwLengthFromParams(config *Config) int {
 	if err != nil {
 		log.Fatalf("Failed to generated password length: %v", err)
 	}
+	retVal := config.minPassLen + randAdd
+	if retVal <= 0 {
+		return 1
+	}
 
-	return config.minPassLen + randAdd
+	return retVal
 }
 
 // Parse the new style parameters

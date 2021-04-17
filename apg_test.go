@@ -72,7 +72,6 @@ func TestGenLength(t *testing.T) {
 			config.minPassLen = testCase.minLength
 			config.maxPassLen = testCase.maxLength
 			pwLength := getPwLengthFromParams(&config)
-			t.Logf("pwLenght is: %v", pwLength)
 			for i := 0; i < 1000; i++ {
 				pwString, err := getRandChar(&charRange, pwLength)
 				if err != nil {
