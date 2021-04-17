@@ -20,7 +20,7 @@ jobs:
         go-version: 1.15
 
     - name: Build
-      run: go build -o apg -v github.com/wneessen/apg-go
+      run: go build -o apg -v .
 
     - name: Test
-      run: go test -v github.com/wneessen/apg-go
+      run: go test -v .
