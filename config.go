@@ -18,9 +18,9 @@ func parseFlags() Config {
 	flag.BoolVar(&config.spellPassword, "l", false, "Spell generated password")
 	flag.BoolVar(&config.humanReadable, "H", false, "Generate human-readable passwords")
 	flag.BoolVar(&config.showVersion, "v", false, "Show version")
-	flag.IntVar(&config.minPassLen, "m", DefaultPwLenght, "Minimum password length")
-	flag.IntVar(&config.maxPassLen, "x", DefaultPwLenght, "Maxiumum password length")
-	flag.IntVar(&config.numOfPass, "n", 1, "Number of passwords to generate")
+	flag.IntVar(&config.minPassLen, "m", DefaultMinLenght, "Minimum password length")
+	flag.IntVar(&config.maxPassLen, "x", DefaultMaxLenght, "Maxiumum password length")
+	flag.IntVar(&config.numOfPass, "n", 6, "Number of passwords to generate")
 	flag.StringVar(&config.excludeChars, "E", "", "Exclude list of characters from generated password")
 	flag.StringVar(&config.newStyleModes, "M", "",
 		"New style password parameters (higher priority than single parameters)")
@@ -60,15 +60,20 @@ func parseParams(config *Config) {
 
 // Get the password length from the given cli flags
 func getPwLengthFromParams(config *Config) int {
-	pwLength := config.minPassLen
-	if pwLength < config.minPassLen {
-		pwLength = config.minPassLen
+	if config.minPassLen > config.maxPassLen {
+		config.maxPassLen = config.minPassLen
 	}
-	if pwLength > config.maxPassLen {
-		pwLength = config.maxPassLen
+	lenDiff := config.maxPassLen - config.minPassLen + 1
+	randAdd, err := getRandNum(lenDiff)
+	if err != nil {
+		log.Fatalf("Failed to generated password length: %v", err)
+	}
+	retVal := config.minPassLen + randAdd
+	if retVal <= 0 {
+		return 1
 	}
 
-	return pwLength
+	return retVal
 }
 
 // Parse the new style parameters

@@ -85,9 +85,9 @@ $ sudo cp apg /usr/local/bin/apg
 ## CLI parameters
 _apg.go_ replicates some of the parameters of the original APG. Some parameters are different though:
 
-- ```-m <length>```: The minimum length of the password to be generated (Default: 20)
+- ```-m <length>```: The minimum length of the password to be generated (Default: 12)
 - ```-x <length>```: The maximum length of the password to be generated (Default: 20)
-- ```-n <number of passwords>```: The amount of passwords to be generated (Default: 1)
+- ```-n <number of passwords>```: The amount of passwords to be generated (Default: 6)
 - ```-E <list of characters>```: Do not use the specified characters in generated passwords
 - ```-M <[LUNSHClunshc]>```: New style password parameters (upper-case enables, lower-case disables)
 - ```-L```: Use lower-case characters in passwords (Default: on)

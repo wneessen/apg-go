@@ -8,8 +8,9 @@ import (
 )
 
 // Constants
-const DefaultPwLenght int = 20
-const VersionString string = "0.3.0"
+const DefaultMinLenght int = 12
+const DefaultMaxLenght int = 20
+const VersionString string = "0.3.1"
 
 type Config struct {
 	minPassLen    int
@@ -37,9 +38,9 @@ apg [-m <length>] [-x <length>] [-L] [-U] [-N] [-S] [-H] [-C]
     [-l] [-M mode] [-E char_string] [-n num_of_pass] [-v] [-h]
 
 Options:
-    -m LENGTH            Minimum length of the password to be generated (Default: 20)
+    -m LENGTH            Minimum length of the password to be generated (Default: 12)
     -x LENGTH            Maximum length of the password to be generated (Default: 20)
-    -n NUMBER            Amount of password to be generated (Default: 1)
+    -n NUMBER            Amount of password to be generated (Default: 6)
     -E CHARS             List of characters to be excluded in the generated password
     -M [LUNSHClunshc]    New style password parameters (upper case: on, lower case: off)
     -L                   Use lower case characters in passwords (Default: on)
@@ -69,11 +70,11 @@ func main() {
 	}
 
 	// Set PW length and available characterset
-	pwLength := getPwLengthFromParams(&config)
 	charRange := getCharRange(&config)
 
 	// Generate passwords
 	for i := 1; i <= config.numOfPass; i++ {
+		pwLength := getPwLengthFromParams(&config)
 		pwString, err := getRandChar(&charRange, pwLength)
 		if err != nil {
 			log.Fatalf("getRandChar returned an error: %q\n", err)

@@ -1,6 +1,8 @@
 package main
 
-import "testing"
+import (
+	"testing"
+)
 
 var config Config
 
@@ -45,6 +47,44 @@ func TestGetRandNum(t *testing.T) {
 				if randNum < testCase.minRet {
 					t.Errorf("Random number generation returned too small value. Given %v, expected max: %v, got: %v",
 						testCase.givenVal, testCase.minRet, randNum)
+				}
+			}
+		})
+	}
+}
+
+// Test Pwlength
+func TestGenLength(t *testing.T) {
+	testTable := []struct {
+		testName  string
+		minLength int
+		maxLength int
+	}{
+		{"pwLength defaults", DefaultMinLenght, DefaultMaxLenght},
+		{"pwLength 0 to 1", 0, 1},
+		{"pwLength 1 to 10", 0, 10},
+		{"pwLength 10 to 100", 10, 100},
+	}
+
+	charRange := getCharRange(&config)
+	for _, testCase := range testTable {
+		t.Run(testCase.testName, func(t *testing.T) {
+			config.minPassLen = testCase.minLength
+			config.maxPassLen = testCase.maxLength
+			pwLength := getPwLengthFromParams(&config)
+			for i := 0; i < 1000; i++ {
+				pwString, err := getRandChar(&charRange, pwLength)
+				if err != nil {
+					t.Errorf("getRandChar returned an error: %q", err)
+				}
+				retLen := len(pwString)
+				if retLen > testCase.maxLength {
+					t.Errorf("Generated password length too long. GivenMin %v, GivenMax: %v, Returned length %v",
+						testCase.minLength, testCase.maxLength, retLen)
+				}
+				if retLen < testCase.minLength {
+					t.Errorf("Generated password length too short. GivenMin %v, GivenMax: %v, Returned length %v",
+						testCase.minLength, testCase.maxLength, retLen)
 				}
 			}
 		})
