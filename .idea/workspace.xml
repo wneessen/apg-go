@@ -6,8 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="fbb0c733-4aa1-4d27-87d5-c7276d8aa613" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/buildfiles/arch-linux/PKGBUILD" beforeDir="false" afterPath="$PROJECT_DIR$/buildfiles/arch-linux/PKGBUILD" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apg.go" beforeDir="false" afterPath="$PROJECT_DIR$/apg.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apg_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/apg_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rand.go" beforeDir="false" afterPath="$PROJECT_DIR$/rand.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +52,6 @@
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
-    <option name="showMembers" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="DefaultGoTemplateProperty" value="Go Application" />
@@ -71,15 +73,15 @@
       <recent name="C:\Users\Winni Neessen\go\src\apg.go\test" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.Test Application">
+  <component name="RunManager" selected="Go Build.Run Application (with newstyle params)">
     <configuration name="Run Application (show help text)" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="apg.go" />
       <working_directory value="$PROJECT_DIR$" />
       <parameters value="-h" />
       <kind value="PACKAGE" />
-      <filePath value="$PROJECT_DIR$" />
-      <package value="github.com/wneessen/apg.go" />
+      <package value="github.com/wneessen/apg-go" />
       <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
     <configuration name="Run Application (show version string)" type="GoApplicationRunConfiguration" factoryName="Go Application">
@@ -87,9 +89,9 @@
       <working_directory value="$PROJECT_DIR$" />
       <parameters value="-v" />
       <kind value="PACKAGE" />
-      <filePath value="$PROJECT_DIR$" />
-      <package value="github.com/wneessen/apg.go" />
+      <package value="github.com/wneessen/apg-go" />
       <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
     <configuration name="Run Application (with excludes)" type="GoApplicationRunConfiguration" factoryName="Go Application">
@@ -97,9 +99,9 @@
       <working_directory value="$PROJECT_DIR$" />
       <parameters value="-m 20 -x 20 -C -E abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!]" />
       <kind value="PACKAGE" />
-      <filePath value="$PROJECT_DIR$" />
-      <package value="github.com/wneessen/apg.go" />
+      <package value="github.com/wneessen/apg-go" />
       <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
     <configuration name="Run Application (with newstyle params and spelling and multiple pws)" type="GoApplicationRunConfiguration" factoryName="Go Application">
@@ -107,9 +109,9 @@
       <working_directory value="$PROJECT_DIR$" />
       <parameters value="-m 10 -x 10 -M SLNU -l -n 6" />
       <kind value="PACKAGE" />
-      <filePath value="$PROJECT_DIR$" />
-      <package value="github.com/wneessen/apg.go" />
+      <package value="github.com/wneessen/apg-go" />
       <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
     <configuration name="Run Application (with newstyle params and spelling)" type="GoApplicationRunConfiguration" factoryName="Go Application">
@@ -117,19 +119,19 @@
       <working_directory value="$PROJECT_DIR$" />
       <parameters value="-m 10 -x 10 -M SLNU -l" />
       <kind value="PACKAGE" />
-      <filePath value="$PROJECT_DIR$" />
-      <package value="github.com/wneessen/apg.go" />
+      <package value="github.com/wneessen/apg-go" />
       <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
     <configuration name="Run Application (with newstyle params)" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="apg.go" />
       <working_directory value="$PROJECT_DIR$" />
-      <parameters value="-m 20 -x 20 -M slNU" />
+      <parameters value="-M slNU" />
       <kind value="PACKAGE" />
-      <filePath value="$PROJECT_DIR$" />
-      <package value="github.com/wneessen/apg.go" />
+      <package value="github.com/wneessen/apg-go" />
       <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
     <configuration name="Run Application (with params)" type="GoApplicationRunConfiguration" factoryName="Go Application">
@@ -137,38 +139,38 @@
       <working_directory value="$PROJECT_DIR$" />
       <parameters value="-m 20 -x 20 -C" />
       <kind value="PACKAGE" />
-      <filePath value="$PROJECT_DIR$" />
-      <package value="github.com/wneessen/apg.go" />
+      <package value="github.com/wneessen/apg-go" />
       <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
     <configuration name="Run Application" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="apg.go" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <filePath value="$PROJECT_DIR$" />
-      <package value="github.com/wneessen/apg.go" />
+      <package value="github.com/wneessen/apg-go" />
       <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
     <configuration name="Benchmark Application" type="GoTestRunConfiguration" factoryName="Go Test">
       <module name="apg.go" />
       <working_directory value="$PROJECT_DIR$" />
-      <framework value="gobench" />
       <kind value="PACKAGE" />
-      <package value="github.com/wneessen/apg.go" />
+      <package value="github.com/wneessen/apg-go" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
+      <framework value="gobench" />
       <method v="2" />
     </configuration>
     <configuration name="Test Application" type="GoTestRunConfiguration" factoryName="Go Test">
       <module name="apg.go" />
       <working_directory value="$PROJECT_DIR$" />
-      <framework value="gotest" />
       <kind value="PACKAGE" />
-      <package value="github.com/wneessen/apg.go" />
+      <package value="github.com/wneessen/apg-go" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
       <method v="2" />
     </configuration>
     <list>
