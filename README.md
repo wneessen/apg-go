@@ -25,8 +25,8 @@ in this git repository
 #### Linux/BSD/MacOS
 * Download release
   ```sh
-  $ curl -LO https://github.com/wneessen/apg.go/releases/download/v<version>/apg-v<version>-<os>-<architecture>.tar.gz
-  $ curl -LO https://github.com/wneessen/apg.go/releases/download/v<version>/apg-v<version>-<os>-<architecture>.tar.gz.sha256
+  $ curl -LO https://github.com/wneessen/apg-go/releases/download/v<version>/apg-v<version>-<os>-<architecture>.tar.gz
+  $ curl -LO https://github.com/wneessen/apg-go/releases/download/v<version>/apg-v<version>-<os>-<architecture>.tar.gz.sha256
   ```
 * Verify the checksum
   ```sh
@@ -45,8 +45,8 @@ in this git repository
 #### Windows
 * Download release
   ```PowerShell
-  PS> Invoke-RestMethod -Uri https://github.com/wneessen/apg.go/releases/download/v<version>/apg-v<version>-windows-<architecture>.zip -OutFile apg-v<version>-windows-<architecure>.zip
-  PS> Invoke-RestMethod -Uri https://github.com/wneessen/apg.go/releases/download/v<version>/apg-v<version>-windows-<architecture>.zip.sha256 -OutFile apg-v<version>-windows-<architecure>.zip.sha256
+  PS> Invoke-RestMethod -Uri https://github.com/wneessen/apg-go/releases/download/v<version>/apg-v<version>-windows-<architecture>.zip -OutFile apg-v<version>-windows-<architecure>.zip
+  PS> Invoke-RestMethod -Uri https://github.com/wneessen/apg-go/releases/download/v<version>/apg-v<version>-windows-<architecture>.zip.sha256 -OutFile apg-v<version>-windows-<architecure>.zip.sha256
   ```
 * Verify the checksum
   ```PowerShell
@@ -67,7 +67,7 @@ in this git repository
 ### Sources
 * Download sources
   ```sh
-  $ curl -LO https://github.com/wneessen/apg.go/archive/refs/tags/v<version>.tar.gz
+  $ curl -LO https://github.com/wneessen/apg-go/archive/refs/tags/v<version>.tar.gz
   ```
 * Extract source
   ```sh
@@ -75,7 +75,7 @@ in this git repository
   ```
 * Build binary
   ```sh
-  $ cd apg.go-<version>
+  $ cd apg-go-<version>
   $ go build -o apg ./...
   ```
 * Execute the brand new binary
@@ -91,7 +91,7 @@ $ sudo cp apg /usr/local/bin/apg
 ```
 
 ## CLI parameters
-_apg.go_ replicates some of the parameters of the original APG. Some parameters are different though:
+_apg-go_ replicates some of the parameters of the original APG. Some parameters are different though:
 
 - ```-m <length>```: The minimum length of the password to be generated (Default: 12)
 - ```-x <length>```: The maximum length of the password to be generated (Default: 20)
