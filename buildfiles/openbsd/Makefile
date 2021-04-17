@@ -1,38 +1,21 @@
-COMMENT =		"automated password generator" clone written in Go
+# $OpenBSD$
 
-V =			0.3.1
+COMMENT =               "automated password generator" clone written in Go
 
-DISTNAME =		v$V
+GH_ACCOUNT =            wneessen
+GH_PROJECT =            apg-go
+GH_TAGNAME =            v0.3.1
 
-REVISION =		1
+CATEGORIES =            security
 
-PKGNAME =		apg-go-$V
-
-CATEGORIES =		security
-
-HOMEPAGE =		https://github.com/wneessen/apg-go
-
-MAINTAINER =		Winni Neessen <wn@neessen.net>
-
-MASTER_SITES =		https://github.com/wneessen/apg-go/archive/refs/tags/
+MAINTAINER =            Winni Neessen <wn@neessen.net>
 
 # MIT
-PERMIT_PACKAGE =	Yes
+PERMIT_PACKAGE =        Yes
 
-MODULES =		lang/go
-MODGO_TYPE =		bin
+MODULES =               lang/go
+MODGO_TYPE =            bin
 
-ALL_TARGET =		wneessen/apg-go
-
-post-extract:
-	mv ${WRKDIR}/${PKGNAME} ${WRKDIR}/${DISTNAME}
-
-test:
-	cd ${WRKDIR} && ${MODGO_CMD} test ${ALL_TARGET}
-
-build:
-	mkdir -p ${MODGO_WORKSPACE}/bin
-	cd ${WRKDIR} && ${MODGO_CMD} build \
-		-o ${MODGO_WORKSPACE}/bin ${ALL_TARGET}
+ALL_TARGET =            wneessen/apg-go
 
 .include <bsd.port.mk>
