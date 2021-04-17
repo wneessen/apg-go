@@ -1,5 +1,3 @@
-# $OpenBSD: Makefile,v 1.3 2020/04/17 23:59:50 sthen Exp $
-
 COMMENT =		"automated password generator" clone written in Go
 
 V =			0.3.1
