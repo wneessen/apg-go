@@ -18,7 +18,7 @@ feature. Therfore apg-go does not support pronouncable passwords.
 apg-go can be found as `/security/apg` in the [FreeBSD ports](https://cgit.freebsd.org/ports/tree/security/apg)
 tree.
 #### Arch Linux
-Find apg-go in [Arch Linux AUR](https://github.com/wneessen/apg-go/tree/main/buildfiles/arch-linux). \
+Find apg-go in [Arch Linux AUR](https://aur.archlinux.org/packages/apg-go/). \
 Alternatively use the [PKGBUILD](https://github.com/wneessen/apg-go/tree/main/buildfiles/arch-linux) file 
 in this git repository
 ### Binary releases
