@@ -13,6 +13,14 @@ Since FIPS-181 (pronouncable passwords) has been withdrawn in 2015, I didn't see
 feature. Therfore apg-go does not support pronouncable passwords.
 
 ## Installation
+### Ports/Packages
+#### FreeBSD
+apg-go can be found as `/security/apg` in the [FreeBSD ports](https://cgit.freebsd.org/ports/tree/security/apg)
+tree.
+#### Arch Linux
+Find apg-go in [Arch Linux AUR](https://github.com/wneessen/apg-go/tree/main/buildfiles/arch-linux). \
+Alternatively use the [PKGBUILD](https://github.com/wneessen/apg-go/tree/main/buildfiles/arch-linux) file 
+in this git repository
 ### Binary releases
 #### Linux/BSD/MacOS
 * Download release
