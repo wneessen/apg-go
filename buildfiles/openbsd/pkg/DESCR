@@ -6,7 +6,7 @@ are abondoning the tool, I was looking for an alternative. FreeBSD for example
 recommends "security/makepasswd", which is written in Perl but requires a lot
 of dependency packages and doesn't offer the feature-set/flexibility of APG.
 
-Since FIPS-181 (pronouncable passwords) has been withdrawn in 2015, was is
+Since FIPS-181 (pronouncable passwords) has been withdrawn in 2015, there is
 no use in replicating that feature. Therfore apg-go does not support
 pronouncable passwords.
 
