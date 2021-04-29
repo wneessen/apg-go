@@ -46,7 +46,7 @@ Options:
     -L                   Use lower case characters in passwords (Default: on)
     -U                   Use upper case characters in passwords (Default: on)
     -N                   Use numeric characters in passwords (Default: on)
-    -S                   Use special characters in passwords (Default: on)
+    -S                   Use special characters in passwords (Default: off)
     -H                   Avoid ambiguous characters in passwords (i. e.: 1, l, I, O, 0) (Default: off)
     -C                   Enable complex password mode (implies -L -U -N -S and disables -H) (Default: off)
     -l                   Spell generated passwords in phonetic alphabet (Default: off)
