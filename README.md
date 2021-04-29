@@ -89,6 +89,106 @@ It is recommed to install apg in a directory of your ```$PATH``` environment. To
 ```sh
 $ sudo cp apg /usr/local/bin/apg
 ```
+## Usage examples
+### Default behaviour
+By default apg-go will generate 6 passwords, with a minimum length of 12 characters and a 
+maxiumum length of 20 characters. The generated password will use a character set constructed 
+from lower case, upper case and numeric characters.
+```shell
+$ ./apg-go
+R8rCC8bw5NvJmTUK2g
+cHB9qogTbfdzFgnH
+hoHfpWAHHSNa4Q
+QyjscIsZkQGh
+904YqsU5SnoqLo2w
+utdFKXdeiXFzM
+```
+### Modifying the character sets
+#### Old style
+Let's assume you want to generate a single password, constructed out of upper case, numeric
+and special characters. Since lower case is part of the default set, you would need to disable them
+by setting the `-L` parameter. In addition you would set the `-S` parameter to enable special 
+characters. Finally the parameter `-n 1` is needed to keep apg-go from generating more than one
+password:
+```shell
+$ ./apg-go -n 1 -L -S
+XY7>}H@5U40&_A1*9I$
+```
+
+#### New/modern style
+Since the old style switches can be kind of confusing, it is recommended to use the "new style" 
+parameters instead. The new style is all combined in the `-M` parameter. Using the upper case
+version of a parameter argument enables a feature, while the lower case version disabled it. The
+previous example could be represented like this in new style:
+```shell
+$ ./apg-go -n 1 -M lUSN
+$</K?*|M)%8\U$5JA5~
+```
+
+#### Human readability
+Generated passwords can sometimes be a bit hard to read for humans, especially when ambiguous 
+characters are part of the password. Some characters in the ASCII character set look similar to 
+each other. In example it can be hard to differentiate an upper case I from a lower case l. 
+Same applies to the number zero (0) and the upper case O. To not run into issues with human 
+readability, you can set the `-H` parameter to toggle on the "human readable" feature. When the
+option is set, apg-go will avoid using any of the typical ambiguous characters in the generated
+passwords.
+```shell
+$ ./apg-go -n 1 -M LUSN -H
+YpranThY3b6b5%\6ARx
+```
+
+#### Character exclusion
+Let's assume, that for whatever reason, your generated password can never include a colon (:) sign. For
+this specific case, you can use the `-E` parameter to specify a list of characters that are to be excluded 
+from the password generation character set:
+```shell
+$ ./apg-go -n 1 -M lUSN -H -E :
+~B2\%E_|\VV|/5C7EF=
+```
+
+#### Complex passwords
+If you want to generate complex passwords, there is a shortcut for this as well. By setting the `-C`
+parameter, apg-go will automatically default to the most secure settings. The complex parameter 
+basically implies that the password will use all available characters (lower case, upper case, 
+numeric and special) and will make sure that human readability is disabled.
+```shell
+$ ./apg-go -n 1 -C
+{q6cvz9le5_fo"X7
+```
+
+### Password length
+By default, apg-go will generate a password with a random length between 12 and 20 characters. If you
+want to be more specific, you can use the `-m` and `-x` parameters to override the defaults. Let's 
+assume you want a single complex password with a length of exactly 32 characters, you can do so by
+running:
+```shell
+$ ./apg-go -n 1 -C -m 32 -x 32
+5lc&HBvx=!EUY*;'/t&>B|~sudhtyDBu
+```
+
+### Password spelling
+If you need to read out a password, it can be helpful to know the corresponding word for that character in
+the phonetic alphabet. By setting the `-l` parameter, agp-go will provide you with the phonetic spelling 
+(english language) of your newly created password:
+```shell
+$ ./apg-go -n 1 -M LUSN -H -E : -l
+fUTDKeFsU+zn3r= (foxtrot/Uniform/Tango/Delta/Kilo/echo/Foxtrot/sierra/Uniform/PLUS_SIGN/zulu/november/THREE/romeo/EQUAL_SIGN)
+```
+
+### Have I Been Pwned
+Even though, the passwords that apg-go generated for you, are secure, there is a minimal chance, that 
+someone on the planet used exactly the same password before and that this person was part of an 
+internet leak or hack, which exposed the password to the public. Such passwords are not considered 
+secure anymore as they usually land on public available password lists, that are used by crackers.
+
+To be on the safe side, you can use the `-p` parameter, to enable a HIBP check. When the feature is 
+enabled, apg-go will check the HIBP database at https://haveibeenpwned.com if that password has been
+leaked before and provide you with a warning if that is the case.
+
+Please be aware, that this is a live check against the HIBP API, which not only requires internet
+connectivity, but also might take between 500ms to 1s to complete. When you generating a bigger list
+of password `-n 100`, the process could take much longer than without the `-p` feature enabled.
 
 ## CLI parameters
 _apg-go_ replicates some of the parameters of the original APG. Some parameters are different though:
@@ -105,5 +205,10 @@ _apg-go_ replicates some of the parameters of the original APG. Some parameters 
 - ```-H```: Avoid ambiguous characters in passwords (i. e.: 1, l, I, o, O, 0) (Default: off)
 - ```-C```: Generate complex passwords (implies -L -U -N -S and disables -H) (Default: off)
 - ```-l```: Spell generated passwords (Default: off)
+- ```-p```: Check the HIBP database if the generated passwords was found in a leak before (Default: off) // *this feature requires internet connectivity*
 - ```-h```: Show a CLI help text
 - ```-v```: Show the version number
+
+## Contributors
+Thanks to the following people for contributing to the apg-go codebase:
+* [Romain Tartière](https://github.com/smortex)
