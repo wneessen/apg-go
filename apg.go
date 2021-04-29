@@ -10,7 +10,7 @@ import (
 // Constants
 const DefaultMinLenght int = 12
 const DefaultMaxLenght int = 20
-const VersionString string = "0.3.1"
+const VersionString string = "0.3.2"
 
 type Config struct {
 	minPassLen    int
@@ -22,6 +22,7 @@ type Config struct {
 	useNumber     bool
 	useSpecial    bool
 	humanReadable bool
+	checkHibp     bool
 	excludeChars  string
 	newStyleModes string
 	spellPassword bool
@@ -50,6 +51,8 @@ Options:
     -H                   Avoid ambiguous characters in passwords (i. e.: 1, l, I, O, 0) (Default: off)
     -C                   Enable complex password mode (implies -L -U -N -S and disables -H) (Default: off)
     -l                   Spell generated passwords in phonetic alphabet (Default: off)
+    -p                   Check the HIBP database if the generated passwords was found in a leak before (Default: off)
+                         '--> this feature requires internet connectivity 
     -h                   Show this help text
     -v                   Show version string`
 
@@ -94,6 +97,16 @@ func main() {
 			{
 				fmt.Println(pwString)
 				break
+			}
+		}
+
+		if config.checkHibp {
+			isPwned, err := checkHibp(pwString)
+			if err != nil {
+				log.Printf("unable to check HIBP database: %v", err)
+			}
+			if isPwned {
+				fmt.Print("^-- !!WARNING: The previously generated password was found in HIPB database. Do not use it!!\n")
 			}
 		}
 	}
