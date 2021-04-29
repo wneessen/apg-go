@@ -33,6 +33,7 @@ func parseFlags() Config {
 	flag.BoolVar(&switchConf.useComplex, "C", false, "Generate complex passwords (implies -L -U -N -S, disables -H)")
 	flag.BoolVar(&switchConf.humanReadable, "H", false, "Generate human-readable passwords")
 	flag.BoolVar(&config.spellPassword, "l", false, "Spell generated password")
+	flag.BoolVar(&config.checkHibp, "p", false, "Check the HIBP database if the generated password was leaked before")
 	flag.BoolVar(&config.showVersion, "v", false, "Show version")
 	flag.IntVar(&config.minPassLen, "m", DefaultMinLenght, "Minimum password length")
 	flag.IntVar(&config.maxPassLen, "x", DefaultMaxLenght, "Maxiumum password length")
