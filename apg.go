@@ -10,7 +10,7 @@ import (
 // Constants
 const DefaultMinLenght int = 12
 const DefaultMaxLenght int = 20
-const VersionString string = "0.3.1"
+const VersionString string = "0.3.2"
 
 type Config struct {
 	minPassLen    int
