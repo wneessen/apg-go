@@ -24,7 +24,7 @@ func checkHibp(p string) (bool, error) {
 	defer func() {
 		err := httpRes.Body.Close()
 		if err != nil {
-			log.Printf("error while closing HTTP response body: %v", err)
+			log.Printf("error while closing HTTP response body: %v\n", err)
 		}
 	}()
 
