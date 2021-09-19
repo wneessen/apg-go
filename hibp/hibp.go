@@ -1,4 +1,4 @@
-package main
+package hibp
 
 import (
 	"bufio"
@@ -10,7 +10,8 @@ import (
 	"time"
 )
 
-func checkHibp(p string) (bool, error) {
+// Check queries the HIBP database and checks if a given string is was found
+func Check(p string) (bool, error) {
 	shaSum := fmt.Sprintf("%x", sha1.Sum([]byte(p)))
 	firstPart := shaSum[0:5]
 	secondPart := shaSum[5:]

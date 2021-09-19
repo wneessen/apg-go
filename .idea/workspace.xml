@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AutoImportSettings">
-    <option name="autoReloadType" value="SELECTIVE" />
+    <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fbb0c733-4aa1-4d27-87d5-c7276d8aa613" name="Default Changelist" comment="For some reason, the tests on GH fail">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apg_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/apg_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apg.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apg_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/chars.go" beforeDir="false" afterPath="$PROJECT_DIR$/chars/chars.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/convert.go" beforeDir="false" afterPath="$PROJECT_DIR$/spelling/spelling.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibp.go" beforeDir="false" afterPath="$PROJECT_DIR$/hibp/hibp.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rand.go" beforeDir="false" afterPath="$PROJECT_DIR$/random/random.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,7 +27,7 @@
       </list>
     </option>
   </component>
-  <component name="GOROOT" url="file://$PROJECT_DIR$/../../go1.16.2" />
+  <component name="GOROOT" url="file://$PROJECT_DIR$/../../go1.17.1" />
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
@@ -57,26 +62,30 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="configurable..is.expanded" value="false" />
     <property name="configurable.GoLibrariesConfigurable.is.expanded" value="true" />
+    <property name="go.formatter.settings.were.checked" value="true" />
     <property name="go.import.settings.migrated" value="true" />
+    <property name="go.modules.go.list.on.any.changes.was.set" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="inlay.hints.go" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Winni Neessen\go\src\apg.go\chars" />
-      <recent name="C:\Users\Winni Neessen\go\src\apg.go\lib" />
-      <recent name="C:\Users\Winni Neessen\go\src\apg.go\test" />
+      <recent name="$PROJECT_DIR$/chars" />
+      <recent name="$PROJECT_DIR$/hibp" />
+      <recent name="$PROJECT_DIR$/spelling" />
+      <recent name="$PROJECT_DIR$/config" />
+      <recent name="$PROJECT_DIR$/random" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Build.Run Application (with newstyle params)">
+  <component name="RunManager" selected="Go Test.Benchmark Application">
     <configuration name="Run Application (show help text)" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="apg.go" />
       <working_directory value="$PROJECT_DIR$" />
       <parameters value="-h" />
       <kind value="PACKAGE" />
-      <package value="github.com/wneessen/apg-go" />
+      <package value="github.com/wneessen/apg-go/cmd/apg" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <method v="2" />
@@ -86,7 +95,7 @@
       <working_directory value="$PROJECT_DIR$" />
       <parameters value="-v" />
       <kind value="PACKAGE" />
-      <package value="github.com/wneessen/apg-go" />
+      <package value="github.com/wneessen/apg-go/cmd/apg" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <method v="2" />
@@ -96,7 +105,7 @@
       <working_directory value="$PROJECT_DIR$" />
       <parameters value="-m 20 -x 20 -C -E abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!]" />
       <kind value="PACKAGE" />
-      <package value="github.com/wneessen/apg-go" />
+      <package value="github.com/wneessen/apg-go/cmd/apg" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <method v="2" />
@@ -106,7 +115,7 @@
       <working_directory value="$PROJECT_DIR$" />
       <parameters value="-m 10 -x 10 -M SLNU -l -n 6" />
       <kind value="PACKAGE" />
-      <package value="github.com/wneessen/apg-go" />
+      <package value="github.com/wneessen/apg-go/cmd/apg" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <method v="2" />
@@ -116,7 +125,7 @@
       <working_directory value="$PROJECT_DIR$" />
       <parameters value="-m 10 -x 10 -M SLNU -l" />
       <kind value="PACKAGE" />
-      <package value="github.com/wneessen/apg-go" />
+      <package value="github.com/wneessen/apg-go/cmd/apg" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <method v="2" />
@@ -126,7 +135,7 @@
       <working_directory value="$PROJECT_DIR$" />
       <parameters value="-M slNU" />
       <kind value="PACKAGE" />
-      <package value="github.com/wneessen/apg-go" />
+      <package value="github.com/wneessen/apg-go/cmd/apg" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <method v="2" />
@@ -136,7 +145,7 @@
       <working_directory value="$PROJECT_DIR$" />
       <parameters value="-m 20 -x 20 -C" />
       <kind value="PACKAGE" />
-      <package value="github.com/wneessen/apg-go" />
+      <package value="github.com/wneessen/apg-go/cmd/apg" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <method v="2" />
@@ -145,7 +154,17 @@
       <module name="apg.go" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="github.com/wneessen/apg-go" />
+      <package value="github.com/wneessen/apg-go/cmd/apg" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="apg.go" />
+      <working_directory value="$PROJECT_DIR$" />
+      <go_parameters value="-i" />
+      <kind value="PACKAGE" />
+      <package value="apg-go" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <method v="2" />
@@ -154,7 +173,7 @@
       <module name="apg.go" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="github.com/wneessen/apg-go" />
+      <package value="github.com/wneessen/apg-go/cmd/apg" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gobench" />
@@ -164,7 +183,18 @@
       <module name="apg.go" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="github.com/wneessen/apg-go" />
+      <package value="github.com/wneessen/apg-go/cmd/apg" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
+      <module name="apg.go" />
+      <working_directory value="$PROJECT_DIR$" />
+      <go_parameters value="-i" />
+      <kind value="DIRECTORY" />
+      <package value="apg-go" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
@@ -239,8 +269,8 @@
     <integration-enabled>true</integration-enabled>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/apg_go$Test_Application.out" NAME="Test Application Coverage Results" MODIFIED="1616765230426" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/apg_go$TestGetRandNum_in_github_com_wneessen_apg_go__1_.out" NAME="TestGetRandNum in github.com/wneessen/apg.go (1) Coverage Results" MODIFIED="1616594443133" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/apg_go$BenchmarkGetRandNum_in_apg_go.out" NAME="BenchmarkGetRandNum in apg.go Coverage Results" MODIFIED="1616342745320" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/apg_go$Test_Application.out" NAME="Test Application Coverage Results" MODIFIED="1616765230426" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
