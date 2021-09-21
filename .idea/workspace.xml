@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fbb0c733-4aa1-4d27-87d5-c7276d8aa613" name="Default Changelist" comment="v0.3.3: Separated HIBP code into its own module">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="fbb0c733-4aa1-4d27-87d5-c7276d8aa613" name="Default Changelist" comment="Updated WS" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -270,7 +268,8 @@
     <MESSAGE value="Major refactor so that cmd and lib are separated" />
     <MESSAGE value="Updated build files for Arch and OpenBSD" />
     <MESSAGE value="v0.3.3: Separated HIBP code into its own module" />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.3.3: Separated HIBP code into its own module" />
+    <MESSAGE value="Updated WS" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated WS" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
