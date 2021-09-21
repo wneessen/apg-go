@@ -10,6 +10,7 @@ import (
 	hibp "github.com/wneessen/go-hibp"
 	"log"
 	"os"
+	"time"
 )
 
 const VersionString string = "0.3.3"
@@ -84,11 +85,12 @@ func main() {
 		}
 
 		if cfgObj.CheckHibp {
-			isPwned, err := hibp.Check(pwString)
+			hc := hibp.New(hibp.WithHttpTimeout(time.Second * 2))
+			pwnObj, _, err := hc.PwnedPassword.CheckPassword(pwString)
 			if err != nil {
 				log.Printf("unable to check HIBP database: %v", err)
 			}
-			if isPwned {
+			if pwnObj != nil && pwnObj.Count != 0 {
 				fmt.Print("^-- !!WARNING: The previously generated password was found in HIPB database. Do not use it!!\n")
 			}
 		}
