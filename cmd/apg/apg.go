@@ -7,7 +7,7 @@ import (
 	"github.com/wneessen/apg-go/config"
 	"github.com/wneessen/apg-go/random"
 	"github.com/wneessen/apg-go/spelling"
-	hibp "github.com/wneessen/go-hibp"
+	"github.com/wneessen/go-hibp"
 	"log"
 	"os"
 	"time"
@@ -86,7 +86,7 @@ func main() {
 
 		if cfgObj.CheckHibp {
 			hc := hibp.New(hibp.WithHttpTimeout(time.Second * 2))
-			pwnObj, _, err := hc.PwnedPassword.CheckPassword(pwString)
+			pwnObj, _, err := hc.PwnedPassApi.CheckPassword(pwString)
 			if err != nil {
 				log.Printf("unable to check HIBP database: %v", err)
 			}
