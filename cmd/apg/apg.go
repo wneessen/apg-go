@@ -13,7 +13,7 @@ import (
 	"time"
 )
 
-const VersionString string = "0.3.3"
+const VersionString string = "0.4.0-dev"
 
 // Help text
 const usage = `apg-go // A "Automated Password Generator"-clone
@@ -64,7 +64,7 @@ func main() {
 		pwLength := config.GetPwLengthFromParams(&cfgObj)
 		pwString, err := random.GetChar(&charRange, pwLength)
 		if err != nil {
-			log.Fatalf("getRandChar returned an error: %q\n", err)
+			log.Fatalf("error generating random character range: %s\n", err)
 		}
 
 		switch cfgObj.OutputMode {
@@ -72,7 +72,7 @@ func main() {
 			{
 				spelledPw, err := spelling.String(pwString)
 				if err != nil {
-					log.Fatalf("spellPasswordString returned an error: %q\n", err.Error())
+					log.Fatalf("error spelling out password: %s\n", err)
 				}
 				fmt.Printf("%v (%v)\n", pwString, spelledPw)
 				break
@@ -85,7 +85,7 @@ func main() {
 		}
 
 		if cfgObj.CheckHibp {
-			hc := hibp.New(hibp.WithHttpTimeout(time.Second * 2))
+			hc := hibp.New(hibp.WithHttpTimeout(time.Second*2), hibp.WithPwnedPadding())
 			pwnObj, _, err := hc.PwnedPassApi.CheckPassword(pwString)
 			if err != nil {
 				log.Printf("unable to check HIBP database: %v", err)
