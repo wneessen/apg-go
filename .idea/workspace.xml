@@ -4,13 +4,8 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e32960c0-29e5-4669-9fc2-ef12314486ce" name="Changes" comment="IDE settings...">
-      <change afterPath="$PROJECT_DIR$/chars/koremutake.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="e32960c0-29e5-4669-9fc2-ef12314486ce" name="Changes" comment="Added pronounceable passwords #27">
       <change beforePath="$PROJECT_DIR$/cmd/apg/apg.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/apg/apg.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/random/random.go" beforeDir="false" afterPath="$PROJECT_DIR$/random/random.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spelling/spelling.go" beforeDir="false" afterPath="$PROJECT_DIR$/spelling/spelling.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +81,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="IDE settings..." />
-    <option name="LAST_COMMIT_MESSAGE" value="IDE settings..." />
+    <MESSAGE value="Added pronounceable passwords #27" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added pronounceable passwords #27" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

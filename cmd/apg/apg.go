@@ -117,7 +117,6 @@ func main() {
 				log.Fatalf("error spelling out password: %s\n", err)
 			}
 			fmt.Printf("%v (%v)\n", p, spelledPw)
-			break
 		case 2:
 			fmt.Printf("%s", p)
 			if cfgObj.SpellPron {
@@ -130,7 +129,6 @@ func main() {
 			fmt.Println()
 		default:
 			fmt.Println(p)
-			break
 		}
 
 		if cfgObj.CheckHibp {
