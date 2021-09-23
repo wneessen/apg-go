@@ -14,6 +14,7 @@ import (
 	"time"
 )
 
+// VersionString represents the current version of the apg-go CLI
 const VersionString string = "0.4.0-dev"
 
 // Help text

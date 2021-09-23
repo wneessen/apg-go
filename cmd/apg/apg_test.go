@@ -10,7 +10,7 @@ import (
 
 var cfgObj config.Config
 
-// Make sure the flags are initalized
+// Make sure the flags are initialized
 var _ = func() bool {
 	testing.Init()
 	cfgObj = config.New()

@@ -5,7 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e32960c0-29e5-4669-9fc2-ef12314486ce" name="Changes" comment="Added pronounceable passwords #27">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chars/chars.go" beforeDir="false" afterPath="$PROJECT_DIR$/chars/chars.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chars/koremutake.go" beforeDir="false" afterPath="$PROJECT_DIR$/chars/koremutake.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmd/apg/apg.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/apg/apg.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/apg/apg_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/apg/apg_test.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +53,7 @@
     <property name="go.modules.go.list.on.any.changes.was.set" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="last_opened_file_path" value="$USER_HOME$" />
-    <property name="settings.editor.selected.configurable" value="go.vgo" />
+    <property name="settings.editor.selected.configurable" value="go.sdk" />
   </component>
   <component name="RunManager">
     <configuration name="Test Application" type="GoTestRunConfiguration" factoryName="Go Test">

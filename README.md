@@ -8,8 +8,8 @@ which hasn't been maintained since 2003. Since more and more Unix distributions 
 looking for an alternative. FreeBSD for example recommends "security/makepasswd", which is written in Perl
 but requires a lot of dependency packages and doesn't offer the feature-set/flexibility of APG.
 
-Since FIPS-181 (pronouncable passwords) has been withdrawn in 2015, I didn't see any use in replicating that
-feature. Therfore apg-go does not support pronouncable passwords.
+Since FIPS-181 (pronouncable passwords) has been withdrawn in 2015, apg-go does not follow this standard. Instead
+it implements the [Koremutake Syllables System](https://shorl.com/koremutake.php) in its pronouncable password mode.
 
 ## Installation
 ### Ports/Packages
@@ -173,6 +173,38 @@ the phonetic alphabet. By setting the `-l` parameter, agp-go will provide you wi
 ```shell
 $ ./apg-go -n 1 -M LUSN -H -E : -l
 fUTDKeFsU+zn3r= (foxtrot/Uniform/Tango/Delta/Kilo/echo/Foxtrot/sierra/Uniform/PLUS_SIGN/zulu/november/THREE/romeo/EQUAL_SIGN)
+```
+
+### Pronouncable passwords
+Since v0.4.0 apg-go supports pronouncable passwords, anologous to the original c-apg using the `-a 0`
+flag. The original c-apg implemented FIPS-181, which was withdrawn in 2015 for generating pronouncable
+passwords. Since the standard is not recommended anymore, `apg-go` instead make use of the
+[Koremutake Syllables System](https://shorl.com/koremutake.php). Similar to the original apg, `agp-go`
+will automatically randomly add special characters and number (from the human-readable pool) to each
+generated pronouncable password. Additionally it will perform a "coinflip" for each Koremutake syllable
+and decided if it should switch the case of one of the characters to an upper-case character.
+
+Using the `-t` parameter, `apg-go` will display a spelled out version of the pronouncable password, where
+each syllable or number/special character is seperated with a "-" (dash) and if the syllable is not a
+Koremutake syllable the character will be spelled out the same was as with activated `-l` in the
+non-pronouncable password mode (`-a 1`).
+
+**Note on password length**: The `-m` and `-x` parameters will work in prouncable password mode, but
+please keep in mind, that due to the nature how syllables work, your generated password might exceed 
+the desired length by one complete (which can be up to 3 characters long).
+
+**Security consideration:** Please keep in mind, that pronouncable passwords are less secure then truly
+randomly created passwords, due to the nature how syllables work. As a rule of thumb, it is recommended
+to multiply the length of your generated pronouncable passwords by at least 1.5 times, compared to truly
+randomly generated passwords. It might also be helpful to run the pronoucable password mode with enabled
+"HIBP" flag, so that each generated password is automatically checked against "Have I Been Pwned" 
+database.
+```shell
+$ ./apg-go -a 0 -n 1
+KebrutinernMy
+
+$ ./apg-go -a 0 -n 1 -m 15 -x 15 -t
+pEnbocydrageT*En (pEn-bo-cy-dra-geT-ASTERISK-En)
 ```
 
 ### Have I Been Pwned

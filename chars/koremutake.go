@@ -1,6 +1,6 @@
 package chars
 
-// KoremutakeSyllables is a slightly modified Koremutake syllabels list based on
+// KoremutakeSyllables is a slightly modified Koremutake syllables list based on
 // the mechanism described on https://shorl.com/koremutake.php
 var KoremutakeSyllables = []string{"ba", "be", "bi", "bo", "bu", "by", "da", "de", "di",
 	"do", "du", "dy", "fe", "fi", "fo", "fu", "fy", "ga", "ge", "gi", "go", "gu",
