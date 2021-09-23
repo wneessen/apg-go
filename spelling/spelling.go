@@ -2,6 +2,7 @@ package spelling
 
 import (
 	"fmt"
+	"github.com/wneessen/apg-go/chars"
 	"strings"
 )
 
@@ -91,6 +92,32 @@ func String(pwString string) (string, error) {
 		returnString = append(returnString, curSpellString)
 	}
 	return strings.Join(returnString, "/"), nil
+}
+
+// Koremutake returns the spelling of the Koremutake password with numbers and special
+// chars spelled out in english language
+func Koremutake(sylList []string) (string, error) {
+	var returnString []string
+	for _, curSyl := range sylList {
+		isKore := false
+		for _, x := range chars.KoremutakeSyllables {
+			if x == strings.ToLower(curSyl) {
+				isKore = true
+			}
+		}
+
+		if isKore {
+			returnString = append(returnString, curSyl)
+			continue
+		}
+
+		curSpellString, err := ConvertCharToName(curSyl[0])
+		if err != nil {
+			return "", err
+		}
+		returnString = append(returnString, curSpellString)
+	}
+	return strings.Join(returnString, "-"), nil
 }
 
 // ConvertCharToName converts a given ascii byte into the corresponding english spelled
