@@ -24,4 +24,5 @@ jobs:
           extra_files: LICENSE README.md
           sha256sum: true
           md5sum: false
-          build_command: 'go build github.com/wneessen/apg-go/cmd/apg'
+          ldflags: '-s -w'
+          project_path: ./cmd/apg/
