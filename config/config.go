@@ -9,22 +9,24 @@ import (
 // Config is a struct that holds the different config parameters for the apg-go
 // application
 type Config struct {
-	MinPassLen    int
-	MaxPassLen    int
-	NumOfPass     int
-	UseComplex    bool
-	UseLowerCase  bool
-	UseUpperCase  bool
-	UseNumber     bool
-	UseSpecial    bool
-	HumanReadable bool
-	CheckHibp     bool
-	ExcludeChars  string
-	NewStyleModes string
-	SpellPassword bool
-	ShowHelp      bool
-	ShowVersion   bool
-	OutputMode    int
+	MinPassLen    int    // Minimum password length
+	MaxPassLen    int    // Maximum password length
+	NumOfPass     int    // Number of passwords to be generated
+	UseComplex    bool   // Force complex password generation (implies all other Use* Options to be true)
+	UseLowerCase  bool   // Allow lower-case chars in passwords
+	UseUpperCase  bool   // Allow upper-case chars in password
+	UseNumber     bool   // Allow numbers in passwords
+	UseSpecial    bool   // Allow special chars in passwords
+	HumanReadable bool   // Generated passwords use the "human readable" character set
+	CheckHibp     bool   // Check generated are validated against the HIBP API for possible leaks
+	ExcludeChars  string // List of characters to be excluded from the PW generation charset
+	NewStyleModes string // Use the "new style" parameters instead of the single params
+	SpellPassword bool   // Spell out passwords in the output
+	ShowHelp      bool   // Display the help message in the CLI
+	ShowVersion   bool   // Display the version string in the CLI
+	OutputMode    int    // Interal parameter to control the output mode of the CLI
+	PwAlgo        int    // PW generation algorithm to use (0: random PW based on flags, 1: pronouncable)
+	SpellPron     bool   // Spell out the pronouncable password
 }
 
 // DefaultMinLength reflects the default minimum length of a generated password
@@ -32,6 +34,9 @@ const DefaultMinLength int = 12
 
 // DefaultMaxLength reflects the default maximum length of a generated password
 const DefaultMaxLength int = 20
+
+// DefaultPwAlgo reflects the default password generation algorithm
+const DefaultPwAlgo int = 1
 
 // New parses the CLI flags and returns a new config object
 func New() Config {
@@ -69,6 +74,8 @@ func New() Config {
 	flag.StringVar(&config.ExcludeChars, "E", "", "Exclude list of characters from generated password")
 	flag.StringVar(&config.NewStyleModes, "M", "",
 		"New style password parameters (higher priority than single parameters)")
+	flag.IntVar(&config.PwAlgo, "a", DefaultPwAlgo, "Password generation algorithm")
+	flag.BoolVar(&config.SpellPron, "t", false, "In pronouncable password mode, spell out the password")
 	flag.Parse()
 
 	// Invert-switch the defaults
@@ -118,8 +125,14 @@ func parseParams(config *Config) {
 	}
 
 	// Set output mode
-	if config.SpellPassword {
-		config.OutputMode = 1
+	switch config.PwAlgo {
+	case 0:
+		config.OutputMode = 2
+	default:
+		config.OutputMode = 0
+		if config.SpellPassword {
+			config.OutputMode = 1
+		}
 	}
 }
 

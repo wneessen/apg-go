@@ -10,6 +10,7 @@ import (
 	"github.com/wneessen/go-hibp"
 	"log"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -23,6 +24,9 @@ apg [-m <length>] [-x <length>] [-L] [-U] [-N] [-S] [-H] [-C]
     [-l] [-M mode] [-E char_string] [-n num_of_pass] [-v] [-h]
 
 Options:
+    -a ALGORITH          Choose the password generation algorithm (Default: 1)
+                            - 0: pronounceable password generation (koremutake syllables)
+                            - 1: random password generation according to password modes/flags
     -m LENGTH            Minimum length of the password to be generated (Default: 12)
     -x LENGTH            Maximum length of the password to be generated (Default: 20)
     -n NUMBER            Amount of password to be generated (Default: 6)
@@ -36,7 +40,7 @@ Options:
     -C                   Enable complex password mode (implies -L -U -N -S and disables -H) (Default: off)
     -l                   Spell generated passwords in phonetic alphabet (Default: off)
     -p                   Check the HIBP database if the generated passwords was found in a leak before (Default: off)
-                         '--> this feature requires internet connectivity 
+                            - Note: this feature requires internet connectivity
     -h                   Show this help text
     -v                   Show version string`
 
@@ -56,37 +60,82 @@ func main() {
 		os.Exit(0)
 	}
 
-	// Set PW length and available characterset
-	charRange := chars.GetRange(&cfgObj)
+	pwList := make([]string, 0)
+	sylList := map[string][]string{}
 
-	// Generate passwords
-	for i := 1; i <= cfgObj.NumOfPass; i++ {
+	// Choose the type of password generation based on the selected algo
+	for i := 0; i < cfgObj.NumOfPass; i++ {
 		pwLength := config.GetPwLengthFromParams(&cfgObj)
-		pwString, err := random.GetChar(&charRange, pwLength)
-		if err != nil {
-			log.Fatalf("error generating random character range: %s\n", err)
-		}
 
+		switch cfgObj.PwAlgo {
+		case 0:
+			pwString := ""
+			pwSyls := make([]string, 0)
+
+			charSylSet := chars.KoremutakeSyllables
+			charSylSet = append(charSylSet,
+				strings.Split(chars.PwNumbersHuman, "")...)
+			charSylSet = append(charSylSet,
+				strings.Split(chars.PwSpecialCharsHuman, "")...)
+			charSylSetLen := len(charSylSet)
+			for len(pwString) < pwLength {
+				randNum, err := random.GetNum(charSylSetLen)
+				if err != nil {
+					log.Fatalf("error generating Koremutake syllable: %s", err)
+				}
+				nextSyl := charSylSet[randNum]
+				if random.CoinFlip() {
+					sylLen := len(nextSyl)
+					charPos, err := random.GetNum(sylLen)
+					if err != nil {
+						log.Fatalf("error generating random number: %s", err)
+					}
+					ucChar := string(nextSyl[charPos])
+					nextSyl = strings.ReplaceAll(nextSyl, ucChar, strings.ToUpper(ucChar))
+				}
+
+				pwString += nextSyl
+				pwSyls = append(pwSyls, nextSyl)
+			}
+			pwList = append(pwList, pwString)
+			sylList[pwString] = pwSyls
+		default:
+			charRange := chars.GetRange(&cfgObj)
+			pwString, err := random.GetChar(&charRange, pwLength)
+			if err != nil {
+				log.Fatalf("error generating random character range: %s\n", err)
+			}
+			pwList = append(pwList, pwString)
+		}
+	}
+
+	for _, p := range pwList {
 		switch cfgObj.OutputMode {
 		case 1:
-			{
-				spelledPw, err := spelling.String(pwString)
+			spelledPw, err := spelling.String(p)
+			if err != nil {
+				log.Fatalf("error spelling out password: %s\n", err)
+			}
+			fmt.Printf("%v (%v)\n", p, spelledPw)
+			break
+		case 2:
+			fmt.Printf("%s", p)
+			if cfgObj.SpellPron {
+				spelledPw, err := spelling.Koremutake(sylList[p])
 				if err != nil {
-					log.Fatalf("error spelling out password: %s\n", err)
+					log.Fatalf("error spelling out password: %s", err)
 				}
-				fmt.Printf("%v (%v)\n", pwString, spelledPw)
-				break
+				fmt.Printf(" (%s)", spelledPw)
 			}
+			fmt.Println()
 		default:
-			{
-				fmt.Println(pwString)
-				break
-			}
+			fmt.Println(p)
+			break
 		}
 
 		if cfgObj.CheckHibp {
 			hc := hibp.New(hibp.WithHttpTimeout(time.Second*2), hibp.WithPwnedPadding())
-			pwnObj, _, err := hc.PwnedPassApi.CheckPassword(pwString)
+			pwnObj, _, err := hc.PwnedPassApi.CheckPassword(p)
 			if err != nil {
 				log.Printf("unable to check HIBP database: %v", err)
 			}

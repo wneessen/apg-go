@@ -48,3 +48,11 @@ func GetNum(maxNum int) (int, error) {
 	}
 	return randNum, nil
 }
+
+// CoinFlip performs a simple coinflip based on the rand library and returns true or false
+func CoinFlip() bool {
+	num := big.NewInt(2)
+	cf, _ := rand.Int(rand.Reader, num)
+	r := int(cf.Int64())
+	return r == 1
+}
