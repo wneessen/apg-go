@@ -88,6 +88,14 @@ It is recommed to install apg in a directory of your ```$PATH``` environment. To
 ```sh
 $ sudo cp apg /usr/local/bin/apg
 ```
+
+## Programmatic interface
+Since v0.4.0 the CLI and the main package functionality have been separated from each other, which makes
+it easier to use the `apg-go` package in other Go code as well. This way you can make of the password
+generation in your own code without having to rely on the actual apg-go binary.
+
+Code examples on how to use the package can be found in the [example-code](example-code) directory.
+
 ## Usage examples
 ### Default behaviour
 By default apg-go will generate 6 passwords, with a minimum length of 12 characters and a 
