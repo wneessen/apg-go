@@ -1,4 +1,4 @@
-package main
+package random
 
 import (
 	"crypto/rand"
@@ -6,9 +6,9 @@ import (
 	"math/big"
 )
 
-// Generate random characters based on given character range
+// GetChar generates random characters based on given character range
 // and password length
-func getRandChar(charRange *string, pwLength int) (string, error) {
+func GetChar(charRange *string, pwLength int) (string, error) {
 	if pwLength <= 0 {
 		err := fmt.Errorf("provided pwLength value is <= 0: %v", pwLength)
 		return "", err
@@ -17,7 +17,7 @@ func getRandChar(charRange *string, pwLength int) (string, error) {
 	charSlice := []byte(*charRange)
 	returnString := make([]byte, pwLength)
 	for i := 0; i < pwLength; i++ {
-		randNum, err := getRandNum(availCharsLength)
+		randNum, err := GetNum(availCharsLength)
 		if err != nil {
 			return "", err
 		}
@@ -26,8 +26,8 @@ func getRandChar(charRange *string, pwLength int) (string, error) {
 	return string(returnString), nil
 }
 
-// Generate a random number with given maximum value
-func getRandNum(maxNum int) (int, error) {
+// GetNum generates a random number with given maximum value
+func GetNum(maxNum int) (int, error) {
 	if maxNum <= 0 {
 		err := fmt.Errorf("provided maxNum is <= 0: %v", maxNum)
 		return 0, err

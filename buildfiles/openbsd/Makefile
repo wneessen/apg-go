@@ -16,6 +16,6 @@ PERMIT_PACKAGE =        Yes
 MODULES =               lang/go
 MODGO_TYPE =            bin
 
-ALL_TARGET =            wneessen/apg-go
+ALL_TARGET =            wneessen/apg-go/cmd/apg
 
 .include <bsd.port.mk>

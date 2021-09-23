@@ -3,33 +3,17 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/wneessen/apg-go/chars"
+	"github.com/wneessen/apg-go/config"
+	"github.com/wneessen/apg-go/random"
+	"github.com/wneessen/apg-go/spelling"
+	"github.com/wneessen/go-hibp"
 	"log"
 	"os"
+	"time"
 )
 
-// Constants
-const DefaultMinLenght int = 12
-const DefaultMaxLenght int = 20
-const VersionString string = "0.3.2"
-
-type Config struct {
-	minPassLen    int
-	maxPassLen    int
-	numOfPass     int
-	useComplex    bool
-	useLowerCase  bool
-	useUpperCase  bool
-	useNumber     bool
-	useSpecial    bool
-	humanReadable bool
-	checkHibp     bool
-	excludeChars  string
-	newStyleModes string
-	spellPassword bool
-	ShowHelp      bool
-	showVersion   bool
-	outputMode    int
-}
+const VersionString string = "0.4.0-dev"
 
 // Help text
 const usage = `apg-go // A "Automated Password Generator"-clone
@@ -58,37 +42,37 @@ Options:
 
 // Main function that generated the passwords and returns them
 func main() {
-	// Log config
+	// Log configuration
 	log.SetFlags(log.Ltime | log.Ldate | log.Lshortfile)
 
 	// Read and parse flags
 	flag.Usage = func() { _, _ = fmt.Fprintf(os.Stderr, "%s\n", usage) }
-	var config = parseFlags()
+	var cfgObj = config.New()
 
 	// Show version and exit
-	if config.showVersion {
+	if cfgObj.ShowVersion {
 		_, _ = os.Stderr.WriteString(`apg-go // A "Automated Password Generator"-clone v` + VersionString + "\n")
 		_, _ = os.Stderr.WriteString("(C) 2021 by Winni Neessen\n")
 		os.Exit(0)
 	}
 
 	// Set PW length and available characterset
-	charRange := getCharRange(&config)
+	charRange := chars.GetRange(&cfgObj)
 
 	// Generate passwords
-	for i := 1; i <= config.numOfPass; i++ {
-		pwLength := getPwLengthFromParams(&config)
-		pwString, err := getRandChar(&charRange, pwLength)
+	for i := 1; i <= cfgObj.NumOfPass; i++ {
+		pwLength := config.GetPwLengthFromParams(&cfgObj)
+		pwString, err := random.GetChar(&charRange, pwLength)
 		if err != nil {
-			log.Fatalf("getRandChar returned an error: %q\n", err)
+			log.Fatalf("error generating random character range: %s\n", err)
 		}
 
-		switch config.outputMode {
+		switch cfgObj.OutputMode {
 		case 1:
 			{
-				spelledPw, err := spellPasswordString(pwString)
+				spelledPw, err := spelling.String(pwString)
 				if err != nil {
-					log.Fatalf("spellPasswordString returned an error: %q\n", err.Error())
+					log.Fatalf("error spelling out password: %s\n", err)
 				}
 				fmt.Printf("%v (%v)\n", pwString, spelledPw)
 				break
@@ -100,12 +84,13 @@ func main() {
 			}
 		}
 
-		if config.checkHibp {
-			isPwned, err := checkHibp(pwString)
+		if cfgObj.CheckHibp {
+			hc := hibp.New(hibp.WithHttpTimeout(time.Second*2), hibp.WithPwnedPadding())
+			pwnObj, _, err := hc.PwnedPassApi.CheckPassword(pwString)
 			if err != nil {
 				log.Printf("unable to check HIBP database: %v", err)
 			}
-			if isPwned {
+			if pwnObj != nil && pwnObj.Count != 0 {
 				fmt.Print("^-- !!WARNING: The previously generated password was found in HIPB database. Do not use it!!\n")
 			}
 		}

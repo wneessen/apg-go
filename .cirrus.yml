@@ -1,0 +1,23 @@
+container:
+  image: golang:latest
+
+env:
+  GOPROXY: https://proxy.golang.org
+
+lint_task:
+  name: GolangCI Lint
+  container:
+    image: golangci/golangci-lint:latest
+  run_script: golangci-lint run -v --timeout 5m0s --out-format json > lint-report.json
+  always:
+    golangci_artifacts:
+      path: lint-report.json
+      type: text/json
+      format: golangci
+
+build_task:
+  modules_cache:
+    folder: $GOPATH/pkg/mod
+  get_script: go get github.com/wneessen/apg-go/cmd/apg
+  build_script: go build github.com/wneessen/apg-go/cmd/apg
+  test_script: go test github.com/wneessen/apg-go/cmd/apg

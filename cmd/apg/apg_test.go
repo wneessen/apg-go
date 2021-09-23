@@ -1,15 +1,19 @@
 package main
 
 import (
+	"github.com/wneessen/apg-go/chars"
+	"github.com/wneessen/apg-go/config"
+	"github.com/wneessen/apg-go/random"
+	"github.com/wneessen/apg-go/spelling"
 	"testing"
 )
 
-var config Config
+var cfgObj config.Config
 
 // Make sure the flags are initalized
 var _ = func() bool {
 	testing.Init()
-	config = parseFlags()
+	cfgObj = config.New()
 	return true
 }()
 
@@ -30,7 +34,7 @@ func TestGetRandNum(t *testing.T) {
 
 	for _, testCase := range testTable {
 		t.Run(testCase.testName, func(t *testing.T) {
-			randNum, err := getRandNum(testCase.givenVal)
+			randNum, err := random.GetNum(testCase.givenVal)
 			if testCase.shouldFail {
 				if err == nil {
 					t.Errorf("Random number generation succeeded but was expected to fail. Given: %v, returned: %v",
@@ -60,20 +64,20 @@ func TestGenLength(t *testing.T) {
 		minLength int
 		maxLength int
 	}{
-		{"pwLength defaults", DefaultMinLenght, DefaultMaxLenght},
+		{"pwLength defaults", config.DefaultMinLength, config.DefaultMaxLength},
 		{"pwLength 0 to 1", 0, 1},
 		{"pwLength 1 to 10", 0, 10},
 		{"pwLength 10 to 100", 10, 100},
 	}
 
-	charRange := getCharRange(&config)
+	charRange := chars.GetRange(&cfgObj)
 	for _, testCase := range testTable {
 		t.Run(testCase.testName, func(t *testing.T) {
-			config.minPassLen = testCase.minLength
-			config.maxPassLen = testCase.maxLength
-			pwLength := getPwLengthFromParams(&config)
+			cfgObj.MinPassLen = testCase.minLength
+			cfgObj.MaxPassLen = testCase.maxLength
+			pwLength := config.GetPwLengthFromParams(&cfgObj)
 			for i := 0; i < 1000; i++ {
-				pwString, err := getRandChar(&charRange, pwLength)
+				pwString, err := random.GetChar(&charRange, pwLength)
 				if err != nil {
 					t.Errorf("getRandChar returned an error: %q", err)
 				}
@@ -95,7 +99,7 @@ func TestGenLength(t *testing.T) {
 func TestGetRandChar(t *testing.T) {
 	t.Run("return_value_is_A_B_or_C", func(t *testing.T) {
 		charRange := "ABC"
-		randChar, err := getRandChar(&charRange, 1)
+		randChar, err := random.GetChar(&charRange, 1)
 		if err != nil {
 			t.Fatalf("Random character generation failed => %v", err.Error())
 		}
@@ -106,7 +110,7 @@ func TestGetRandChar(t *testing.T) {
 
 	t.Run("return_value_has_specific_length", func(t *testing.T) {
 		charRange := "ABC"
-		randChar, err := getRandChar(&charRange, 1000)
+		randChar, err := random.GetChar(&charRange, 1000)
 		if err != nil {
 			t.Fatalf("Random character generation failed => %v", err.Error())
 		}
@@ -118,7 +122,7 @@ func TestGetRandChar(t *testing.T) {
 
 	t.Run("fail", func(t *testing.T) {
 		charRange := "ABC"
-		randChar, err := getRandChar(&charRange, -2000)
+		randChar, err := random.GetChar(&charRange, -2000)
 		if err == nil {
 			t.Fatalf("Generated random characters expected to fail, but returned a value => %v",
 				randChar)
@@ -126,7 +130,7 @@ func TestGetRandChar(t *testing.T) {
 	})
 }
 
-// Test getCharRange() with different config settings
+// Test getCharRange() with different cfgObj settings
 func TestGetCharRange(t *testing.T) {
 	lowerCaseBytes := []int{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
 		's', 't', 'u', 'v', 'w', 'x', 'y', 'z'}
@@ -162,12 +166,12 @@ func TestGetCharRange(t *testing.T) {
 
 	for _, testCase := range testTable {
 		t.Run(testCase.testName, func(t *testing.T) {
-			config.useLowerCase = testCase.useLowerCase
-			config.useUpperCase = testCase.useUpperCase
-			config.useNumber = testCase.useNumber
-			config.useSpecial = testCase.useSpecial
-			config.humanReadable = testCase.humanReadable
-			charRange := getCharRange(&config)
+			cfgObj.UseLowerCase = testCase.useLowerCase
+			cfgObj.UseUpperCase = testCase.useUpperCase
+			cfgObj.UseNumber = testCase.useNumber
+			cfgObj.UseSpecial = testCase.useSpecial
+			cfgObj.HumanReadable = testCase.humanReadable
+			charRange := chars.GetRange(&cfgObj)
 			for _, curChar := range charRange {
 				searchAllowedBytes := containsByte(testCase.allowedBytes, int(curChar), t)
 				if !searchAllowedBytes {
@@ -194,7 +198,7 @@ func TestConvert(t *testing.T) {
 
 	for _, testCase := range testTable {
 		t.Run(testCase.testName, func(t *testing.T) {
-			charToString, err := convertCharToName(testCase.givenVal)
+			charToString, err := spelling.ConvertCharToName(testCase.givenVal)
 			if testCase.shouldFail {
 				if err == nil {
 					t.Errorf("Character to string conversion succeeded but was expected to fail. Given: %v, returned: %v",
@@ -213,14 +217,14 @@ func TestConvert(t *testing.T) {
 	}
 
 	t.Run("all_chars_must_return_a_conversion_string", func(t *testing.T) {
-		config.useUpperCase = true
-		config.useLowerCase = true
-		config.useNumber = true
-		config.useSpecial = true
-		config.humanReadable = false
-		charRange := getCharRange(&config)
+		cfgObj.UseUpperCase = true
+		cfgObj.UseLowerCase = true
+		cfgObj.UseNumber = true
+		cfgObj.UseSpecial = true
+		cfgObj.HumanReadable = false
+		charRange := chars.GetRange(&cfgObj)
 		for _, curChar := range charRange {
-			_, err := convertCharToName(byte(curChar))
+			_, err := spelling.ConvertCharToName(byte(curChar))
 			if err != nil {
 				t.Fatalf("Character to string conversion failed: %v", err.Error())
 			}
@@ -228,7 +232,7 @@ func TestConvert(t *testing.T) {
 	})
 	t.Run("spell_Ab!_to_strings", func(t *testing.T) {
 		pwString := "Ab!"
-		spelledString, err := spellPasswordString(pwString)
+		spelledString, err := spelling.String(pwString)
 		if err != nil {
 			t.Fatalf("password spelling failed: %v", err.Error())
 		}
@@ -243,7 +247,7 @@ func TestConvert(t *testing.T) {
 // Benchmark: Random number generation
 func BenchmarkGetRandNum(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		_, _ = getRandNum(100000)
+		_, _ = random.GetNum(100000)
 	}
 }
 
@@ -251,23 +255,23 @@ func BenchmarkGetRandNum(b *testing.B) {
 func BenchmarkGetRandChar(b *testing.B) {
 	charRange := "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890\"#/!\\$%&+-*.,?=()[]{}:;~^|"
 	for i := 0; i < b.N; i++ {
-		_, _ = getRandChar(&charRange, 20)
+		_, _ = random.GetChar(&charRange, 20)
 	}
 }
 
 // Benchmark: Random char generation
 func BenchmarkConvertChar(b *testing.B) {
 
-	config.useUpperCase = true
-	config.useLowerCase = true
-	config.useNumber = true
-	config.useSpecial = true
-	config.humanReadable = false
-	charRange := getCharRange(&config)
+	cfgObj.UseUpperCase = true
+	cfgObj.UseLowerCase = true
+	cfgObj.UseNumber = true
+	cfgObj.UseSpecial = true
+	cfgObj.HumanReadable = false
+	charRange := chars.GetRange(&cfgObj)
 	for i := 0; i < b.N; i++ {
-		charToConv, _ := getRandChar(&charRange, 1)
+		charToConv, _ := random.GetChar(&charRange, 1)
 		charBytes := []byte(charToConv)
-		_, _ = convertCharToName(charBytes[0])
+		_, _ = spelling.ConvertCharToName(charBytes[0])
 	}
 }
 

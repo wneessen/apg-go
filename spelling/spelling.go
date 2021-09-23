@@ -1,4 +1,4 @@
-package main
+package spelling
 
 import (
 	"fmt"
@@ -80,10 +80,11 @@ var (
 	}
 )
 
-func spellPasswordString(pwString string) (string, error) {
+// String returns an english spelled version of the given string
+func String(pwString string) (string, error) {
 	var returnString []string
 	for _, curChar := range pwString {
-		curSpellString, err := convertCharToName(byte(curChar))
+		curSpellString, err := ConvertCharToName(byte(curChar))
 		if err != nil {
 			return "", err
 		}
@@ -92,7 +93,9 @@ func spellPasswordString(pwString string) (string, error) {
 	return strings.Join(returnString, "/"), nil
 }
 
-func convertCharToName(charByte byte) (string, error) {
+// ConvertCharToName converts a given ascii byte into the corresponding english spelled
+// name
+func ConvertCharToName(charByte byte) (string, error) {
 	var returnString string
 	if charByte > 64 && charByte < 91 {
 		returnString = alphabetNames[charByte]
