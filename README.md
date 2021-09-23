@@ -197,7 +197,7 @@ the desired length by one complete syllable (which can be up to 3 characters lon
 randomly created passwords, due to the nature how syllables work. As a rule of thumb, it is recommended
 to multiply the length of your generated pronouncable passwords by at least 1.5 times, compared to truly
 randomly generated passwords. It might also be helpful to run the pronoucable password mode with enabled
-"HIBP" flag, so that each generated password is automatically checked against "Have I Been Pwned" 
+"[HIBP](#have-i-been-pwned)" flag, so that each generated password is automatically checked against "Have I Been Pwned" 
 database.
 ```shell
 $ ./apg-go -a 0 -n 1
@@ -222,23 +222,27 @@ connectivity, but also might take between 500ms to 1s to complete. When you gene
 of password `-n 100`, the process could take much longer than without the `-p` feature enabled.
 
 ## CLI parameters
-_apg-go_ replicates some of the parameters of the original APG. Some parameters are different though:
+_apg-go_ replicates most of the parameters of the original c-apg. Some parameters are different though:
 
-- ```-m <length>```: The minimum length of the password to be generated (Default: 12)
-- ```-x <length>```: The maximum length of the password to be generated (Default: 20)
-- ```-n <number of passwords>```: The amount of passwords to be generated (Default: 6)
-- ```-E <list of characters>```: Do not use the specified characters in generated passwords
-- ```-M <[LUNSHClunshc]>```: New style password parameters (upper-case enables, lower-case disables)
-- ```-L```: Use lower-case characters in passwords (Default: on)
-- ```-U```: Use upper-case characters in passwords (Default: on)
-- ```-N```: Use numeric characters in passwords (Default: on)
-- ```-S```: Use special characters in passwords (Default: off)
-- ```-H```: Avoid ambiguous characters in passwords (i. e.: 1, l, I, o, O, 0) (Default: off)
-- ```-C```: Generate complex passwords (implies -L -U -N -S and disables -H) (Default: off)
-- ```-l```: Spell generated passwords (Default: off)
-- ```-p```: Check the HIBP database if the generated passwords was found in a leak before (Default: off) // *this feature requires internet connectivity*
-- ```-h```: Show a CLI help text
-- ```-v```: Show the version number
+- `-a <algorithm>`: Choose password generation algorithm (Default: 1)
+  - `0`: Pronouncable password generation (Koremutake syllables)
+  - `1`: Random password generation according to password modes/flags
+- `-m <length>`: The minimum length of the password to be generated (Default: 12)
+- `-x <length>`: The maximum length of the password to be generated (Default: 20)
+- `-n <number of passwords>`: The amount of passwords to be generated (Default: 6)
+- `-E <list of characters>`: Do not use the specified characters in generated passwords
+- `-M <[LUNSHClunshc]>`: New style password parameters (upper-case enables, lower-case disables)
+- `-L`: Use lower-case characters in passwords (Default: on)
+- `-U`: Use upper-case characters in passwords (Default: on)
+- `-N`: Use numeric characters in passwords (Default: on)
+- `-S`: Use special characters in passwords (Default: off)
+- `-H`: Avoid ambiguous characters in passwords (i. e.: 1, l, I, o, O, 0) (Default: off)
+- `-C`: Generate complex passwords (implies -L -U -N -S and disables -H) (Default: off)
+- `-l`: Spell generated passwords in random password mode (Default: off)
+- `-t`: Spell generated passwords in pronouncable password mode (Default: off)
+- `-p`: Check the HIBP database if the generated passwords was found in a leak before (Default: off) // *this feature requires internet connectivity*
+- `-h`: Show a CLI help text
+- `-v`: Show the version number
 
 ## Contributors
 Thanks to the following people for contributing to the apg-go codebase:
