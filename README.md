@@ -191,7 +191,7 @@ non-pronouncable password mode (`-a 1`).
 
 **Note on password length**: The `-m` and `-x` parameters will work in prouncable password mode, but
 please keep in mind, that due to the nature how syllables work, your generated password might exceed 
-the desired length by one complete (which can be up to 3 characters long).
+the desired length by one complete syllable (which can be up to 3 characters long).
 
 **Security consideration:** Please keep in mind, that pronouncable passwords are less secure then truly
 randomly created passwords, due to the nature how syllables work. As a rule of thumb, it is recommended
