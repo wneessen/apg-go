@@ -110,10 +110,10 @@ func parseParams(config *Config) {
 		config.HumanReadable = false
 	}
 
-	if config.UseUpperCase == false &&
-		config.UseLowerCase == false &&
-		config.UseNumber == false &&
-		config.UseSpecial == false {
+	if !config.UseUpperCase &&
+		!config.UseLowerCase &&
+		!config.UseNumber &&
+		!config.UseSpecial {
 		log.Fatalf("No password mode set. Cannot generate password from empty character set.")
 	}
 
@@ -133,40 +133,28 @@ func parseNewStyleParams(config *Config) {
 		switch curParam {
 		case 'S':
 			config.UseSpecial = true
-			break
 		case 's':
 			config.UseSpecial = false
-			break
 		case 'N':
 			config.UseNumber = true
-			break
 		case 'n':
 			config.UseNumber = false
-			break
 		case 'L':
 			config.UseLowerCase = true
-			break
 		case 'l':
 			config.UseLowerCase = false
-			break
 		case 'U':
 			config.UseUpperCase = true
-			break
 		case 'u':
 			config.UseUpperCase = false
-			break
 		case 'H':
 			config.HumanReadable = true
-			break
 		case 'h':
 			config.HumanReadable = false
-			break
 		case 'C':
 			config.UseComplex = true
-			break
 		case 'c':
 			config.UseComplex = false
-			break
 		default:
 			log.Fatalf("Unknown password style parameter: %q\n", string(curParam))
 		}

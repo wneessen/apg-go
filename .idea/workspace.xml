@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4f2cb9e2-b3a4-4e84-b99e-efc626c48d46" name="Changes" comment="">
+    <list default="true" id="e32960c0-29e5-4669-9fc2-ef12314486ce" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/apg-go.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/apg-go.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/apg/apg.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/apg/apg.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,86 +21,40 @@
   <component name="GoLibraries">
     <option name="indexEntireGoPath" value="false" />
   </component>
-  <component name="ProjectId" id="1yRb7lIdCn8c4b6dwTlP2QjBzYh" />
-  <component name="ProjectLevelVcsManager">
-    <OptionsSetting value="false" id="Update" />
+  <component name="ProjectId" id="1yX0zXHdpGPxqctARqJlfIL2eFe" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="configurable..is.expanded" value="false" />
     <property name="configurable.GoLibrariesConfigurable.is.expanded" value="true" />
     <property name="go.formatter.settings.were.checked" value="true" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.modules.go.list.on.any.changes.was.set" value="true" />
-    <property name="settings.editor.selected.configurable" value="go.sdk" />
-  </component>
-  <component name="RunManager" selected="Go Test.Run Tests">
-    <configuration name="Run apg-go client" type="GoApplicationRunConfiguration" factoryName="Go Application">
-      <module name="apg-go" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="github.com/wneessen/apg-go/cmd/apg" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
-      <module name="apg-go" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="FILE" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Run Benchmark" type="GoTestRunConfiguration" factoryName="Go Test">
-      <module name="apg-go" />
-      <working_directory value="$PROJECT_DIR$" />
-      <go_parameters value="-v" />
-      <kind value="PACKAGE" />
-      <package value="github.com/wneessen/apg-go/cmd/apg" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gobench" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Run Tests" type="GoTestRunConfiguration" factoryName="Go Test">
-      <module name="apg-go" />
-      <working_directory value="$PROJECT_DIR$" />
-      <go_parameters value="-v" />
-      <kind value="PACKAGE" />
-      <package value="github.com/wneessen/apg-go/cmd/apg" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
-      <module name="apg-go" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="DIRECTORY" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <method v="2" />
-    </configuration>
-    <list>
-      <item itemvalue="Go Build.Run apg-go client" />
-      <item itemvalue="Go Test.Run Tests" />
-      <item itemvalue="Go Test.Run Benchmark" />
-    </list>
+    <property name="go.sdk.automatically.set" value="true" />
+    <property name="last_opened_file_path" value="$USER_HOME$" />
+    <property name="settings.editor.selected.configurable" value="go.vgo" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
-    <option name="oldMeFiltersMigrated" value="true" />
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
-  </component>
-  <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/apg_go$TestGetRandNum_in_github_com_wneessen_apg_go__1_.out" NAME="TestGetRandNum in github.com/wneessen/apg.go (1) Coverage Results" MODIFIED="1616594443133" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/apg_go$BenchmarkGetRandNum_in_apg_go.out" NAME="BenchmarkGetRandNum in apg.go Coverage Results" MODIFIED="1616342745320" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/apg_go$Test_Application.out" NAME="Test Application Coverage Results" MODIFIED="1616765230426" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
