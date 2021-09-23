@@ -14,7 +14,7 @@ jobs:
         goarch: ["386", amd64, arm, arm64]
     steps:
       - uses: actions/checkout@v2
-      - uses: wangyoucao577/go-release-action@v1.15
+      - uses: wangyoucao577/go-release-action@v1.20
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           goos: ${{ matrix.goos }}
@@ -23,3 +23,4 @@ jobs:
           extra_files: LICENSE README.md
           sha256sum: true
           md5sum: false
+          project_path: github.com/wneessen/apg-go/cmd/apg
