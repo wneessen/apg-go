@@ -15,7 +15,7 @@ import (
 )
 
 // VersionString represents the current version of the apg-go CLI
-const VersionString string = "0.4.0"
+const VersionString string = "0.4.0-rc1"
 
 // Help text
 const usage = `apg-go // A "Automated Password Generator"-clone
