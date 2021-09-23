@@ -15,14 +15,14 @@ import (
 )
 
 // VersionString represents the current version of the apg-go CLI
-const VersionString string = "0.4.0-dev"
+const VersionString string = "0.4.0"
 
 // Help text
 const usage = `apg-go // A "Automated Password Generator"-clone
 Copyright (c) 2021 Winni Neessen
 
-apg [-m <length>] [-x <length>] [-L] [-U] [-N] [-S] [-H] [-C]
-    [-l] [-M mode] [-E char_string] [-n num_of_pass] [-v] [-h]
+apg [-a <algo>] [-m <length>] [-x <length>] [-L] [-U] [-N] [-S] [-H] [-C]
+    [-l] [-M mode] [-E char_string] [-n num_of_pass] [-v] [-h] [-t]
 
 Options:
     -a ALGORITH          Choose the password generation algorithm (Default: 1)

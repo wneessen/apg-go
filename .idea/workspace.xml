@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e32960c0-29e5-4669-9fc2-ef12314486ce" name="Changes" comment="README.md updated">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+    <list default="true" id="e32960c0-29e5-4669-9fc2-ef12314486ce" name="Changes" comment="More README.md updates">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/apg/apg.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/apg/apg.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +85,8 @@
     <MESSAGE value="Added pronounceable passwords #27" />
     <MESSAGE value="Minor code cleanups and updated README to reflect #27" />
     <MESSAGE value="README.md updated" />
-    <option name="LAST_COMMIT_MESSAGE" value="README.md updated" />
+    <MESSAGE value="More README.md updates" />
+    <option name="LAST_COMMIT_MESSAGE" value="More README.md updates" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
