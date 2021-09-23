@@ -23,3 +23,5 @@ jobs:
           extra_files: LICENSE README.md
           sha256sum: true
           md5sum: false
+          ldflags: '-s -w'
+          project_path: ./cmd/apg/
