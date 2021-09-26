@@ -12,7 +12,7 @@ type Config struct {
 	MinPassLen    int    // Minimum password length
 	MaxPassLen    int    // Maximum password length
 	NumOfPass     int    // Number of passwords to be generated
-	UseComplex    bool   // Force complex password generation (implies all other Use* Options to be true)
+	useComplex    bool   // Force complex password generation (implies all other Use* Options to be true)
 	UseLowerCase  bool   // Allow lower-case chars in passwords
 	UseUpperCase  bool   // Allow upper-case chars in password
 	UseNumber     bool   // Allow numbers in passwords
@@ -21,7 +21,7 @@ type Config struct {
 	CheckHibp     bool   // Check generated are validated against the HIBP API for possible leaks
 	ExcludeChars  string // List of characters to be excluded from the PW generation charset
 	NewStyleModes string // Use the "new style" parameters instead of the single params
-	SpellPassword bool   // Spell out passwords in the output
+	spellPassword bool   // Spell out passwords in the output
 	ShowHelp      bool   // Display the help message in the CLI
 	ShowVersion   bool   // Display the version string in the CLI
 	OutputMode    int    // Interal parameter to control the output mode of the CLI
@@ -46,7 +46,7 @@ func New() Config {
 		UseUpperCase:  true,
 		UseNumber:     true,
 		UseSpecial:    false,
-		UseComplex:    false,
+		useComplex:    false,
 		HumanReadable: false,
 	}
 	config := Config{
@@ -54,7 +54,7 @@ func New() Config {
 		UseUpperCase:  defaultSwitches.UseUpperCase,
 		UseNumber:     defaultSwitches.UseNumber,
 		UseSpecial:    defaultSwitches.UseSpecial,
-		UseComplex:    defaultSwitches.UseComplex,
+		useComplex:    defaultSwitches.useComplex,
 		HumanReadable: defaultSwitches.HumanReadable,
 	}
 
@@ -63,9 +63,9 @@ func New() Config {
 	flag.BoolVar(&switchConf.UseUpperCase, "U", false, "Use upper case characters in passwords")
 	flag.BoolVar(&switchConf.UseNumber, "N", false, "Use numerich characters in passwords")
 	flag.BoolVar(&switchConf.UseSpecial, "S", false, "Use special characters in passwords")
-	flag.BoolVar(&switchConf.UseComplex, "C", false, "Generate complex passwords (implies -L -U -N -S, disables -H)")
+	flag.BoolVar(&switchConf.useComplex, "C", false, "Generate complex passwords (implies -L -U -N -S, disables -H)")
 	flag.BoolVar(&switchConf.HumanReadable, "H", false, "Generate human-readable passwords")
-	flag.BoolVar(&config.SpellPassword, "l", false, "Spell generated password")
+	flag.BoolVar(&config.spellPassword, "l", false, "Spell generated password")
 	flag.BoolVar(&config.CheckHibp, "p", false, "Check the HIBP database if the generated password was leaked before")
 	flag.BoolVar(&config.ShowVersion, "v", false, "Show version")
 	flag.IntVar(&config.MinPassLen, "m", DefaultMinLength, "Minimum password length")
@@ -91,8 +91,8 @@ func New() Config {
 	if switchConf.UseSpecial {
 		config.UseSpecial = !defaultSwitches.UseSpecial
 	}
-	if switchConf.UseComplex {
-		config.UseComplex = !defaultSwitches.UseComplex
+	if switchConf.useComplex {
+		config.useComplex = !defaultSwitches.useComplex
 	}
 	if switchConf.HumanReadable {
 		config.HumanReadable = !defaultSwitches.HumanReadable
@@ -109,7 +109,7 @@ func parseParams(config *Config) {
 	parseNewStyleParams(config)
 
 	// Complex overrides everything
-	if config.UseComplex {
+	if config.useComplex {
 		config.UseUpperCase = true
 		config.UseLowerCase = true
 		config.UseSpecial = true
@@ -130,7 +130,7 @@ func parseParams(config *Config) {
 		config.OutputMode = 2
 	default:
 		config.OutputMode = 0
-		if config.SpellPassword {
+		if config.spellPassword {
 			config.OutputMode = 1
 		}
 	}
@@ -165,9 +165,9 @@ func parseNewStyleParams(config *Config) {
 		case 'h':
 			config.HumanReadable = false
 		case 'C':
-			config.UseComplex = true
+			config.useComplex = true
 		case 'c':
-			config.UseComplex = false
+			config.useComplex = false
 		default:
 			log.Fatalf("Unknown password style parameter: %q\n", string(curParam))
 		}
