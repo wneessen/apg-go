@@ -77,7 +77,7 @@ func TestGenLength(t *testing.T) {
 			cfgObj.MaxPassLen = testCase.maxLength
 			pwLength := config.GetPwLengthFromParams(&cfgObj)
 			for i := 0; i < 1000; i++ {
-				pwString, err := random.GetChar(&charRange, pwLength)
+				pwString, err := random.GetChar(charRange, pwLength)
 				if err != nil {
 					t.Errorf("getRandChar returned an error: %q", err)
 				}
@@ -99,7 +99,7 @@ func TestGenLength(t *testing.T) {
 func TestGetRandChar(t *testing.T) {
 	t.Run("return_value_is_A_B_or_C", func(t *testing.T) {
 		charRange := "ABC"
-		randChar, err := random.GetChar(&charRange, 1)
+		randChar, err := random.GetChar(charRange, 1)
 		if err != nil {
 			t.Fatalf("Random character generation failed => %v", err.Error())
 		}
@@ -110,7 +110,7 @@ func TestGetRandChar(t *testing.T) {
 
 	t.Run("return_value_has_specific_length", func(t *testing.T) {
 		charRange := "ABC"
-		randChar, err := random.GetChar(&charRange, 1000)
+		randChar, err := random.GetChar(charRange, 1000)
 		if err != nil {
 			t.Fatalf("Random character generation failed => %v", err.Error())
 		}
@@ -122,7 +122,7 @@ func TestGetRandChar(t *testing.T) {
 
 	t.Run("fail", func(t *testing.T) {
 		charRange := "ABC"
-		randChar, err := random.GetChar(&charRange, -2000)
+		randChar, err := random.GetChar(charRange, -2000)
 		if err == nil {
 			t.Fatalf("Generated random characters expected to fail, but returned a value => %v",
 				randChar)
@@ -255,7 +255,7 @@ func BenchmarkGetRandNum(b *testing.B) {
 func BenchmarkGetRandChar(b *testing.B) {
 	charRange := "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890\"#/!\\$%&+-*.,?=()[]{}:;~^|"
 	for i := 0; i < b.N; i++ {
-		_, _ = random.GetChar(&charRange, 20)
+		_, _ = random.GetChar(charRange, 20)
 	}
 }
 
@@ -269,7 +269,7 @@ func BenchmarkConvertChar(b *testing.B) {
 	cfgObj.HumanReadable = false
 	charRange := chars.GetRange(&cfgObj)
 	for i := 0; i < b.N; i++ {
-		charToConv, _ := random.GetChar(&charRange, 1)
+		charToConv, _ := random.GetChar(charRange, 1)
 		charBytes := []byte(charToConv)
 		_, _ = spelling.ConvertCharToName(charBytes[0])
 	}

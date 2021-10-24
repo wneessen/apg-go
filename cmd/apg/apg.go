@@ -102,7 +102,7 @@ func main() {
 			sylList[pwString] = pwSyls
 		default:
 			charRange := chars.GetRange(&cfgObj)
-			pwString, err := random.GetChar(&charRange, pwLength)
+			pwString, err := random.GetChar(charRange, pwLength)
 			if err != nil {
 				log.Fatalf("error generating random character range: %s\n", err)
 			}

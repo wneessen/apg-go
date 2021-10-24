@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e32960c0-29e5-4669-9fc2-ef12314486ce" name="Changes" comment="Updated README.md and added code-example for programmatic use">
+    <list default="true" id="e32960c0-29e5-4669-9fc2-ef12314486ce" name="Changes" comment="Some parts of the Config struct don't need exporting">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/apg/apg.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/apg/apg.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/apg/apg_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/apg/apg_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example-code/simple-password-generator/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/example-code/simple-password-generator/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/random/random.go" beforeDir="false" afterPath="$PROJECT_DIR$/random/random.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,7 +110,8 @@
     <MESSAGE value="More README.md updates" />
     <MESSAGE value="Updated CLI usage text to reflect the changes of #27" />
     <MESSAGE value="Updated README.md and added code-example for programmatic use" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated README.md and added code-example for programmatic use" />
+    <MESSAGE value="Some parts of the Config struct don't need exporting" />
+    <option name="LAST_COMMIT_MESSAGE" value="Some parts of the Config struct don't need exporting" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
