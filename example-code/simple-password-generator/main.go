@@ -19,7 +19,7 @@ func main() {
 	}
 	pl := config.GetPwLengthFromParams(&c)
 	cs := chars.GetRange(&c)
-	pw, err := random.GetChar(&cs, pl)
+	pw, err := random.GetChar(cs, pl)
 	if err != nil {
 		panic(err)
 	}

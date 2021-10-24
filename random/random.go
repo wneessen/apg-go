@@ -2,28 +2,50 @@ package random
 
 import (
 	"crypto/rand"
+	"encoding/binary"
 	"fmt"
 	"math/big"
+	"strings"
+)
+
+// Bitmask sizes for the string generators (based on 93 chars total)
+const (
+	letterIdxBits = 7                    // 7 bits to represent a letter index
+	letterIdxMask = 1<<letterIdxBits - 1 // All 1-bits, as many as letterIdxBits
+	letterIdxMax  = 63 / letterIdxBits   // # of letter indices fitting in 63 bits
 )
 
 // GetChar generates random characters based on given character range
 // and password length
-func GetChar(charRange *string, pwLength int) (string, error) {
-	if pwLength <= 0 {
-		err := fmt.Errorf("provided pwLength value is <= 0: %v", pwLength)
-		return "", err
+func GetChar(cr string, l int) (string, error) {
+	if l < 1 {
+		return "", fmt.Errorf("length is negative")
 	}
-	availCharsLength := len(*charRange)
-	charSlice := []byte(*charRange)
-	returnString := make([]byte, pwLength)
-	for i := 0; i < pwLength; i++ {
-		randNum, err := GetNum(availCharsLength)
-		if err != nil {
-			return "", err
+	rs := strings.Builder{}
+	rs.Grow(l)
+	crl := len(cr)
+
+	rp := make([]byte, 8)
+	_, err := rand.Read(rp)
+	if err != nil {
+		return rs.String(), err
+	}
+	for i, c, r := l-1, binary.BigEndian.Uint64(rp), letterIdxMax; i >= 0; {
+		if r == 0 {
+			_, err := rand.Read(rp)
+			if err != nil {
+				return rs.String(), err
+			}
+			c, r = binary.BigEndian.Uint64(rp), letterIdxMax
 		}
-		returnString[i] = charSlice[randNum]
+		if idx := int(c & letterIdxMask); idx < crl {
+			rs.WriteByte(cr[idx])
+			i--
+		}
+		c >>= letterIdxBits
+		r--
 	}
-	return string(returnString), nil
+	return rs.String(), nil
 }
 
 // GetNum generates a random number with given maximum value
