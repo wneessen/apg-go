@@ -139,7 +139,7 @@ func main() {
 				log.Printf("unable to check HIBP database: %v", err)
 			}
 			if pwnObj != nil && pwnObj.Count != 0 {
-				fmt.Print("^-- !!WARNING: The previously generated password was found in HIPB database. Do not use it!!\n")
+				fmt.Print("^-- !!WARNING: The previously generated password was found in HIBP database. Do not use it!!\n")
 			}
 		}
 	}
