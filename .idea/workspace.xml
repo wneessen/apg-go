@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e32960c0-29e5-4669-9fc2-ef12314486ce" name="Changes" comment="Some parts of the Config struct don't need exporting">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/apg/apg.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/apg/apg.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/apg/apg_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/apg/apg_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example-code/simple-password-generator/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/example-code/simple-password-generator/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/random/random.go" beforeDir="false" afterPath="$PROJECT_DIR$/random/random.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sonar-project.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +31,9 @@
   <component name="GoLibraries">
     <option name="indexEntireGoPath" value="false" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="1yX0zXHdpGPxqctARqJlfIL2eFe" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -51,6 +50,7 @@
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.modules.go.list.on.any.changes.was.set" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
+    <property name="go.watchers.conflict.with.on.save.actions.check.performed" value="true" />
     <property name="last_opened_file_path" value="$USER_HOME$" />
     <property name="settings.editor.selected.configurable" value="go.sdk" />
   </component>
@@ -100,7 +100,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="IDE settings..." />
