@@ -256,3 +256,4 @@ _apg-go_ replicates most of the parameters of the original c-apg. Some parameter
 Thanks to the following people for contributing to the apg-go codebase:
 * [Romain Tartière](https://github.com/smortex)
 * [Abraham Ingersoll](https://github.com/aberoham)
+* [Vinícius Zavam](https://github.com/egypcio) (Maintaining the FreeBSD port)
