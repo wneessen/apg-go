@@ -12,6 +12,19 @@ Since FIPS-181 (pronouncable passwords) has been withdrawn in 2015, apg-go does 
 it implements the [Koremutake Syllables System](https://shorl.com/koremutake.php) in its pronouncable password mode.
 
 ## Installation
+
+### Docker
+There is a ready-to-use Docker image hosted on Github.
+
+* Download the image:
+  ```shell
+  $ docker pull ghcr.io/wneessen/apg-go:main
+  ```
+* Run the image:
+  ```shell
+  $ docker run ghcr.io/wneessen/apg-go:main
+  ```
+
 ### Ports/Packages
 #### FreeBSD
 apg-go can be found as `/security/apg` in the [FreeBSD ports](https://cgit.freebsd.org/ports/tree/security/apg)
