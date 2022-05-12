@@ -10,6 +10,7 @@ import (
 	"github.com/wneessen/go-hibp"
 	"log"
 	"os"
+	"runtime"
 	"strings"
 	"time"
 )
@@ -57,6 +58,7 @@ func main() {
 	// Show version and exit
 	if cfgObj.ShowVersion {
 		_, _ = os.Stderr.WriteString(`apg-go // A "Automated Password Generator"-clone v` + VersionString + "\n")
+		_, _ = os.Stderr.WriteString("OS: " + runtime.GOOS + " // Arch: " + runtime.GOARCH + " \n")
 		_, _ = os.Stderr.WriteString("(C) 2021 by Winni Neessen\n")
 		os.Exit(0)
 	}
