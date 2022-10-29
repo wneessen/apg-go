@@ -135,8 +135,8 @@ func main() {
 		}
 
 		if cfgObj.CheckHibp {
-			hc := hibp.New(hibp.WithHttpTimeout(time.Second*2), hibp.WithPwnedPadding())
-			pwnObj, _, err := hc.PwnedPassApi.CheckPassword(p)
+			hc := hibp.New(hibp.WithHTTPTimeout(time.Second*2), hibp.WithPwnedPadding())
+			pwnObj, _, err := hc.PwnedPassAPI.CheckPassword(p)
 			if err != nil {
 				log.Printf("unable to check HIBP database: %v", err)
 			}
