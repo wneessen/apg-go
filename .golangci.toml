@@ -1,0 +1,16 @@
+## SPDX-FileCopyrightText: 2022 Winni Neessen <winni@neessen.dev>
+##
+## SPDX-License-Identifier: MIT
+
+[run]
+go = "1.20"
+tests = true
+skip-dirs = ["ui/"]
+
+[linters]
+enable = ["stylecheck", "whitespace", "containedctx", "contextcheck", "decorder",
+    "errname", "errorlint", "gofmt", "gofumpt", "goimports"]
+
+[linters-settings.goimports]
+local-prefixes = "git.cgn.cleverbridge.com/infosec/vulnmon"
+
