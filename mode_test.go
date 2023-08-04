@@ -9,11 +9,11 @@ func TestSetClearHasToggleMode(t *testing.T) {
 		name string
 		mode Mode
 	}{
-		{"ModeNumber", ModeNumber},
-		{"ModeLowerCase", ModeLowerCase},
-		{"ModeUpperCase", ModeUpperCase},
-		{"ModeSpecial", ModeSpecial},
 		{"ModeHumanReadable", ModeHumanReadable},
+		{"ModeLowerCase", ModeLowerCase},
+		{"ModeNumber", ModeNumber},
+		{"ModeSpecial", ModeSpecial},
+		{"ModeUpperCase", ModeUpperCase},
 	}
 
 	for _, tc := range tt {
@@ -34,6 +34,44 @@ func TestSetClearHasToggleMode(t *testing.T) {
 			m = MaskClearMode(m, tc.mode)
 			if MaskHasMode(m, tc.mode) {
 				t.Errorf("MaskClearMode() failed, mode found in bitmask")
+			}
+		})
+	}
+}
+
+func TestModesFromFlags(t *testing.T) {
+	tt := []struct {
+		name string
+		ms   string
+		mode []Mode
+	}{
+		{"ModeComplex", "C", []Mode{ModeLowerCase, ModeNumber, ModeSpecial,
+			ModeUpperCase}},
+		{"ModeHumanReadable", "H", []Mode{ModeHumanReadable}},
+		{"ModeLowerCase", "L", []Mode{ModeLowerCase}},
+		{"ModeNumber", "N", []Mode{ModeNumber}},
+		{"ModeUpperCase", "U", []Mode{ModeUpperCase}},
+		{"ModeSpecial", "S", []Mode{ModeSpecial}},
+		{"ModeLowerSpecialUpper", "LSU", []Mode{ModeLowerCase, ModeSpecial,
+			ModeUpperCase}},
+		{"ModeComplexNoLower", "Cl", []Mode{ModeNumber, ModeSpecial,
+			ModeUpperCase}},
+		{"ModeComplexNoNumber", "Cn", []Mode{ModeLowerCase, ModeSpecial,
+			ModeUpperCase}},
+		{"ModeComplexNoSpecial", "Cs", []Mode{ModeLowerCase, ModeNumber,
+			ModeUpperCase}},
+		{"ModeComplexNoUpper", "Cu", []Mode{ModeLowerCase, ModeNumber,
+			ModeSpecial}},
+	}
+	for _, tc := range tt {
+		t.Run(tc.name, func(t *testing.T) {
+			var mm ModeMask
+			mm = ModesFromFlags(tc.ms)
+			for _, tm := range tc.mode {
+				if !MaskHasMode(mm, tm) {
+					t.Errorf("ModesFromFlags() failed, expected mode %q not found",
+						tm)
+				}
 			}
 		})
 	}
