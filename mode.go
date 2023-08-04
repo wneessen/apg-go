@@ -1,7 +1,12 @@
 package apg
 
+import "strings"
+
 // Mode represents a mode of characters
 type Mode uint8
+
+// ModeMask represents a bitmask of character modes
+type ModeMask uint8
 
 const (
 	// ModeNumber sets the bitmask to include numbers in the generated passwords
@@ -38,14 +43,65 @@ const (
 	CharRangeSpecialHuman = `#%*+-:;=`
 )
 
-// SetMode sets a specific Mode to a given Mode bitmask
-func SetMode(b, m Mode) Mode { return b | m }
+// MaskSetMode sets a specific Mode to a given Mode bitmask
+func MaskSetMode(ma ModeMask, mo Mode) ModeMask { return ModeMask(uint8(ma) | uint8(mo)) }
 
-// ClearMode clears a specific Mode from a given Mode bitmask
-func ClearMode(b, m Mode) Mode { return b &^ m }
+// MaskClearMode clears a specific Mode from a given Mode bitmask
+func MaskClearMode(ma ModeMask, mo Mode) ModeMask { return ModeMask(uint8(ma) &^ uint8(mo)) }
 
-// ToggleMode toggles a specific Mode in a given Mode bitmask
-func ToggleMode(b, m Mode) Mode { return b ^ m }
+// MaskToggleMode toggles a specific Mode in a given Mode bitmask
+func MaskToggleMode(ma ModeMask, mo Mode) ModeMask { return ModeMask(uint8(ma) ^ uint8(mo)) }
 
-// HasMode returns true if a given Mode bitmask holds a specific Mode
-func HasMode(b, m Mode) bool { return b&m != 0 }
+// MaskHasMode returns true if a given Mode bitmask holds a specific Mode
+func MaskHasMode(ma ModeMask, mo Mode) bool { return uint8(ma)&uint8(mo) != 0 }
+
+func ModesFromFlags(ms string) ModeMask {
+	var mm ModeMask
+	for _, m := range strings.Split(ms, "") {
+		switch m {
+		case "C":
+			mm = MaskSetMode(mm, ModeLowerCase|ModeNumber|ModeSpecial|ModeUpperCase)
+		case "h":
+			mm = MaskClearMode(mm, ModeHumanReadable)
+		case "H":
+			mm = MaskSetMode(mm, ModeHumanReadable)
+		case "l":
+			mm = MaskClearMode(mm, ModeLowerCase)
+		case "L":
+			mm = MaskSetMode(mm, ModeLowerCase)
+		case "n":
+			mm = MaskClearMode(mm, ModeNumber)
+		case "N":
+			mm = MaskSetMode(mm, ModeNumber)
+		case "s":
+			mm = MaskClearMode(mm, ModeSpecial)
+		case "S":
+			mm = MaskSetMode(mm, ModeSpecial)
+		case "u":
+			mm = MaskClearMode(mm, ModeUpperCase)
+		case "U":
+			mm = MaskSetMode(mm, ModeUpperCase)
+		}
+	}
+
+	return mm
+
+}
+
+// String satisfies the fmt.Stringer interface for the Mode type
+func (m Mode) String() string {
+	switch m {
+	case ModeHumanReadable:
+		return "Human-readable"
+	case ModeLowerCase:
+		return "Lower-case"
+	case ModeNumber:
+		return "Number"
+	case ModeSpecial:
+		return "Special"
+	case ModeUpperCase:
+		return "Upper-case"
+	default:
+		return "Unknown"
+	}
+}

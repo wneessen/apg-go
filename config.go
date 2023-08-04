@@ -18,6 +18,8 @@ type Config struct {
 	MaxLength int64
 	// MinLength sets the minimum length for a generated password
 	MinLength int64
+	// Modes holds the different character modes for the Random algorithm
+	Modes ModeMask
 	// NumberPass sets the number of passwords that are generated
 	// and returned by the generator
 	NumberPass int64

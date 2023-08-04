@@ -4,6 +4,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"os"
 
 	"github.com/wneessen/apg-go"
@@ -13,12 +14,20 @@ func main() {
 	c := apg.NewConfig()
 
 	// Configure and parse the CLI flags
+	var ms string
 	flag.Int64Var(&c.MinLength, "m", c.MinLength, "")
 	flag.Int64Var(&c.MaxLength, "x", c.MaxLength, "")
+	flag.StringVar(&ms, "M", "", "")
 	flag.Int64Var(&c.NumberPass, "n", c.NumberPass, "")
 	flag.Usage = usage
 	flag.Parse()
 
+	if ms != "" {
+		c.Modes = apg.ModesFromFlags(ms)
+	}
+	for _, m := range []apg.Mode{apg.ModeHumanReadable, apg.ModeLowerCase, apg.ModeNumber, apg.ModeSpecial, apg.ModeUpperCase} {
+		fmt.Printf("%s: %t\n", m, apg.MaskHasMode(c.Modes, m))
+	}
 	/*
 		g := apg.New(c)
 		rb, err := g.RandomBytes(c.MinLength)
