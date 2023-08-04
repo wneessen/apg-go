@@ -10,25 +10,6 @@ import (
 )
 
 const (
-	// CharRangeAlphaLower represents all lower-case alphabetical characters
-	CharRangeAlphaLower = "abcdefghijklmnopqrstuvwxyz"
-	// CharRangeAlphaLowerHuman represents the human-readable lower-case alphabetical characters
-	CharRangeAlphaLowerHuman = "abcdefghjkmnpqrstuvwxyz"
-	// CharRangeAlphaUpper represents all upper-case alphabetical characters
-	CharRangeAlphaUpper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-	// CharRangeAlphaUpperHuman represents the human-readable upper-case alphabetical characters
-	CharRangeAlphaUpperHuman = "ABCDEFGHJKMNPQRSTUVWXYZ"
-	// CharRangeNumber represents all numerical characters
-	CharRangeNumber = "1234567890"
-	// CharRangeNumberHuman represents all human-readable numerical characters
-	CharRangeNumberHuman = "23456789"
-	// CharRangeSpecial represents all special characters
-	CharRangeSpecial = `!\"#$%&'()*+,-./:;<=>?@[\\]^_{|}~`
-	// CharRangeSpecialHuman represents all human-readable special characters
-	CharRangeSpecialHuman = `#%*+-:;=`
-)
-
-const (
 	// 7 bits to represent a letter index
 	letterIdxBits = 7
 	// All 1-bits, as many as letterIdxBits
@@ -64,10 +45,10 @@ func (g *Generator) RandomBytes(n int64) ([]byte, error) {
 	return b, nil
 }
 
-// RandomString returns a random string of length l based of the range of characters given.
+// RandomStringFromCharRange returns a random string of length l based of the range of characters given.
 // The method makes use of the crypto/random package and therfore is
 // cryptographically secure
-func (g *Generator) RandomString(l int, cr string) (string, error) {
+func (g *Generator) RandomStringFromCharRange(l int, cr string) (string, error) {
 	if l < 1 {
 		return "", ErrInvalidLength
 	}
@@ -85,7 +66,7 @@ func (g *Generator) RandomString(l int, cr string) (string, error) {
 	}
 	for i, c, r := l-1, binary.BigEndian.Uint64(rp), letterIdxMax; i >= 0; {
 		if r == 0 {
-			_, err := rand.Read(rp)
+			_, err = rand.Read(rp)
 			if err != nil {
 				return rs.String(), err
 			}

@@ -7,7 +7,7 @@ import (
 )
 
 func TestGenerator_CoinFlip(t *testing.T) {
-	g := New()
+	g := New(NewConfig())
 	cf := g.CoinFlip()
 	if cf < 0 || cf > 1 {
 		t.Errorf("CoinFlip failed(), expected 0 or 1, got: %d", cf)
@@ -15,7 +15,7 @@ func TestGenerator_CoinFlip(t *testing.T) {
 }
 
 func TestGenerator_CoinFlipBool(t *testing.T) {
-	g := New()
+	g := New(NewConfig())
 	gt := false
 	for i := 0; i < 500_000; i++ {
 		cf := g.CoinFlipBool()
@@ -43,7 +43,7 @@ func TestGenerator_RandNum(t *testing.T) {
 		{"RandNum should fail on negative", -1, 0, 0, true},
 	}
 
-	g := New()
+	g := New(NewConfig())
 	for _, tc := range tt {
 		t.Run(tc.name, func(t *testing.T) {
 			rn, err := g.RandNum(tc.v)
@@ -78,7 +78,7 @@ func TestGenerator_RandomBytes(t *testing.T) {
 		{"-1 bytes of randomness", -1, true},
 	}
 
-	g := New()
+	g := New(NewConfig())
 	for _, tc := range tt {
 		t.Run(tc.name, func(t *testing.T) {
 			rb, err := g.RandomBytes(tc.l)
@@ -102,7 +102,7 @@ func TestGenerator_RandomBytes(t *testing.T) {
 }
 
 func TestGenerator_RandomString(t *testing.T) {
-	g := New()
+	g := New(NewConfig())
 	l := 32
 	tt := []struct {
 		name string
@@ -133,15 +133,15 @@ func TestGenerator_RandomString(t *testing.T) {
 	}
 	for _, tc := range tt {
 		t.Run(tc.name, func(t *testing.T) {
-			rs, err := g.RandomString(l, tc.cr)
+			rs, err := g.RandomStringFromCharRange(l, tc.cr)
 			if err != nil && !tc.sf {
-				t.Errorf("RandomString failed: %s", err)
+				t.Errorf("RandomStringFromCharRange failed: %s", err)
 			}
 			if len(rs) != l && !tc.sf {
-				t.Errorf("RandomString failed. Expected length: %d, got: %d", l, len(rs))
+				t.Errorf("RandomStringFromCharRange failed. Expected length: %d, got: %d", l, len(rs))
 			}
 			if strings.ContainsAny(rs, tc.nr) {
-				t.Errorf("RandomString failed. Unexpected character found in returned string: %s", rs)
+				t.Errorf("RandomStringFromCharRange failed. Unexpected character found in returned string: %s", rs)
 			}
 		})
 	}
@@ -149,7 +149,7 @@ func TestGenerator_RandomString(t *testing.T) {
 
 func BenchmarkGenerator_CoinFlip(b *testing.B) {
 	b.ReportAllocs()
-	g := New()
+	g := New(NewConfig())
 	for i := 0; i < b.N; i++ {
 		_ = g.CoinFlip()
 	}
@@ -157,7 +157,7 @@ func BenchmarkGenerator_CoinFlip(b *testing.B) {
 
 func BenchmarkGenerator_RandomBytes(b *testing.B) {
 	b.ReportAllocs()
-	g := New()
+	g := New(NewConfig())
 	var l int64 = 1024
 	for i := 0; i < b.N; i++ {
 		_, err := g.RandomBytes(l)
@@ -170,12 +170,12 @@ func BenchmarkGenerator_RandomBytes(b *testing.B) {
 
 func BenchmarkGenerator_RandomString(b *testing.B) {
 	b.ReportAllocs()
-	g := New()
+	g := New(NewConfig())
 	cr := CharRangeAlphaUpper + CharRangeAlphaLower + CharRangeNumber + CharRangeSpecial
 	for i := 0; i < b.N; i++ {
-		_, err := g.RandomString(32, cr)
+		_, err := g.RandomStringFromCharRange(32, cr)
 		if err != nil {
-			b.Errorf("RandomString() failed: %s", err)
+			b.Errorf("RandomStringFromCharRange() failed: %s", err)
 		}
 	}
 }
