@@ -5,14 +5,14 @@ package apg
 type Algorithm int
 
 const (
-	// Pronouncable represents the algorithm for pronouncable passwords
+	// AlgoPronouncable represents the algorithm for pronouncable passwords
 	// (koremutake syllables)
-	Pronouncable Algorithm = iota
-	// Random represents the algorithm for purely random passwords according
+	AlgoPronouncable Algorithm = iota
+	// AlgoRandom represents the algorithm for purely random passwords according
 	// to the provided password modes/flags
-	Random
-	// Unsupported represents an unsupported algorithm
-	Unsupported
+	AlgoRandom
+	// AlgoUnsupported represents an unsupported algorithm
+	AlgoUnsupported
 )
 
 // IntToAlgo takes an int value as input and returns the corresponding
@@ -20,10 +20,10 @@ const (
 func IntToAlgo(a int) Algorithm {
 	switch a {
 	case 0:
-		return Pronouncable
+		return AlgoPronouncable
 	case 1:
-		return Random
+		return AlgoRandom
 	default:
-		return Unsupported
+		return AlgoUnsupported
 	}
 }
