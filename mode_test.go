@@ -52,8 +52,10 @@ func TestModesFromFlags(t *testing.T) {
 		{"ModeNumber", "N", []Mode{ModeNumber}},
 		{"ModeUpperCase", "U", []Mode{ModeUpperCase}},
 		{"ModeSpecial", "S", []Mode{ModeSpecial}},
-		{"ModeLowerSpecialUpper", "LSU", []Mode{ModeLowerCase, ModeSpecial,
-			ModeUpperCase}},
+		{"ModeLowerSpecialUpper", "LSUH", []Mode{ModeHumanReadable,
+			ModeLowerCase, ModeSpecial, ModeUpperCase}},
+		{"ModeComplexNoHumanReadable", "Ch", []Mode{ModeLowerCase,
+			ModeNumber, ModeSpecial, ModeUpperCase}},
 		{"ModeComplexNoLower", "Cl", []Mode{ModeNumber, ModeSpecial,
 			ModeUpperCase}},
 		{"ModeComplexNoNumber", "Cn", []Mode{ModeLowerCase, ModeSpecial,
@@ -72,6 +74,29 @@ func TestModesFromFlags(t *testing.T) {
 					t.Errorf("ModesFromFlags() failed, expected mode %q not found",
 						tm)
 				}
+			}
+		})
+	}
+}
+
+func TestMode_String(t *testing.T) {
+	tt := []struct {
+		name string
+		m    Mode
+		e    string
+	}{
+		{"ModeHumanReadable", ModeHumanReadable, "Human-readable"},
+		{"ModeLowerCase", ModeLowerCase, "Lower-case"},
+		{"ModeNumber", ModeNumber, "Number"},
+		{"ModeSpecial", ModeSpecial, "Special"},
+		{"ModeUpperCase", ModeUpperCase, "Upper-case"},
+		{"ModeUnknown", 255, "Unknown"},
+	}
+	for _, tc := range tt {
+		t.Run(tc.name, func(t *testing.T) {
+			if tc.m.String() != tc.e {
+				t.Errorf("Mode.String() failed, expected: %s, got: %s", tc.e,
+					tc.m.String())
 			}
 		})
 	}
