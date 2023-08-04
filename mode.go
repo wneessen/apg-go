@@ -1,6 +1,8 @@
 package apg
 
-import "strings"
+import (
+	"strings"
+)
 
 // Mode represents a mode of characters
 type Mode uint8
@@ -56,8 +58,9 @@ func MaskToggleMode(ma ModeMask, mo Mode) ModeMask { return ModeMask(uint8(ma) ^
 func MaskHasMode(ma ModeMask, mo Mode) bool { return uint8(ma)&uint8(mo) != 0 }
 
 func ModesFromFlags(ms string) ModeMask {
+	cl := strings.Split(ms, "")
 	var mm ModeMask
-	for _, m := range strings.Split(ms, "") {
+	for _, m := range cl {
 		switch m {
 		case "C":
 			mm = MaskSetMode(mm, ModeLowerCase|ModeNumber|ModeSpecial|ModeUpperCase)
