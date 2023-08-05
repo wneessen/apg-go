@@ -72,13 +72,15 @@ func main() {
 // usage is used by the flag package to display the CLI usage message
 func usage() {
 	// Usage text
-	const ut = `apg-go // A "Automated Password Generator"-clone
-Copyleft (c) 2021-2023 Winni Neessen
+	const ut = `apg-go v` +
+		apg.VERSION + "\n" +
+		`A OSS "Automated Password Generator"-clone -- https://github.com/wneessen/apg-go/
+Created 2021-2023 by Winni Neessen (MIT licensed)
 
 apg [-a <algo>] [-m <length>] [-x <length>] [-L] [-U] [-N] [-S] [-H] [-C]
     [-l] [-M mode] [-E char_string] [-n num_of_pass] [-v] [-h] [-t]
 
-Options:
+Flags:
     -a ALGORITH          Choose the password generation algorithm (Default: 1)
                           - 0: pronounceable password generation (koremutake syllables)
                           - 1: random password generation according to password modes/flags
@@ -87,7 +89,7 @@ Options:
     -f LENGTH            Fixed length of the password to be generated (Ignores -m and -x)
     -n NUMBER            Amount of password to be generated (Default: 6)
     -E CHARS             List of characters to be excluded in the generated password
-    -M [LUNSHClunshc]    New style password parameters
+    -M [LUNSHClunshc]    New style password flags
                           - Note: new-style flags have higher priority than any of the old-style flags
     -L                   Toggle lower case characters in passwords (Default: on)
     -U                   Toggle upper case characters in passwords (Default: on)
@@ -100,8 +102,7 @@ Options:
     -p                   Check the HIBP database if the generated passwords was found in a leak before (Default: off)
                           - Note: this feature requires internet connectivity
     -h                   Show this help text
-    -v                   Show version string
+    -v                   Show version string`
 
-`
-	_, _ = os.Stderr.WriteString(ut)
+	_, _ = os.Stderr.WriteString(ut + "\n\n")
 }
