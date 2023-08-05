@@ -23,10 +23,18 @@ type Config struct {
 	// MaxLength sets the maximum length for a generated password
 	MaxLength int64
 	// MinLength sets the minimum length for a generated password
-	MinLength    int64
+	MinLength int64
+	// MinLowerCase represents the minimum amount of lower-case characters that have
+	// to be part of the generated password
 	MinLowerCase int64
-	MinNumeric   int64
-	MinSpecial   int64
+	// MinNumeric represents the minimum amount of numeric characters that have
+	// to be part of the generated password
+	MinNumeric int64
+	// MinSpecial represents the minimum amount of special characters that have
+	// to be part of the generated password
+	MinSpecial int64
+	// MinUpperCase represents the minimum amount of upper-case characters that have
+	// to be part of the generated password
 	MinUpperCase int64
 	// Mode holds the different character modes for the Random algorithm
 	Mode ModeMask
