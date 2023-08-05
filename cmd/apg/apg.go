@@ -15,8 +15,10 @@ func main() {
 
 	// Configure and parse the CLI flags
 	// See usage() for flag details
+	var al int
 	var ms string
 	var co, hr, lc, nu, sp, uc bool
+	flag.IntVar(&al, "a", 1, "")
 	flag.BoolVar(&lc, "L", false, "")
 	flag.Int64Var(&c.MinLowerCase, "mL", c.MinLowerCase, "")
 	flag.BoolVar(&uc, "U", false, "")
@@ -62,14 +64,22 @@ func main() {
 		c.Mode = apg.ModesFromFlags(ms)
 	}
 
+	// Check if algorithm is supported
+	c.Algorithm = apg.IntToAlgo(al)
+	if c.Algorithm == apg.AlgoUnsupported {
+		_, _ = fmt.Fprintf(os.Stderr, "unsupported algorithm value: %d\n", al)
+		os.Exit(1)
+	}
+
 	// Generate the password based on the given flags
 	g := apg.New(c)
 	for i := int64(0); i < c.NumberPass; i++ {
-		pl, err := g.GetPasswordLength()
+		p, err := g.Generate()
 		if err != nil {
-			_, _ = fmt.Fprintf(os.Stderr, "Error during password generation: %s\n", err)
+			_, _ = fmt.Fprintf(os.Stderr, "failed to generate password: %s\n", err)
+			os.Exit(1)
 		}
-		fmt.Printf("PW length: %d\n", pl)
+		fmt.Println(p)
 	}
 }
 
@@ -88,6 +98,7 @@ Flags:
     -a ALGORITH          Choose the password generation algorithm (Default: 1)
                           - 0: pronounceable password generation (koremutake syllables)
                           - 1: random password generation according to password modes/flags
+                          - 2: coinflip (returns heads or tails)
     -m LENGTH            Minimum length of the password to be generated (Default: 12)
     -x LENGTH            Maximum length of the password to be generated (Default: 20)
     -f LENGTH            Fixed length of the password to be generated (Ignores -m and -x)

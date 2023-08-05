@@ -11,6 +11,9 @@ const (
 	// AlgoRandom represents the algorithm for purely random passwords according
 	// to the provided password modes/flags
 	AlgoRandom
+	// AlgoCoinFlip represents a very simple coinflip algorithm returning "heads"
+	// or "tails"
+	AlgoCoinFlip
 	// AlgoUnsupported represents an unsupported algorithm
 	AlgoUnsupported
 )
@@ -23,6 +26,8 @@ func IntToAlgo(a int) Algorithm {
 		return AlgoPronouncable
 	case 1:
 		return AlgoRandom
+	case 2:
+		return AlgoCoinFlip
 	default:
 		return AlgoUnsupported
 	}
