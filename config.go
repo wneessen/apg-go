@@ -6,6 +6,9 @@ const (
 	DefaultMinLength int64 = 12
 	// DefaultMaxLength reflects the default maximum length of a generated password
 	DefaultMaxLength int64 = 20
+	// DefaultMode sets the default character set mode bitmask to a combination of
+	// lower- and upper-case characters as well as numbers
+	DefaultMode ModeMask = ModeLowerCase | ModeNumber | ModeUpperCase
 	// DefaultNumberPass reflects the default amount of passwords returned by the generator
 	DefaultNumberPass int64 = 6
 )
@@ -18,8 +21,8 @@ type Config struct {
 	MaxLength int64
 	// MinLength sets the minimum length for a generated password
 	MinLength int64
-	// Modes holds the different character modes for the Random algorithm
-	Modes ModeMask
+	// Mode holds the different character modes for the Random algorithm
+	Mode ModeMask
 	// NumberPass sets the number of passwords that are generated
 	// and returned by the generator
 	NumberPass int64
@@ -34,6 +37,7 @@ func NewConfig(o ...Option) *Config {
 	c := &Config{
 		MaxLength:  DefaultMaxLength,
 		MinLength:  DefaultMinLength,
+		Mode:       DefaultMode,
 		NumberPass: DefaultNumberPass,
 	}
 
