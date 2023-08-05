@@ -11,8 +11,8 @@ type Mode uint8
 type ModeMask uint8
 
 const (
-	// ModeNumber sets the bitmask to include numbers in the generated passwords
-	ModeNumber = 1 << iota
+	// ModeNumeric sets the bitmask to include numeric in the generated passwords
+	ModeNumeric = 1 << iota
 	// ModeLowerCase sets the bitmask to include lower case characters in the
 	// generated passwords
 	ModeLowerCase
@@ -35,8 +35,8 @@ const (
 	CharRangeAlphaUpper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	// CharRangeAlphaUpperHuman represents the human-readable upper-case alphabetical characters
 	CharRangeAlphaUpperHuman = "ABCDEFGHJKMNPQRSTUVWXYZ"
-	// CharRangeNumber represents all numerical characters
-	CharRangeNumber = "1234567890"
+	// CharRangeNumeric represents all numerical characters
+	CharRangeNumeric = "1234567890"
 	// CharRangeNumberHuman represents all human-readable numerical characters
 	CharRangeNumberHuman = "23456789"
 	// CharRangeSpecial represents all special characters
@@ -63,7 +63,7 @@ func ModesFromFlags(ms string) ModeMask {
 	for _, m := range cl {
 		switch m {
 		case "C":
-			mm = MaskSetMode(mm, ModeLowerCase|ModeNumber|ModeSpecial|ModeUpperCase)
+			mm = MaskSetMode(mm, ModeLowerCase|ModeNumeric|ModeSpecial|ModeUpperCase)
 		case "h":
 			mm = MaskClearMode(mm, ModeHumanReadable)
 		case "H":
@@ -73,9 +73,9 @@ func ModesFromFlags(ms string) ModeMask {
 		case "L":
 			mm = MaskSetMode(mm, ModeLowerCase)
 		case "n":
-			mm = MaskClearMode(mm, ModeNumber)
+			mm = MaskClearMode(mm, ModeNumeric)
 		case "N":
-			mm = MaskSetMode(mm, ModeNumber)
+			mm = MaskSetMode(mm, ModeNumeric)
 		case "s":
 			mm = MaskClearMode(mm, ModeSpecial)
 		case "S":
@@ -98,8 +98,8 @@ func (m Mode) String() string {
 		return "Human-readable"
 	case ModeLowerCase:
 		return "Lower-case"
-	case ModeNumber:
-		return "Number"
+	case ModeNumeric:
+		return "Numeric"
 	case ModeSpecial:
 		return "Special"
 	case ModeUpperCase:

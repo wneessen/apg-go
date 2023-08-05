@@ -18,9 +18,13 @@ func main() {
 	var ms string
 	var co, hr, lc, nu, sp, uc bool
 	flag.BoolVar(&lc, "L", false, "")
+	flag.Int64Var(&c.MinLowerCase, "mL", c.MinLowerCase, "")
 	flag.BoolVar(&uc, "U", false, "")
+	flag.Int64Var(&c.MinUpperCase, "mU", c.MinUpperCase, "")
 	flag.BoolVar(&nu, "N", false, "")
+	flag.Int64Var(&c.MinNumeric, "mN", c.MinNumeric, "")
 	flag.BoolVar(&sp, "S", false, "")
+	flag.Int64Var(&c.MinSpecial, "mS", c.MinSpecial, "")
 	flag.BoolVar(&co, "C", false, "")
 	flag.BoolVar(&hr, "H", false, "")
 	flag.Int64Var(&c.FixedLength, "f", 0, "")
@@ -42,13 +46,13 @@ func main() {
 		c.Mode = apg.MaskToggleMode(c.Mode, apg.ModeUpperCase)
 	}
 	if nu {
-		c.Mode = apg.MaskToggleMode(c.Mode, apg.ModeNumber)
+		c.Mode = apg.MaskToggleMode(c.Mode, apg.ModeNumeric)
 	}
 	if sp {
 		c.Mode = apg.MaskToggleMode(c.Mode, apg.ModeSpecial)
 	}
 	if co {
-		c.Mode = apg.MaskSetMode(c.Mode, apg.ModeLowerCase|apg.ModeNumber|
+		c.Mode = apg.MaskSetMode(c.Mode, apg.ModeLowerCase|apg.ModeNumeric|
 			apg.ModeSpecial|apg.ModeUpperCase)
 		c.Mode = apg.MaskClearMode(c.Mode, apg.ModeHumanReadable)
 	}
@@ -91,12 +95,16 @@ Flags:
     -E CHARS             List of characters to be excluded in the generated password
     -M [LUNSHClunshc]    New style password flags
                           - Note: new-style flags have higher priority than any of the old-style flags
-    -L                   Toggle lower case characters in passwords (Default: on)
-    -U                   Toggle upper case characters in passwords (Default: on)
+    -mL NUMBER           Minimal amount of lower-case characters (implies -L)
+    -mN NUMBER           Minimal amount of numeric characters (imlies -N)
+    -mS NUMBER           Minimal amount of special characters (imlies -S)
+    -mU NUMBER           Minimal amount of upper-case characters (imlies -U)
+    -C                   Enable complex password mode (implies -L -U -N -S and disables -H)
+    -H                   Avoid ambiguous characters in passwords (i. e.: 1, l, I, O, 0) (Default: off)
+    -L                   Toggle lower-case characters in passwords (Default: on)
     -N                   Toggle numeric characters in passwords (Default: on)
     -S                   Toggle special characters in passwords (Default: off)
-    -H                   Avoid ambiguous characters in passwords (i. e.: 1, l, I, O, 0) (Default: off)
-    -C                   Enable complex password mode (implies -L -U -N -S and disables -H)
+    -U                   Toggle upper-case characters in passwords (Default: on)
                           - Note: this flag has higher priority than the other old-style flags
     -l                   Spell generated passwords in phonetic alphabet (Default: off)
     -p                   Check the HIBP database if the generated passwords was found in a leak before (Default: off)

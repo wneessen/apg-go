@@ -112,23 +112,23 @@ func TestGenerator_RandomString(t *testing.T) {
 	}{
 		{
 			"CharRange:AlphaLower", CharRangeAlphaLower,
-			CharRangeAlphaUpper + CharRangeNumber + CharRangeSpecial, false,
+			CharRangeAlphaUpper + CharRangeNumeric + CharRangeSpecial, false,
 		},
 		{
 			"CharRange:AlphaUpper", CharRangeAlphaUpper,
-			CharRangeAlphaLower + CharRangeNumber + CharRangeSpecial, false,
+			CharRangeAlphaLower + CharRangeNumeric + CharRangeSpecial, false,
 		},
 		{
-			"CharRange:Number", CharRangeNumber,
+			"CharRange:Number", CharRangeNumeric,
 			CharRangeAlphaLower + CharRangeAlphaUpper + CharRangeSpecial, false,
 		},
 		{
 			"CharRange:Special", CharRangeSpecial,
-			CharRangeAlphaLower + CharRangeAlphaUpper + CharRangeNumber, false,
+			CharRangeAlphaLower + CharRangeAlphaUpper + CharRangeNumeric, false,
 		},
 		{
 			"CharRange:Invalid", "",
-			CharRangeAlphaLower + CharRangeAlphaUpper + CharRangeNumber + CharRangeSpecial, true,
+			CharRangeAlphaLower + CharRangeAlphaUpper + CharRangeNumeric + CharRangeSpecial, true,
 		},
 	}
 	for _, tc := range tt {
@@ -171,7 +171,7 @@ func BenchmarkGenerator_RandomBytes(b *testing.B) {
 func BenchmarkGenerator_RandomString(b *testing.B) {
 	b.ReportAllocs()
 	g := New(NewConfig())
-	cr := CharRangeAlphaUpper + CharRangeAlphaLower + CharRangeNumber + CharRangeSpecial
+	cr := CharRangeAlphaUpper + CharRangeAlphaLower + CharRangeNumeric + CharRangeSpecial
 	for i := 0; i < b.N; i++ {
 		_, err := g.RandomStringFromCharRange(32, cr)
 		if err != nil {

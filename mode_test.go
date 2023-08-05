@@ -11,7 +11,7 @@ func TestSetClearHasToggleMode(t *testing.T) {
 	}{
 		{"ModeHumanReadable", ModeHumanReadable},
 		{"ModeLowerCase", ModeLowerCase},
-		{"ModeNumber", ModeNumber},
+		{"ModeNumeric", ModeNumeric},
 		{"ModeSpecial", ModeSpecial},
 		{"ModeUpperCase", ModeUpperCase},
 	}
@@ -45,24 +45,24 @@ func TestModesFromFlags(t *testing.T) {
 		ms   string
 		mode []Mode
 	}{
-		{"ModeComplex", "C", []Mode{ModeLowerCase, ModeNumber, ModeSpecial,
+		{"ModeComplex", "C", []Mode{ModeLowerCase, ModeNumeric, ModeSpecial,
 			ModeUpperCase}},
 		{"ModeHumanReadable", "H", []Mode{ModeHumanReadable}},
 		{"ModeLowerCase", "L", []Mode{ModeLowerCase}},
-		{"ModeNumber", "N", []Mode{ModeNumber}},
+		{"ModeNumeric", "N", []Mode{ModeNumeric}},
 		{"ModeUpperCase", "U", []Mode{ModeUpperCase}},
 		{"ModeSpecial", "S", []Mode{ModeSpecial}},
 		{"ModeLowerSpecialUpper", "LSUH", []Mode{ModeHumanReadable,
 			ModeLowerCase, ModeSpecial, ModeUpperCase}},
 		{"ModeComplexNoHumanReadable", "Ch", []Mode{ModeLowerCase,
-			ModeNumber, ModeSpecial, ModeUpperCase}},
-		{"ModeComplexNoLower", "Cl", []Mode{ModeNumber, ModeSpecial,
+			ModeNumeric, ModeSpecial, ModeUpperCase}},
+		{"ModeComplexNoLower", "Cl", []Mode{ModeNumeric, ModeSpecial,
 			ModeUpperCase}},
 		{"ModeComplexNoNumber", "Cn", []Mode{ModeLowerCase, ModeSpecial,
 			ModeUpperCase}},
-		{"ModeComplexNoSpecial", "Cs", []Mode{ModeLowerCase, ModeNumber,
+		{"ModeComplexNoSpecial", "Cs", []Mode{ModeLowerCase, ModeNumeric,
 			ModeUpperCase}},
-		{"ModeComplexNoUpper", "Cu", []Mode{ModeLowerCase, ModeNumber,
+		{"ModeComplexNoUpper", "Cu", []Mode{ModeLowerCase, ModeNumeric,
 			ModeSpecial}},
 	}
 	for _, tc := range tt {
@@ -87,7 +87,7 @@ func TestMode_String(t *testing.T) {
 	}{
 		{"ModeHumanReadable", ModeHumanReadable, "Human-readable"},
 		{"ModeLowerCase", ModeLowerCase, "Lower-case"},
-		{"ModeNumber", ModeNumber, "Number"},
+		{"ModeNumeric", ModeNumeric, "Number"},
 		{"ModeSpecial", ModeSpecial, "Special"},
 		{"ModeUpperCase", ModeUpperCase, "Upper-case"},
 		{"ModeUnknown", 255, "Unknown"},

@@ -8,7 +8,7 @@ const (
 	DefaultMaxLength int64 = 20
 	// DefaultMode sets the default character set mode bitmask to a combination of
 	// lower- and upper-case characters as well as numbers
-	DefaultMode ModeMask = ModeLowerCase | ModeNumber | ModeUpperCase
+	DefaultMode ModeMask = ModeLowerCase | ModeNumeric | ModeUpperCase
 	// DefaultNumberPass reflects the default amount of passwords returned by the generator
 	DefaultNumberPass int64 = 6
 )
@@ -23,7 +23,11 @@ type Config struct {
 	// MaxLength sets the maximum length for a generated password
 	MaxLength int64
 	// MinLength sets the minimum length for a generated password
-	MinLength int64
+	MinLength    int64
+	MinLowerCase int64
+	MinNumeric   int64
+	MinSpecial   int64
+	MinUpperCase int64
 	// Mode holds the different character modes for the Random algorithm
 	Mode ModeMask
 	// NumberPass sets the number of passwords that are generated
