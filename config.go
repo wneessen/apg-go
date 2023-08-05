@@ -17,6 +17,9 @@ const (
 type Config struct {
 	// Algo
 	Algorithm Algorithm
+	// FixedLength sets a fixed length for generated passwords and ignores
+	// the MinLength and MaxLength values
+	FixedLength int64
 	// MaxLength sets the maximum length for a generated password
 	MaxLength int64
 	// MinLength sets the minimum length for a generated password

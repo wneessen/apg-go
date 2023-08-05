@@ -106,3 +106,26 @@ func (g *Generator) CoinFlip() int64 {
 func (g *Generator) CoinFlipBool() bool {
 	return g.CoinFlip() == 1
 }
+
+// GetPasswordLength returns the password length based on the given config
+// parameters
+func (g *Generator) GetPasswordLength() (int64, error) {
+	if g.config.FixedLength > 0 {
+		return g.config.FixedLength, nil
+	}
+	mil := g.config.MinLength
+	mal := g.config.MaxLength
+	if mil > mal {
+		mal = mil
+	}
+	diff := mal - mil + 1
+	ra, err := g.RandNum(diff)
+	if err != nil {
+		return 0, fmt.Errorf("failed to calculate password length: %w", err)
+	}
+	l := mil + ra
+	if l <= 0 {
+		return 1, nil
+	}
+	return l, nil
+}

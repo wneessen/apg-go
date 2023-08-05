@@ -23,6 +23,7 @@ func main() {
 	flag.BoolVar(&sp, "S", false, "")
 	flag.BoolVar(&co, "C", false, "")
 	flag.BoolVar(&hr, "H", false, "")
+	flag.Int64Var(&c.FixedLength, "f", 0, "")
 	flag.Int64Var(&c.MinLength, "m", c.MinLength, "")
 	flag.Int64Var(&c.MaxLength, "x", c.MaxLength, "")
 	flag.StringVar(&ms, "M", "", "")
@@ -56,19 +57,16 @@ func main() {
 	if ms != "" {
 		c.Mode = apg.ModesFromFlags(ms)
 	}
-	for _, m := range []apg.Mode{apg.ModeHumanReadable, apg.ModeLowerCase, apg.ModeNumber, apg.ModeSpecial, apg.ModeUpperCase} {
-		fmt.Printf("%s: %t\n", m, apg.MaskHasMode(c.Mode, m))
-	}
-	/*
-		g := apg.New(c)
-		rb, err := g.RandomBytes(c.MinLength)
-		if err != nil {
-			fmt.Println("ERROR", err)
-			os.Exit(1)
-		}
-		fmt.Printf("Random: %#v\n", rb)
 
-	*/
+	// Generate the password based on the given flags
+	g := apg.New(c)
+	for i := int64(0); i < c.NumberPass; i++ {
+		pl, err := g.GetPasswordLength()
+		if err != nil {
+			_, _ = fmt.Fprintf(os.Stderr, "Error during password generation: %s\n", err)
+		}
+		fmt.Printf("PW length: %d\n", pl)
+	}
 }
 
 // usage is used by the flag package to display the CLI usage message
@@ -86,6 +84,7 @@ Options:
                           - 1: random password generation according to password modes/flags
     -m LENGTH            Minimum length of the password to be generated (Default: 12)
     -x LENGTH            Maximum length of the password to be generated (Default: 20)
+    -f LENGTH            Fixed length of the password to be generated (Ignores -m and -x)
     -n NUMBER            Amount of password to be generated (Default: 6)
     -E CHARS             List of characters to be excluded in the generated password
     -M [LUNSHClunshc]    New style password parameters
