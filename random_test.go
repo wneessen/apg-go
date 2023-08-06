@@ -103,7 +103,7 @@ func TestGenerator_RandomBytes(t *testing.T) {
 
 func TestGenerator_RandomString(t *testing.T) {
 	g := New(NewConfig())
-	l := 32
+	var l int64 = 32 * 1024
 	tt := []struct {
 		name string
 		cr   string
@@ -137,7 +137,7 @@ func TestGenerator_RandomString(t *testing.T) {
 			if err != nil && !tc.sf {
 				t.Errorf("RandomStringFromCharRange failed: %s", err)
 			}
-			if len(rs) != l && !tc.sf {
+			if int64(len(rs)) != l && !tc.sf {
 				t.Errorf("RandomStringFromCharRange failed. Expected length: %d, got: %d", l, len(rs))
 			}
 			if strings.ContainsAny(rs, tc.nr) {

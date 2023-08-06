@@ -37,8 +37,8 @@ const (
 	CharRangeAlphaUpperHuman = "ABCDEFGHJKMNPQRSTUVWXYZ"
 	// CharRangeNumeric represents all numerical characters
 	CharRangeNumeric = "1234567890"
-	// CharRangeNumberHuman represents all human-readable numerical characters
-	CharRangeNumberHuman = "23456789"
+	// CharRangeNumericHuman represents all human-readable numerical characters
+	CharRangeNumericHuman = "23456789"
 	// CharRangeSpecial represents all special characters
 	CharRangeSpecial = `!\"#$%&'()*+,-./:;<=>?@[\\]^_{|}~`
 	// CharRangeSpecialHuman represents all human-readable special characters

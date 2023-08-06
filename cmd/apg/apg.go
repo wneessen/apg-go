@@ -10,6 +10,13 @@ import (
 	"github.com/wneessen/apg-go"
 )
 
+// MinimumAmountTooHigh is an error message displayed when a minimum amount of
+// parameter has been set to a too high value
+const MinimumAmountTooHigh = "WARNING: You have selected a minimum amount of characters that is bigger\n" +
+	"than 50% of the minimum password length to be generated. This can lead\n" +
+	"to extraordinary calculation times resulting in apg-go never finishing\n" +
+	"the job. Please consider lowering the value.\n\n"
+
 func main() {
 	c := apg.NewConfig()
 
@@ -64,6 +71,33 @@ func main() {
 		c.Mode = apg.ModesFromFlags(ms)
 	}
 
+	// For the "minimum amount of" modes we need to imply at the type
+	// of character mode is set
+	if c.MinLowerCase > 0 {
+		if float64(c.MinLength)/2 < float64(c.MinNumeric) {
+			_, _ = os.Stderr.WriteString(MinimumAmountTooHigh)
+		}
+		c.Mode = apg.MaskSetMode(c.Mode, apg.ModeLowerCase)
+	}
+	if c.MinNumeric > 0 {
+		if float64(c.MinLength)/2 < float64(c.MinLowerCase) {
+			_, _ = os.Stderr.WriteString(MinimumAmountTooHigh)
+		}
+		c.Mode = apg.MaskSetMode(c.Mode, apg.ModeNumeric)
+	}
+	if c.MinSpecial > 0 {
+		if float64(c.MinLength)/2 < float64(c.MinSpecial) {
+			_, _ = os.Stderr.WriteString(MinimumAmountTooHigh)
+		}
+		c.Mode = apg.MaskSetMode(c.Mode, apg.ModeSpecial)
+	}
+	if c.MinUpperCase > 0 {
+		if float64(c.MinLength)/2 < float64(c.MinUpperCase) {
+			_, _ = os.Stderr.WriteString(MinimumAmountTooHigh)
+		}
+		c.Mode = apg.MaskSetMode(c.Mode, apg.ModeUpperCase)
+	}
+
 	// Check if algorithm is supported
 	c.Algorithm = apg.IntToAlgo(al)
 	if c.Algorithm == apg.AlgoUnsupported {
@@ -106,10 +140,12 @@ Flags:
     -E CHARS             List of characters to be excluded in the generated password
     -M [LUNSHClunshc]    New style password flags
                           - Note: new-style flags have higher priority than any of the old-style flags
-    -mL NUMBER           Minimal amount of lower-case characters (implies -L)
-    -mN NUMBER           Minimal amount of numeric characters (imlies -N)
-    -mS NUMBER           Minimal amount of special characters (imlies -S)
-    -mU NUMBER           Minimal amount of upper-case characters (imlies -U)
+    -mL NUMBER           Minimum amount of lower-case characters (implies -L)
+    -mN NUMBER           Minimum amount of numeric characters (imlies -N)
+    -mS NUMBER           Minimum amount of special characters (imlies -S)
+    -mU NUMBER           Minimum amount of upper-case characters (imlies -U)
+                          - Note: any of the "Minimum amount of" modes may result in
+                            extraordinarily long calculation times
     -C                   Enable complex password mode (implies -L -U -N -S and disables -H)
     -H                   Avoid ambiguous characters in passwords (i. e.: 1, l, I, O, 0) (Default: off)
     -L                   Toggle lower-case characters in passwords (Default: on)
