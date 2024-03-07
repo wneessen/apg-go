@@ -1,0 +1,45 @@
+# SPDX-FileCopyrightText: 2023 Winni Neessen <wn@neessen.dev>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: SonarQube
+on:
+  push:
+    branches:
+      - main # or the name of your main branch
+  pull_request:
+    branches:
+      - main # or the name of your main branch
+env:
+  API_KEY: ${{ secrets.API_KEY }}
+jobs:
+  build:
+    name: Build
+    runs-on: docker
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          
+      - name: Setup Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: '1.22'
+          
+      - name: Run unit Tests
+        run: |
+          go test -v -shuffle=on -race --coverprofile=./cov.out ./...
+
+      - name: Install jq
+        run: |
+          apt-get update; apt-get -y install jq; which jq
+
+      - uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          
+      - uses: sonarsource/sonarqube-quality-gate-action@master
+        timeout-minutes: 5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
