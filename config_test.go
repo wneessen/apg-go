@@ -29,6 +29,36 @@ func TestNewConfig(t *testing.T) {
 	}
 }
 
+func TestWithAlgorithm(t *testing.T) {
+	tests := []struct {
+		name string
+		algo Algorithm
+		want int
+	}{
+		{"Pronouncble passwords", AlgoPronouncable, 0},
+		{"Random passwords", AlgoRandom, 1},
+		{"Coinflip", AlgoCoinFlip, 2},
+		{"Unsupported", AlgoUnsupported, 3},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := NewConfig(WithAlgorithm(tt.algo))
+			if c == nil {
+				t.Errorf("NewConfig(WithAlgorithm()) failed, expected config pointer but got nil")
+				return
+			}
+			if c.Algorithm != tt.algo {
+				t.Errorf("NewConfig(WithAlgorithm()) failed, expected algo: %d, got: %d",
+					tt.algo, c.Algorithm)
+			}
+			if IntToAlgo(tt.want) != c.Algorithm {
+				t.Errorf("IntToAlgo() failed, expected algo: %d, got: %d",
+					tt.want, c.Algorithm)
+			}
+		})
+	}
+}
+
 func TestWithMaxLength(t *testing.T) {
 	var e int64 = 123
 	c := NewConfig(WithMaxLength(e))

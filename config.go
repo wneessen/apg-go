@@ -48,8 +48,8 @@ type Option func(*Config)
 
 // NewConfig creates a new Config instance and pre-fills it with sane
 // default settings. The Config is returned as pointer value
-func NewConfig(o ...Option) *Config {
-	c := &Config{
+func NewConfig(opts ...Option) *Config {
+	config := &Config{
 		MaxLength:  DefaultMaxLength,
 		MinLength:  DefaultMinLength,
 		Mode:       DefaultMode,
@@ -57,32 +57,39 @@ func NewConfig(o ...Option) *Config {
 	}
 
 	// Override defaults with optionally provided config.Option functions
-	for _, co := range o {
-		if co == nil {
+	for _, opt := range opts {
+		if opt == nil {
 			continue
 		}
-		co(c)
+		opt(config)
 	}
-	return c
+	return config
+}
+
+// WithAlgorithm overrides the algorithm mode for the password generation
+func WithAlgorithm(algo Algorithm) Option {
+	return func(config *Config) {
+		config.Algorithm = algo
+	}
 }
 
 // WithMinLength overrides the minimum password length
-func WithMinLength(l int64) Option {
-	return func(c *Config) {
-		c.MinLength = l
+func WithMinLength(length int64) Option {
+	return func(config *Config) {
+		config.MinLength = length
 	}
 }
 
 // WithMaxLength overrides the maximum password length
-func WithMaxLength(l int64) Option {
-	return func(c *Config) {
-		c.MaxLength = l
+func WithMaxLength(length int64) Option {
+	return func(config *Config) {
+		config.MaxLength = length
 	}
 }
 
-// WithNumberPass overrides the number of generated passwords setting
-func WithNumberPass(n int64) Option {
-	return func(c *Config) {
-		c.NumberPass = n
+// WithNumberPass overrides the amount of generated passwords setting
+func WithNumberPass(amount int64) Option {
+	return func(config *Config) {
+		config.NumberPass = amount
 	}
 }
