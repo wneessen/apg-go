@@ -10,7 +10,8 @@ func TestIntToAlgo(t *testing.T) {
 	}{
 		{"AlgoPronouncable", 0, AlgoPronouncable},
 		{"AlgoRandom", 1, AlgoRandom},
-		{"AlgoUnsupported", 2, AlgoUnsupported},
+		{"AlgoCoinflip", 2, AlgoCoinFlip},
+		{"AlgoUnsupported", 3, AlgoUnsupported},
 	}
 	for _, tc := range tt {
 		t.Run(tc.name, func(t *testing.T) {
