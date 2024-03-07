@@ -87,7 +87,7 @@ func TestMode_String(t *testing.T) {
 	}{
 		{"ModeHumanReadable", ModeHumanReadable, "Human-readable"},
 		{"ModeLowerCase", ModeLowerCase, "Lower-case"},
-		{"ModeNumeric", ModeNumeric, "Number"},
+		{"ModeNumeric", ModeNumeric, "Numeric"},
 		{"ModeSpecial", ModeSpecial, "Special"},
 		{"ModeUpperCase", ModeUpperCase, "Upper-case"},
 		{"ModeUnknown", 255, "Unknown"},
