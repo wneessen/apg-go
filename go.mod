@@ -1,3 +1,3 @@
-module github.com/wneessen/apg-go
+module src.neessen.cloud/wneessen/apg-go
 
-go 1.20
+go 1.22
