@@ -141,9 +141,9 @@ Flags:
     -M [LUNSHClunshc]    New style password flags
                           - Note: new-style flags have higher priority than any of the old-style flags
     -mL NUMBER           Minimum amount of lower-case characters (implies -L)
-    -mN NUMBER           Minimum amount of numeric characters (imlies -N)
-    -mS NUMBER           Minimum amount of special characters (imlies -S)
-    -mU NUMBER           Minimum amount of upper-case characters (imlies -U)
+    -mN NUMBER           Minimum amount of numeric characters (implies -N)
+    -mS NUMBER           Minimum amount of special characters (implies -S)
+    -mU NUMBER           Minimum amount of upper-case characters (implies -U)
                           - Note: any of the "Minimum amount of" modes may result in
                             extraordinarily long calculation times
     -C                   Enable complex password mode (implies -L -U -N -S and disables -H)
