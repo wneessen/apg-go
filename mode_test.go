@@ -45,30 +45,43 @@ func TestModesFromFlags(t *testing.T) {
 		ms   string
 		mode []Mode
 	}{
-		{"ModeComplex", "C", []Mode{ModeLowerCase, ModeNumeric, ModeSpecial,
-			ModeUpperCase}},
+		{"ModeComplex", "C", []Mode{
+			ModeLowerCase, ModeNumeric, ModeSpecial,
+			ModeUpperCase,
+		}},
 		{"ModeHumanReadable", "H", []Mode{ModeHumanReadable}},
 		{"ModeLowerCase", "L", []Mode{ModeLowerCase}},
 		{"ModeNumeric", "N", []Mode{ModeNumeric}},
 		{"ModeUpperCase", "U", []Mode{ModeUpperCase}},
 		{"ModeSpecial", "S", []Mode{ModeSpecial}},
-		{"ModeLowerSpecialUpper", "LSUH", []Mode{ModeHumanReadable,
-			ModeLowerCase, ModeSpecial, ModeUpperCase}},
-		{"ModeComplexNoHumanReadable", "Ch", []Mode{ModeLowerCase,
-			ModeNumeric, ModeSpecial, ModeUpperCase}},
-		{"ModeComplexNoLower", "Cl", []Mode{ModeNumeric, ModeSpecial,
-			ModeUpperCase}},
-		{"ModeComplexNoNumber", "Cn", []Mode{ModeLowerCase, ModeSpecial,
-			ModeUpperCase}},
-		{"ModeComplexNoSpecial", "Cs", []Mode{ModeLowerCase, ModeNumeric,
-			ModeUpperCase}},
-		{"ModeComplexNoUpper", "Cu", []Mode{ModeLowerCase, ModeNumeric,
-			ModeSpecial}},
+		{"ModeLowerSpecialUpper", "LSUH", []Mode{
+			ModeHumanReadable,
+			ModeLowerCase, ModeSpecial, ModeUpperCase,
+		}},
+		{"ModeComplexNoHumanReadable", "Ch", []Mode{
+			ModeLowerCase,
+			ModeNumeric, ModeSpecial, ModeUpperCase,
+		}},
+		{"ModeComplexNoLower", "Cl", []Mode{
+			ModeNumeric, ModeSpecial,
+			ModeUpperCase,
+		}},
+		{"ModeComplexNoNumber", "Cn", []Mode{
+			ModeLowerCase, ModeSpecial,
+			ModeUpperCase,
+		}},
+		{"ModeComplexNoSpecial", "Cs", []Mode{
+			ModeLowerCase, ModeNumeric,
+			ModeUpperCase,
+		}},
+		{"ModeComplexNoUpper", "Cu", []Mode{
+			ModeLowerCase, ModeNumeric,
+			ModeSpecial,
+		}},
 	}
 	for _, tc := range tt {
 		t.Run(tc.name, func(t *testing.T) {
-			var mm ModeMask
-			mm = ModesFromFlags(tc.ms)
+			mm := ModesFromFlags(tc.ms)
 			for _, tm := range tc.mode {
 				if !MaskHasMode(mm, tm) {
 					t.Errorf("ModesFromFlags() failed, expected mode %q not found",

@@ -119,146 +119,146 @@ func (g *Generator) RandomStringFromCharRange(length int64, charRange string) (s
 	if len(charRange) < 1 {
 		return "", ErrInvalidCharRange
 	}
-	rs := strings.Builder{}
+	randString := strings.Builder{}
 
 	// As long as the length is smaller than the max. int32 value let's grow
 	// the string builder to the actual size, so we need less allocations
 	if length <= maxInt32 {
-		rs.Grow(int(length))
+		randString.Grow(int(length))
 	}
 
 	charRangeLength := len(charRange)
 
-	rp := make([]byte, 8)
-	_, err := rand.Read(rp)
+	randPool := make([]byte, 8)
+	_, err := rand.Read(randPool)
 	if err != nil {
-		return rs.String(), err
+		return randString.String(), err
 	}
-	for i, c, r := length-1, binary.BigEndian.Uint64(rp), letterIdxMax; i >= 0; {
-		if r == 0 {
-			_, err = rand.Read(rp)
+	for idx, char, rest := length-1, binary.BigEndian.Uint64(randPool), letterIdxMax; idx >= 0; {
+		if rest == 0 {
+			_, err = rand.Read(randPool)
 			if err != nil {
-				return rs.String(), err
+				return randString.String(), err
 			}
-			c, r = binary.BigEndian.Uint64(rp), letterIdxMax
+			char, rest = binary.BigEndian.Uint64(randPool), letterIdxMax
 		}
-		if idx := int(c & letterIdxMask); idx < charRangeLength {
-			rs.WriteByte(charRange[idx])
-			i--
+		if i := int(char & letterIdxMask); i < charRangeLength {
+			randString.WriteByte(charRange[i])
+			idx--
 		}
-		c >>= letterIdxBits
-		r--
+		char >>= letterIdxBits
+		rest--
 	}
 
-	return rs.String(), nil
+	return randString.String(), nil
 }
 
 // GetCharRangeFromConfig checks the Mode from the Config and returns a
 // list of all possible characters that are supported by these Mode
 func (g *Generator) GetCharRangeFromConfig() string {
-	cr := strings.Builder{}
+	charRange := strings.Builder{}
 	if MaskHasMode(g.config.Mode, ModeLowerCase) {
 		switch MaskHasMode(g.config.Mode, ModeHumanReadable) {
 		case true:
-			cr.WriteString(CharRangeAlphaLowerHuman)
+			charRange.WriteString(CharRangeAlphaLowerHuman)
 		default:
-			cr.WriteString(CharRangeAlphaLower)
+			charRange.WriteString(CharRangeAlphaLower)
 		}
 	}
 	if MaskHasMode(g.config.Mode, ModeNumeric) {
 		switch MaskHasMode(g.config.Mode, ModeHumanReadable) {
 		case true:
-			cr.WriteString(CharRangeNumericHuman)
+			charRange.WriteString(CharRangeNumericHuman)
 		default:
-			cr.WriteString(CharRangeNumeric)
+			charRange.WriteString(CharRangeNumeric)
 		}
 	}
 	if MaskHasMode(g.config.Mode, ModeSpecial) {
 		switch MaskHasMode(g.config.Mode, ModeHumanReadable) {
 		case true:
-			cr.WriteString(CharRangeSpecialHuman)
+			charRange.WriteString(CharRangeSpecialHuman)
 		default:
-			cr.WriteString(CharRangeSpecial)
+			charRange.WriteString(CharRangeSpecial)
 		}
 	}
 	if MaskHasMode(g.config.Mode, ModeUpperCase) {
 		switch MaskHasMode(g.config.Mode, ModeHumanReadable) {
 		case true:
-			cr.WriteString(CharRangeAlphaUpperHuman)
+			charRange.WriteString(CharRangeAlphaUpperHuman)
 		default:
-			cr.WriteString(CharRangeAlphaUpper)
+			charRange.WriteString(CharRangeAlphaUpper)
 		}
 	}
-	return cr.String()
+	return charRange.String()
 }
 
-func (g *Generator) checkMinimumRequirements(pw string) bool {
+func (g *Generator) checkMinimumRequirements(password string) bool {
 	ok := true
 	if g.config.MinLowerCase > 0 {
-		var cr string
+		var charRange string
 		switch MaskHasMode(g.config.Mode, ModeHumanReadable) {
 		case true:
-			cr = CharRangeAlphaLowerHuman
+			charRange = CharRangeAlphaLowerHuman
 		default:
-			cr = CharRangeAlphaLower
+			charRange = CharRangeAlphaLower
 		}
 
-		m := 0
-		for _, c := range cr {
-			m += strings.Count(pw, string(c))
+		count := 0
+		for _, char := range charRange {
+			count += strings.Count(password, string(char))
 		}
-		if int64(m) < g.config.MinLowerCase {
+		if int64(count) < g.config.MinLowerCase {
 			ok = false
 		}
 	}
 	if g.config.MinNumeric > 0 {
-		var cr string
+		var charRange string
 		switch MaskHasMode(g.config.Mode, ModeHumanReadable) {
 		case true:
-			cr = CharRangeNumericHuman
+			charRange = CharRangeNumericHuman
 		default:
-			cr = CharRangeNumeric
+			charRange = CharRangeNumeric
 		}
 
-		m := 0
-		for _, c := range cr {
-			m += strings.Count(pw, string(c))
+		count := 0
+		for _, char := range charRange {
+			count += strings.Count(password, string(char))
 		}
-		if int64(m) < g.config.MinNumeric {
+		if int64(count) < g.config.MinNumeric {
 			ok = false
 		}
 	}
 	if g.config.MinSpecial > 0 {
-		var cr string
+		var charRange string
 		switch MaskHasMode(g.config.Mode, ModeHumanReadable) {
 		case true:
-			cr = CharRangeSpecialHuman
+			charRange = CharRangeSpecialHuman
 		default:
-			cr = CharRangeSpecial
+			charRange = CharRangeSpecial
 		}
 
-		m := 0
-		for _, c := range cr {
-			m += strings.Count(pw, string(c))
+		count := 0
+		for _, char := range charRange {
+			count += strings.Count(password, string(char))
 		}
-		if int64(m) < g.config.MinSpecial {
+		if int64(count) < g.config.MinSpecial {
 			ok = false
 		}
 	}
 	if g.config.MinUpperCase > 0 {
-		var cr string
+		var charRange string
 		switch MaskHasMode(g.config.Mode, ModeHumanReadable) {
 		case true:
-			cr = CharRangeAlphaUpperHuman
+			charRange = CharRangeAlphaUpperHuman
 		default:
-			cr = CharRangeAlphaUpper
+			charRange = CharRangeAlphaUpper
 		}
 
-		m := 0
-		for _, c := range cr {
-			m += strings.Count(pw, string(c))
+		count := 0
+		for _, char := range charRange {
+			count += strings.Count(password, string(char))
 		}
-		if int64(m) < g.config.MinUpperCase {
+		if int64(count) < g.config.MinUpperCase {
 			ok = false
 		}
 	}
@@ -268,31 +268,29 @@ func (g *Generator) checkMinimumRequirements(pw string) bool {
 // generateCoinFlip is executed when Generate() is called with Algorithm set
 // to AlgoCoinFlip
 func (g *Generator) generateCoinFlip() (string, error) {
-	switch g.CoinFlipBool() {
-	case true:
+	if g.CoinFlipBool() {
 		return "Heads", nil
-	default:
-		return "Tails", nil
 	}
+	return "Tails", nil
 }
 
 // generateRandom is executed when Generate() is called with Algorithm set
 // to AlgoRandmom
 func (g *Generator) generateRandom() (string, error) {
-	l, err := g.GetPasswordLength()
+	length, err := g.GetPasswordLength()
 	if err != nil {
 		return "", fmt.Errorf("failed to calculate password length: %w", err)
 	}
-	cr := g.GetCharRangeFromConfig()
-	var pw string
+	charRange := g.GetCharRangeFromConfig()
+	var password string
 	var ok bool
 	for !ok {
-		pw, err = g.RandomStringFromCharRange(l, cr)
+		password, err = g.RandomStringFromCharRange(length, charRange)
 		if err != nil {
 			return "", err
 		}
-		ok = g.checkMinimumRequirements(pw)
+		ok = g.checkMinimumRequirements(password)
 	}
 
-	return pw, nil
+	return password, nil
 }

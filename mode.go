@@ -88,7 +88,6 @@ func ModesFromFlags(ms string) ModeMask {
 	}
 
 	return mm
-
 }
 
 // String satisfies the fmt.Stringer interface for the Mode type
