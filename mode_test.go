@@ -84,8 +84,7 @@ func TestModesFromFlags(t *testing.T) {
 			mm := ModesFromFlags(tc.ms)
 			for _, tm := range tc.mode {
 				if !MaskHasMode(mm, tm) {
-					t.Errorf("ModesFromFlags() failed, expected mode %q not found",
-						tm)
+					t.Errorf("ModesFromFlags() failed, expected mode %q not found", tm)
 				}
 			}
 		})
