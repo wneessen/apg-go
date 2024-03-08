@@ -46,6 +46,7 @@ func (g *Generator) CoinFlipBool() bool {
 func (g *Generator) Generate() (string, error) {
 	switch g.config.Algorithm {
 	case AlgoPronouncable:
+		return g.generatePronouncable()
 	case AlgoCoinFlip:
 		return g.generateCoinFlip()
 	case AlgoRandom:
@@ -54,6 +55,45 @@ func (g *Generator) Generate() (string, error) {
 		return "", fmt.Errorf("unsupported algorithm")
 	}
 	return "", nil
+}
+
+// GetCharRangeFromConfig checks the Mode from the Config and returns a
+// list of all possible characters that are supported by these Mode
+func (g *Generator) GetCharRangeFromConfig() string {
+	charRange := strings.Builder{}
+	if MaskHasMode(g.config.Mode, ModeLowerCase) {
+		switch MaskHasMode(g.config.Mode, ModeHumanReadable) {
+		case true:
+			charRange.WriteString(CharRangeAlphaLowerHuman)
+		default:
+			charRange.WriteString(CharRangeAlphaLower)
+		}
+	}
+	if MaskHasMode(g.config.Mode, ModeNumeric) {
+		switch MaskHasMode(g.config.Mode, ModeHumanReadable) {
+		case true:
+			charRange.WriteString(CharRangeNumericHuman)
+		default:
+			charRange.WriteString(CharRangeNumeric)
+		}
+	}
+	if MaskHasMode(g.config.Mode, ModeSpecial) {
+		switch MaskHasMode(g.config.Mode, ModeHumanReadable) {
+		case true:
+			charRange.WriteString(CharRangeSpecialHuman)
+		default:
+			charRange.WriteString(CharRangeSpecial)
+		}
+	}
+	if MaskHasMode(g.config.Mode, ModeUpperCase) {
+		switch MaskHasMode(g.config.Mode, ModeHumanReadable) {
+		case true:
+			charRange.WriteString(CharRangeAlphaUpperHuman)
+		default:
+			charRange.WriteString(CharRangeAlphaUpper)
+		}
+	}
+	return charRange.String()
 }
 
 // GetPasswordLength returns the password length based on the given config
@@ -154,45 +194,14 @@ func (g *Generator) RandomStringFromCharRange(length int64, charRange string) (s
 	return randString.String(), nil
 }
 
-// GetCharRangeFromConfig checks the Mode from the Config and returns a
-// list of all possible characters that are supported by these Mode
-func (g *Generator) GetCharRangeFromConfig() string {
-	charRange := strings.Builder{}
-	if MaskHasMode(g.config.Mode, ModeLowerCase) {
-		switch MaskHasMode(g.config.Mode, ModeHumanReadable) {
-		case true:
-			charRange.WriteString(CharRangeAlphaLowerHuman)
-		default:
-			charRange.WriteString(CharRangeAlphaLower)
-		}
-	}
-	if MaskHasMode(g.config.Mode, ModeNumeric) {
-		switch MaskHasMode(g.config.Mode, ModeHumanReadable) {
-		case true:
-			charRange.WriteString(CharRangeNumericHuman)
-		default:
-			charRange.WriteString(CharRangeNumeric)
-		}
-	}
-	if MaskHasMode(g.config.Mode, ModeSpecial) {
-		switch MaskHasMode(g.config.Mode, ModeHumanReadable) {
-		case true:
-			charRange.WriteString(CharRangeSpecialHuman)
-		default:
-			charRange.WriteString(CharRangeSpecial)
-		}
-	}
-	if MaskHasMode(g.config.Mode, ModeUpperCase) {
-		switch MaskHasMode(g.config.Mode, ModeHumanReadable) {
-		case true:
-			charRange.WriteString(CharRangeAlphaUpperHuman)
-		default:
-			charRange.WriteString(CharRangeAlphaUpper)
-		}
-	}
-	return charRange.String()
-}
-
+// checkMinimumRequirements checks if a password meets the minimum requirements specified in the
+// generator's configuration. It returns true if the password meets the requirements, otherwise it
+// returns false.
+//
+// The minimum requirements for each character type (lowercase, numeric, special, uppercase) are
+// checked independently. For each character type, the corresponding character range is determined
+// based on the generator's configuration. The password is then checked for the presence of each
+// character in the character range, and a count is maintained.
 func (g *Generator) checkMinimumRequirements(password string) bool {
 	ok := true
 	if g.config.MinLowerCase > 0 {
@@ -273,6 +282,44 @@ func (g *Generator) generateCoinFlip() (string, error) {
 		return "Heads", nil
 	}
 	return "Tails", nil
+}
+
+// generatePronouncable is executed when Generate() is called with Algorithm set
+// to AlgoPronouncable
+func (g *Generator) generatePronouncable() (string, error) {
+	var password string
+	syllables := make([]string, 0)
+
+	length, err := g.GetPasswordLength()
+	if err != nil {
+		return "", fmt.Errorf("failed to calculate password length: %w", err)
+	}
+
+	characterSet := append(KoremutakeSyllables, strings.Split(CharRangeNumericHuman, "")...)
+	characterSet = append(characterSet, strings.Split(CharRangeSpecialHuman, "")...)
+	characterSetLength := len(characterSet)
+	for int64(len(password)) < length {
+		randNum, err := g.RandNum(int64(characterSetLength))
+		if err != nil {
+			return "", fmt.Errorf("failed to generate a random number for Koremutake syllable generation: %s",
+				err)
+		}
+		nextSyllable := characterSet[randNum]
+		if g.CoinFlipBool() {
+			syllableLength := len(nextSyllable)
+			characterPosition, err := g.RandNum(int64(syllableLength))
+			if err != nil {
+				return "", fmt.Errorf("failed to generate a random number for Koremutake syllable generation: %s",
+					err)
+			}
+			randomChar := string(nextSyllable[characterPosition])
+			nextSyllable = strings.ReplaceAll(nextSyllable, randomChar, strings.ToUpper(randomChar))
+		}
+		password += nextSyllable
+		syllables = append(syllables, nextSyllable)
+	}
+
+	return password, nil
 }
 
 // generateRandom is executed when Generate() is called with Algorithm set
