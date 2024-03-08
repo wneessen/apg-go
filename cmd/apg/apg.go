@@ -18,102 +18,111 @@ const MinimumAmountTooHigh = "WARNING: You have selected a minimum amount of cha
 	"the job. Please consider lowering the value.\n\n"
 
 func main() {
-	c := apg.NewConfig()
+	config := apg.NewConfig()
 
 	// Configure and parse the CLI flags
 	// See usage() for flag details
-	var al int
-	var ms string
-	var co, hr, lc, nu, sp, uc bool
-	flag.IntVar(&al, "a", 1, "")
-	flag.BoolVar(&lc, "L", false, "")
-	flag.Int64Var(&c.MinLowerCase, "mL", c.MinLowerCase, "")
-	flag.BoolVar(&uc, "U", false, "")
-	flag.Int64Var(&c.MinUpperCase, "mU", c.MinUpperCase, "")
-	flag.BoolVar(&nu, "N", false, "")
-	flag.Int64Var(&c.MinNumeric, "mN", c.MinNumeric, "")
-	flag.BoolVar(&sp, "S", false, "")
-	flag.Int64Var(&c.MinSpecial, "mS", c.MinSpecial, "")
-	flag.BoolVar(&co, "C", false, "")
-	flag.BoolVar(&hr, "H", false, "")
-	flag.Int64Var(&c.FixedLength, "f", 0, "")
-	flag.Int64Var(&c.MinLength, "m", c.MinLength, "")
-	flag.Int64Var(&c.MaxLength, "x", c.MaxLength, "")
-	flag.StringVar(&ms, "M", "", "")
-	flag.Int64Var(&c.NumberPass, "n", c.NumberPass, "")
+	var algorithm int
+	var modeString string
+	var complexPass, humanReadable, lowerCase, numeric, special, upperCase bool
+	flag.IntVar(&algorithm, "a", 1, "")
+	flag.BoolVar(&lowerCase, "L", false, "")
+	flag.Int64Var(&config.MinLowerCase, "mL", config.MinLowerCase, "")
+	flag.BoolVar(&upperCase, "U", false, "")
+	flag.Int64Var(&config.MinUpperCase, "mU", config.MinUpperCase, "")
+	flag.BoolVar(&numeric, "N", false, "")
+	flag.Int64Var(&config.MinNumeric, "mN", config.MinNumeric, "")
+	flag.BoolVar(&special, "S", false, "")
+	flag.Int64Var(&config.MinSpecial, "mS", config.MinSpecial, "")
+	flag.BoolVar(&complexPass, "C", false, "")
+	flag.BoolVar(&humanReadable, "H", false, "")
+	flag.Int64Var(&config.FixedLength, "f", 0, "")
+	flag.Int64Var(&config.MinLength, "m", config.MinLength, "")
+	flag.Int64Var(&config.MaxLength, "x", config.MaxLength, "")
+	flag.StringVar(&modeString, "M", "", "")
+	flag.Int64Var(&config.NumberPass, "n", config.NumberPass, "")
+	flag.BoolVar(&config.SpellPassword, "l", false, "")
 	flag.Usage = usage
 	flag.Parse()
 
 	// Old style character modes
-	if hr {
-		c.Mode = apg.MaskToggleMode(c.Mode, apg.ModeHumanReadable)
+	if humanReadable {
+		config.Mode = apg.MaskToggleMode(config.Mode, apg.ModeHumanReadable)
 	}
-	if lc {
-		c.Mode = apg.MaskToggleMode(c.Mode, apg.ModeLowerCase)
+	if lowerCase {
+		config.Mode = apg.MaskToggleMode(config.Mode, apg.ModeLowerCase)
 	}
-	if uc {
-		c.Mode = apg.MaskToggleMode(c.Mode, apg.ModeUpperCase)
+	if upperCase {
+		config.Mode = apg.MaskToggleMode(config.Mode, apg.ModeUpperCase)
 	}
-	if nu {
-		c.Mode = apg.MaskToggleMode(c.Mode, apg.ModeNumeric)
+	if numeric {
+		config.Mode = apg.MaskToggleMode(config.Mode, apg.ModeNumeric)
 	}
-	if sp {
-		c.Mode = apg.MaskToggleMode(c.Mode, apg.ModeSpecial)
+	if special {
+		config.Mode = apg.MaskToggleMode(config.Mode, apg.ModeSpecial)
 	}
-	if co {
-		c.Mode = apg.MaskSetMode(c.Mode, apg.ModeLowerCase|apg.ModeNumeric|
+	if complexPass {
+		config.Mode = apg.MaskSetMode(config.Mode, apg.ModeLowerCase|apg.ModeNumeric|
 			apg.ModeSpecial|apg.ModeUpperCase)
-		c.Mode = apg.MaskClearMode(c.Mode, apg.ModeHumanReadable)
+		config.Mode = apg.MaskClearMode(config.Mode, apg.ModeHumanReadable)
 	}
 
 	// New style character modes (has higher priority than the old style modes)
-	if ms != "" {
-		c.Mode = apg.ModesFromFlags(ms)
+	if modeString != "" {
+		config.Mode = apg.ModesFromFlags(modeString)
 	}
 
 	// For the "minimum amount of" modes we need to imply at the type
 	// of character mode is set
-	if c.MinLowerCase > 0 {
-		if float64(c.MinLength)/2 < float64(c.MinNumeric) {
+	if config.MinLowerCase > 0 {
+		if float64(config.MinLength)/2 < float64(config.MinNumeric) {
 			_, _ = os.Stderr.WriteString(MinimumAmountTooHigh)
 		}
-		c.Mode = apg.MaskSetMode(c.Mode, apg.ModeLowerCase)
+		config.Mode = apg.MaskSetMode(config.Mode, apg.ModeLowerCase)
 	}
-	if c.MinNumeric > 0 {
-		if float64(c.MinLength)/2 < float64(c.MinLowerCase) {
+	if config.MinNumeric > 0 {
+		if float64(config.MinLength)/2 < float64(config.MinLowerCase) {
 			_, _ = os.Stderr.WriteString(MinimumAmountTooHigh)
 		}
-		c.Mode = apg.MaskSetMode(c.Mode, apg.ModeNumeric)
+		config.Mode = apg.MaskSetMode(config.Mode, apg.ModeNumeric)
 	}
-	if c.MinSpecial > 0 {
-		if float64(c.MinLength)/2 < float64(c.MinSpecial) {
+	if config.MinSpecial > 0 {
+		if float64(config.MinLength)/2 < float64(config.MinSpecial) {
 			_, _ = os.Stderr.WriteString(MinimumAmountTooHigh)
 		}
-		c.Mode = apg.MaskSetMode(c.Mode, apg.ModeSpecial)
+		config.Mode = apg.MaskSetMode(config.Mode, apg.ModeSpecial)
 	}
-	if c.MinUpperCase > 0 {
-		if float64(c.MinLength)/2 < float64(c.MinUpperCase) {
+	if config.MinUpperCase > 0 {
+		if float64(config.MinLength)/2 < float64(config.MinUpperCase) {
 			_, _ = os.Stderr.WriteString(MinimumAmountTooHigh)
 		}
-		c.Mode = apg.MaskSetMode(c.Mode, apg.ModeUpperCase)
+		config.Mode = apg.MaskSetMode(config.Mode, apg.ModeUpperCase)
 	}
 
 	// Check if algorithm is supported
-	c.Algorithm = apg.IntToAlgo(al)
-	if c.Algorithm == apg.AlgoUnsupported {
-		_, _ = fmt.Fprintf(os.Stderr, "unsupported algorithm value: %d\n", al)
+	config.Algorithm = apg.IntToAlgo(algorithm)
+	if config.Algorithm == apg.AlgoUnsupported {
+		_, _ = fmt.Fprintf(os.Stderr, "unsupported algorithm value: %d\n", algorithm)
 		os.Exit(1)
 	}
 
 	// Generate the password based on the given flags
-	g := apg.New(c)
-	for i := int64(0); i < c.NumberPass; i++ {
-		p, err := g.Generate()
+	generator := apg.New(config)
+	for i := int64(0); i < config.NumberPass; i++ {
+		password, err := generator.Generate()
 		if err != nil {
 			_, _ = fmt.Fprintf(os.Stderr, "failed to generate password: %s\n", err)
 			os.Exit(1)
 		}
-		fmt.Println(p)
+		if config.SpellPassword {
+			spellPass, err := apg.Spell(password)
+			if err != nil {
+				_, _ = fmt.Fprintf(os.Stderr, "failed to spell password: %s\n", err)
+			}
+			fmt.Printf("%s (%s)\n", password, spellPass)
+			continue
+		}
+		fmt.Println(password)
 	}
 }
 
