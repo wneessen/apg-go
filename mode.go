@@ -46,48 +46,48 @@ const (
 )
 
 // MaskSetMode sets a specific Mode to a given Mode bitmask
-func MaskSetMode(ma ModeMask, mo Mode) ModeMask { return ModeMask(uint8(ma) | uint8(mo)) }
+func MaskSetMode(mask ModeMask, mode Mode) ModeMask { return ModeMask(uint8(mask) | uint8(mode)) }
 
 // MaskClearMode clears a specific Mode from a given Mode bitmask
-func MaskClearMode(ma ModeMask, mo Mode) ModeMask { return ModeMask(uint8(ma) &^ uint8(mo)) }
+func MaskClearMode(mask ModeMask, mode Mode) ModeMask { return ModeMask(uint8(mask) &^ uint8(mode)) }
 
 // MaskToggleMode toggles a specific Mode in a given Mode bitmask
-func MaskToggleMode(ma ModeMask, mo Mode) ModeMask { return ModeMask(uint8(ma) ^ uint8(mo)) }
+func MaskToggleMode(mask ModeMask, mode Mode) ModeMask { return ModeMask(uint8(mask) ^ uint8(mode)) }
 
 // MaskHasMode returns true if a given Mode bitmask holds a specific Mode
-func MaskHasMode(ma ModeMask, mo Mode) bool { return uint8(ma)&uint8(mo) != 0 }
+func MaskHasMode(mask ModeMask, mode Mode) bool { return uint8(mask)&uint8(mode) != 0 }
 
-func ModesFromFlags(ms string) ModeMask {
-	cl := strings.Split(ms, "")
-	var mm ModeMask
+func ModesFromFlags(maskString string) ModeMask {
+	cl := strings.Split(maskString, "")
+	var modeMask ModeMask
 	for _, m := range cl {
 		switch m {
 		case "C":
-			mm = MaskSetMode(mm, ModeLowerCase|ModeNumeric|ModeSpecial|ModeUpperCase)
+			modeMask = MaskSetMode(modeMask, ModeLowerCase|ModeNumeric|ModeSpecial|ModeUpperCase)
 		case "h":
-			mm = MaskClearMode(mm, ModeHumanReadable)
+			modeMask = MaskClearMode(modeMask, ModeHumanReadable)
 		case "H":
-			mm = MaskSetMode(mm, ModeHumanReadable)
+			modeMask = MaskSetMode(modeMask, ModeHumanReadable)
 		case "l":
-			mm = MaskClearMode(mm, ModeLowerCase)
+			modeMask = MaskClearMode(modeMask, ModeLowerCase)
 		case "L":
-			mm = MaskSetMode(mm, ModeLowerCase)
+			modeMask = MaskSetMode(modeMask, ModeLowerCase)
 		case "n":
-			mm = MaskClearMode(mm, ModeNumeric)
+			modeMask = MaskClearMode(modeMask, ModeNumeric)
 		case "N":
-			mm = MaskSetMode(mm, ModeNumeric)
+			modeMask = MaskSetMode(modeMask, ModeNumeric)
 		case "s":
-			mm = MaskClearMode(mm, ModeSpecial)
+			modeMask = MaskClearMode(modeMask, ModeSpecial)
 		case "S":
-			mm = MaskSetMode(mm, ModeSpecial)
+			modeMask = MaskSetMode(modeMask, ModeSpecial)
 		case "u":
-			mm = MaskClearMode(mm, ModeUpperCase)
+			modeMask = MaskClearMode(modeMask, ModeUpperCase)
 		case "U":
-			mm = MaskSetMode(mm, ModeUpperCase)
+			modeMask = MaskSetMode(modeMask, ModeUpperCase)
 		}
 	}
 
-	return mm
+	return modeMask
 }
 
 // String satisfies the fmt.Stringer interface for the Mode type
