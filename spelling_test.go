@@ -42,11 +42,11 @@ func TestConvertByteToWord(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := ConvertByteToWord(tt.char)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("ConvertByteToWord() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("ConvertByteToWord() error = %s, wantErr %t", err, tt.wantErr)
 				return
 			}
 			if got != tt.want {
-				t.Errorf("ConvertByteToWord() got = %v, want %v", got, tt.want)
+				t.Errorf("ConvertByteToWord() got = %s, want %s", got, tt.want)
 			}
 		})
 	}
