@@ -32,8 +32,8 @@ var (
 
 // CoinFlip performs a simple coinflip based on the rand library and returns 1 or 0
 func (g *Generator) CoinFlip() int64 {
-	cf, _ := g.RandNum(2)
-	return cf
+	coinFlip, _ := g.RandNum(2)
+	return coinFlip
 }
 
 // CoinFlipBool performs a simple coinflip based on the rand library and returns true or false
@@ -45,6 +45,7 @@ func (g *Generator) CoinFlipBool() bool {
 // it as string type. If the generation fails, an error will be thrown
 func (g *Generator) Generate() (string, error) {
 	switch g.config.Algorithm {
+	case AlgoPronouncable:
 	case AlgoCoinFlip:
 		return g.generateCoinFlip()
 	case AlgoRandom:
