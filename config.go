@@ -41,6 +41,8 @@ type Config struct {
 	// NumberPass sets the number of passwords that are generated
 	// and returned by the generator
 	NumberPass int64
+	// SpellPassword if set will spell the generated passwords in the phonetic alphabet
+	SpellPassword bool
 }
 
 // Option is a function that can override default Config settings
