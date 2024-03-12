@@ -3,6 +3,8 @@ package apg
 import (
 	"bytes"
 	"errors"
+	"fmt"
+	"strconv"
 	"strings"
 	"testing"
 )
@@ -251,7 +253,6 @@ func TestGetPasswordLength(t *testing.T) {
 		},
 	}
 
-	// Act and assert for each test case
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
 			generator.config.FixedLength = tc.ConfigFixedLength
@@ -295,6 +296,185 @@ func TestGenerateCoinFlip(t *testing.T) {
 	if !foundTails && !foundHeads {
 		t.Logf("WARNING: generateCoinFlip() was supposed to find heads and tails "+
 			"in 100_000 tries but didn't. Heads: %t, Tails: %t", foundHeads, foundTails)
+	}
+}
+
+func TestGeneratePronouncable(t *testing.T) {
+	config := NewConfig()
+	generator := New(config)
+	foundSylables := 0
+	for range 100 {
+		res, err := generator.generatePronouncable()
+		if err != nil {
+			t.Errorf("generatePronouncable() failed: %s", err)
+			return
+		}
+		for _, syl := range KoremutakeSyllables {
+			if strings.Contains(res, syl) {
+				foundSylables++
+			}
+		}
+	}
+	if foundSylables < 100 {
+		t.Errorf("generatePronouncable() failed, expected at least 1 sylable, got none")
+	}
+
+}
+
+func TestCheckMinimumRequirements(t *testing.T) {
+	config := NewConfig()
+	generator := New(config)
+	testCases := []struct {
+		Name               string
+		Password           string
+		ConfigMinLowerCase int64
+		ConfigMinNumeric   int64
+		ConfigMinSpecial   int64
+		ConfigMinUpperCase int64
+		ExpectedResult     bool
+	}{
+		{
+			Name:               "Meets all requirements",
+			Password:           "Th1sIsA$trongP@ssword",
+			ConfigMinLowerCase: 2,
+			ConfigMinNumeric:   1,
+			ConfigMinSpecial:   1,
+			ConfigMinUpperCase: 1,
+			ExpectedResult:     true,
+		},
+		{
+			Name:               "Missing lowercase",
+			Password:           "THISIS@STRONGPASSWORD",
+			ConfigMinLowerCase: 2,
+			ConfigMinNumeric:   1,
+			ConfigMinSpecial:   1,
+			ConfigMinUpperCase: 1,
+			ExpectedResult:     false,
+		},
+		{
+			Name:               "Missing numeric",
+			Password:           "ThisIsA$trongPassword",
+			ConfigMinLowerCase: 2,
+			ConfigMinNumeric:   1,
+			ConfigMinSpecial:   1,
+			ConfigMinUpperCase: 1,
+			ExpectedResult:     false,
+		},
+		{
+			Name:               "Missing special",
+			Password:           "ThisIsALowercaseNumericPassword",
+			ConfigMinLowerCase: 2,
+			ConfigMinNumeric:   1,
+			ConfigMinSpecial:   1,
+			ConfigMinUpperCase: 1,
+			ExpectedResult:     false,
+		},
+		{
+			Name:               "Missing uppercase",
+			Password:           "thisisanumericspecialpassword",
+			ConfigMinLowerCase: 2,
+			ConfigMinNumeric:   1,
+			ConfigMinSpecial:   1,
+			ConfigMinUpperCase: 1,
+			ExpectedResult:     false,
+		},
+		{
+			Name:               "Bare minimum",
+			Password:           "a1!",
+			ConfigMinLowerCase: 1,
+			ConfigMinNumeric:   1,
+			ConfigMinSpecial:   1,
+			ConfigMinUpperCase: 0,
+			ExpectedResult:     true,
+		},
+		{
+			Name:               "Empty password",
+			Password:           "",
+			ConfigMinLowerCase: 1,
+			ConfigMinNumeric:   1,
+			ConfigMinSpecial:   1,
+			ConfigMinUpperCase: 1,
+			ExpectedResult:     false,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.Name, func(t *testing.T) {
+			generator.config.MinLowerCase = tc.ConfigMinLowerCase
+			generator.config.MinNumeric = tc.ConfigMinNumeric
+			generator.config.MinSpecial = tc.ConfigMinSpecial
+			generator.config.MinUpperCase = tc.ConfigMinUpperCase
+			result := generator.checkMinimumRequirements(tc.Password)
+			if result != tc.ExpectedResult {
+				t.Errorf("Expected result %v, got %v", tc.ExpectedResult, result)
+			}
+		})
+	}
+}
+
+func TestGenerateRandom(t *testing.T) {
+	config := NewConfig(WithAlgorithm(AlgoRandom), WithNumberPass(1),
+		WithMinLength(1), WithMaxLength(1))
+	config.MinNumeric = 1
+	generator := New(config)
+	pw, err := generator.generateRandom()
+	if err != nil {
+		t.Errorf("generateRandom() failed: %s", err)
+	}
+	if len(pw) > 1 {
+		t.Errorf("expected password with length 1 but got: %d", len(pw))
+	}
+	n, err := strconv.Atoi(pw)
+	if err != nil {
+		t.Errorf("expected password to be a number but got an error: %s", err)
+	}
+	if n < 0 || n > 9 {
+		t.Errorf("expected password to be a number between 0 and 9, got: %d", n)
+	}
+}
+
+func TestGenerate(t *testing.T) {
+	tests := []struct {
+		name        string
+		algorithm   Algorithm
+		expectedErr error
+	}{
+		{
+			name:      "Pronouncable",
+			algorithm: AlgoPronouncable,
+		},
+		{
+			name:      "CoinFlip",
+			algorithm: AlgoCoinFlip,
+		},
+		{
+			name:      "Random",
+			algorithm: AlgoRandom,
+		},
+		{
+			name:        "Unsupported",
+			algorithm:   AlgoUnsupported,
+			expectedErr: fmt.Errorf("unsupported algorithm"),
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			config := NewConfig(WithAlgorithm(tt.algorithm))
+			g := New(config)
+			_, err := g.Generate()
+			if tt.expectedErr != nil {
+				if err == nil || err.Error() != tt.expectedErr.Error() {
+					t.Errorf("Expected error: %s, got: %s", tt.expectedErr, err)
+				}
+				return
+			}
+
+			if err != nil {
+				t.Errorf("Unexpected error: %s", err)
+				return
+			}
+		})
 	}
 }
 
