@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2021-2024 Winni Neessen <wn@neessen.dev>
+
+SPDX-License-Identifier: CC0-1.0
+-->
+
 ---
 name: Bug report
 about: Create a report to help us improve

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2021-2024 Winni Neessen <wn@neessen.dev>
+//
+// SPDX-License-Identifier: MIT
+
 // Package main is the APG command line client that makes use of the apg-go library
 
 package main

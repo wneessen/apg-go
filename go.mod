@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2021-2024 Winni Neessen <wn@neessen.dev>
+//
+// SPDX-License-Identifier: MIT
+
 module src.neessen.cloud/wneessen/apg-go
 
 go 1.22
