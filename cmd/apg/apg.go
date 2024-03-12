@@ -46,6 +46,7 @@ func main() {
 	flag.BoolVar(&config.SpellPronounceable, "t", false, "")
 	flag.BoolVar(&config.CheckHIBP, "p", false, "")
 	flag.BoolVar(&showVer, "v", false, "")
+	flag.StringVar(&config.ExcludeChars, "E", "", "")
 	flag.Usage = usage
 	flag.Parse()
 

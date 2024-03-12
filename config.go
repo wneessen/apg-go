@@ -20,6 +20,9 @@ type Config struct {
 	// CheckHIBP sets a flag if the generated password has to be checked
 	// against the HIBP pwned password database
 	CheckHIBP bool
+	// ExcludeChars is a list of characters that should be excluded from
+	// generated passwords
+	ExcludeChars string
 	// FixedLength sets a fixed length for generated passwords and ignores
 	// the MinLength and MaxLength values
 	FixedLength int64

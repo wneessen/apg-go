@@ -6,6 +6,8 @@ import (
 	"errors"
 	"fmt"
 	"math/big"
+	"os"
+	"regexp"
 	"strings"
 )
 
@@ -91,6 +93,16 @@ func (g *Generator) GetCharRangeFromConfig() string {
 			charRange.WriteString(CharRangeAlphaUpperHuman)
 		default:
 			charRange.WriteString(CharRangeAlphaUpper)
+		}
+	}
+	if g.config.ExcludeChars != "" {
+		rex, err := regexp.Compile("[" + regexp.QuoteMeta(g.config.ExcludeChars) + "]")
+		if err == nil {
+			newRange := rex.ReplaceAllLiteralString(charRange.String(), "")
+			charRange.Reset()
+			charRange.WriteString(newRange)
+		} else {
+			_, _ = fmt.Fprintf(os.Stderr, "failed to exclude characters: %s\n", err)
 		}
 	}
 	return charRange.String()
