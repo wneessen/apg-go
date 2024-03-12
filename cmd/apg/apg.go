@@ -6,6 +6,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"runtime"
 
 	"src.neessen.cloud/wneessen/apg-go"
 )
@@ -24,7 +25,7 @@ func main() {
 	// See usage() for flag details
 	var algorithm int
 	var modeString string
-	var complexPass, humanReadable, lowerCase, numeric, special, upperCase bool
+	var complexPass, humanReadable, lowerCase, numeric, special, showVer, upperCase bool
 	flag.IntVar(&algorithm, "a", 1, "")
 	flag.BoolVar(&lowerCase, "L", false, "")
 	flag.Int64Var(&config.MinLowerCase, "mL", config.MinLowerCase, "")
@@ -44,8 +45,19 @@ func main() {
 	flag.BoolVar(&config.SpellPassword, "l", false, "")
 	flag.BoolVar(&config.SpellPronounceable, "t", false, "")
 	flag.BoolVar(&config.CheckHIBP, "p", false, "")
+	flag.BoolVar(&showVer, "v", false, "")
 	flag.Usage = usage
 	flag.Parse()
+
+	// Show version and exit
+	if showVer {
+		_, _ = os.Stderr.WriteString(`apg-go // A "Automated Password Generator"-clone ` +
+			`v` + apg.VERSION + "\n")
+		_, _ = os.Stderr.WriteString("OS: " + runtime.GOOS + " // Arch: " +
+			runtime.GOARCH + " \n")
+		_, _ = os.Stderr.WriteString("(C) 2021-2024 by Winni Neessen\n")
+		os.Exit(0)
+	}
 
 	// Old style character modes
 	if humanReadable {
