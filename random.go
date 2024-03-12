@@ -318,7 +318,7 @@ func (g *Generator) generatePronounceable() (string, error) {
 	for int64(len(password)) < length {
 		randNum, err := g.RandNum(int64(characterSetLength))
 		if err != nil {
-			return "", fmt.Errorf("failed to generate a random number for Koremutake syllable generation: %s",
+			return "", fmt.Errorf("failed to generate a random number for Koremutake syllable generation: %w",
 				err)
 		}
 		nextSyllable := characterSet[randNum]
@@ -326,7 +326,7 @@ func (g *Generator) generatePronounceable() (string, error) {
 			syllableLength := len(nextSyllable)
 			characterPosition, err := g.RandNum(int64(syllableLength))
 			if err != nil {
-				return "", fmt.Errorf("failed to generate a random number for Koremutake syllable generation: %s",
+				return "", fmt.Errorf("failed to generate a random number for Koremutake syllable generation: %w",
 					err)
 			}
 			randomChar := string(nextSyllable[characterPosition])

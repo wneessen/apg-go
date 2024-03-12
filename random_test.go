@@ -322,7 +322,6 @@ func TestGeneratePronounceable(t *testing.T) {
 	if foundSylables < 100 {
 		t.Errorf("generatePronounceable() failed, expected at least 1 sylable, got none")
 	}
-
 }
 
 func TestCheckMinimumRequirements(t *testing.T) {

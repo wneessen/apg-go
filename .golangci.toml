@@ -3,14 +3,13 @@
 # SPDX-License-Identifier: CC0-1.0
 
 [run]
-go = "1.20"
+go = "1.22"
 tests = true
-skip-dirs = ["ui/"]
 
 [linters]
 enable = ["stylecheck", "whitespace", "containedctx", "contextcheck", "decorder",
     "errname", "errorlint", "gofmt", "gofumpt", "goimports"]
 
 [linters-settings.goimports]
-local-prefixes = "git.cgn.cleverbridge.com/infosec/vulnmon"
+local-prefixes = "src.neessen.cloud/wneessen/apg-go"
 
