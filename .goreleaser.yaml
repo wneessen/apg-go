@@ -60,3 +60,15 @@ dmg:
   - replace: true
 
 universal_binaries:
+
+report_sizes: true
+
+signs:
+  - artifacts: checksum
+
+sboms:
+  - artifacts: archive
+
+gitea_urls:
+  api: https://src.neessen.cloud/api/v1
+  download: https://src.neessen.cloud
