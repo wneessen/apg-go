@@ -27,3 +27,5 @@ examples/*
 
 # IDEA specific ignores
 .idea/
+
+dist/
