@@ -2,6 +2,7 @@ package apg
 
 import (
 	"bytes"
+	"errors"
 	"strings"
 	"testing"
 )
@@ -210,6 +211,90 @@ func TestGetCharRangeFromConfig(t *testing.T) {
 				t.Errorf("Expected range %s, got %s", tc.ExpectedRange, actualRange)
 			}
 		})
+	}
+}
+
+func TestGetPasswordLength(t *testing.T) {
+	config := NewConfig()
+	generator := New(config)
+	testCases := []struct {
+		Name              string
+		ConfigFixedLength int64
+		ConfigMinLength   int64
+		ConfigMaxLength   int64
+		ExpectedLength    int64
+		ExpectedError     error
+	}{
+		{
+			Name:              "FixedLength",
+			ConfigFixedLength: 10,
+			ConfigMinLength:   5,
+			ConfigMaxLength:   15,
+			ExpectedLength:    10,
+			ExpectedError:     nil,
+		},
+		{
+			Name:              "MinLengthEqualToMaxLength",
+			ConfigFixedLength: 0,
+			ConfigMinLength:   8,
+			ConfigMaxLength:   8,
+			ExpectedLength:    8,
+			ExpectedError:     nil,
+		},
+		{
+			Name:              "MinLengthGreaterThanMaxLength",
+			ConfigFixedLength: 0,
+			ConfigMinLength:   12,
+			ConfigMaxLength:   5,
+			ExpectedLength:    12,
+			ExpectedError:     nil,
+		},
+	}
+
+	// Act and assert for each test case
+	for _, tc := range testCases {
+		t.Run(tc.Name, func(t *testing.T) {
+			generator.config.FixedLength = tc.ConfigFixedLength
+			generator.config.MinLength = tc.ConfigMinLength
+			generator.config.MaxLength = tc.ConfigMaxLength
+			length, err := generator.GetPasswordLength()
+
+			if err != nil && !errors.Is(err, tc.ExpectedError) {
+				t.Errorf("Unexpected error: %v", err)
+			} else if err == nil && tc.ExpectedError != nil {
+				t.Errorf("Expected error %v, got nil", tc.ExpectedError)
+			} else if err == nil && length != tc.ExpectedLength {
+				t.Errorf("Expected length %d, got %d", tc.ExpectedLength, length)
+			}
+		})
+	}
+}
+
+// TestGenerateCoinFlip tries to test the coinflip. Randomness is hard to
+// test, since it's supposed to be not prodictable. We think that in 100k
+// tries at least one of each two results should be returned, even though
+// it is possible that not. Therefore we only throw a warning
+func TestGenerateCoinFlip(t *testing.T) {
+	config := NewConfig()
+	generator := New(config)
+	foundTails := false
+	foundHeads := false
+	for range 100_000 {
+		res, err := generator.generateCoinFlip()
+		if err != nil {
+			t.Errorf("generateCoinFlip() failed: %s", err)
+			return
+		}
+		switch res {
+		case "Tails":
+			foundTails = true
+		case "Heads":
+			foundHeads = true
+		}
+	}
+	if !foundTails && !foundHeads {
+		t.Logf("WARNING: generateCoinFlip() was supposed to find heads and tails "+
+			"in 100_000 tries but didn't. Heads: %t, Tails: %t", foundHeads, foundTails)
 	}
 }
 
