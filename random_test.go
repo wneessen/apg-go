@@ -147,6 +147,76 @@ func TestGenerator_RandomString(t *testing.T) {
 	}
 }
 
+func TestGetCharRangeFromConfig(t *testing.T) {
+	// Arrange
+	config := NewConfig()
+	generator := New(config)
+
+	// Test cases
+	testCases := []struct {
+		Name          string
+		ConfigMode    ModeMask
+		ExpectedRange string
+	}{
+		{
+			Name:          "LowerCaseHumanReadable",
+			ConfigMode:    ModeLowerCase | ModeHumanReadable,
+			ExpectedRange: CharRangeAlphaLowerHuman,
+		},
+		{
+			Name:          "LowerCaseNonHumanReadable",
+			ConfigMode:    ModeLowerCase,
+			ExpectedRange: CharRangeAlphaLower,
+		},
+		{
+			Name:          "NumericHumanReadable",
+			ConfigMode:    ModeNumeric | ModeHumanReadable,
+			ExpectedRange: CharRangeNumericHuman,
+		},
+		{
+			Name:          "NumericNonHumanReadable",
+			ConfigMode:    ModeNumeric,
+			ExpectedRange: CharRangeNumeric,
+		},
+		{
+			Name:          "SpecialHumanReadable",
+			ConfigMode:    ModeSpecial | ModeHumanReadable,
+			ExpectedRange: CharRangeSpecialHuman,
+		},
+		{
+			Name:          "SpecialNonHumanReadable",
+			ConfigMode:    ModeSpecial,
+			ExpectedRange: CharRangeSpecial,
+		},
+		{
+			Name:          "UpperCaseHumanReadable",
+			ConfigMode:    ModeUpperCase | ModeHumanReadable,
+			ExpectedRange: CharRangeAlphaUpperHuman,
+		},
+		{
+			Name:          "UpperCaseNonHumanReadable",
+			ConfigMode:    ModeUpperCase,
+			ExpectedRange: CharRangeAlphaUpper,
+		},
+		{
+			Name:          "MultipleModes",
+			ConfigMode:    ModeLowerCase | ModeNumeric | ModeUpperCase | ModeHumanReadable,
+			ExpectedRange: CharRangeAlphaLowerHuman + CharRangeNumericHuman + CharRangeAlphaUpperHuman,
+		},
+	}
+
+	// Act and assert for each test case
+	for _, tc := range testCases {
+		t.Run(tc.Name, func(t *testing.T) {
+			generator.config.Mode = tc.ConfigMode
+			actualRange := generator.GetCharRangeFromConfig()
+			if actualRange != tc.ExpectedRange {
+				t.Errorf("Expected range %s, got %s", tc.ExpectedRange, actualRange)
+			}
+		})
+	}
+}
+
 func BenchmarkGenerator_CoinFlip(b *testing.B) {
 	b.ReportAllocs()
 	g := New(NewConfig())
