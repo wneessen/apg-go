@@ -148,11 +148,8 @@ func TestGenerator_RandomString(t *testing.T) {
 }
 
 func TestGetCharRangeFromConfig(t *testing.T) {
-	// Arrange
 	config := NewConfig()
 	generator := New(config)
-
-	// Test cases
 	testCases := []struct {
 		Name          string
 		ConfigMode    ModeMask
@@ -205,7 +202,6 @@ func TestGetCharRangeFromConfig(t *testing.T) {
 		},
 	}
 
-	// Act and assert for each test case
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
 			generator.config.Mode = tc.ConfigMode
