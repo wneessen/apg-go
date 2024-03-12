@@ -169,7 +169,7 @@ func usage() {
 Created 2021-2024 by Winni Neessen (MIT licensed)
 
 apg [-a <algo>] [-m <length>] [-x <length>] [-L] [-U] [-N] [-S] [-H] [-C]
-    [-l] [-M mode] [-E char_string] [-n num_of_pass] [-v] [-h] [-t]
+    [-l] [-M mode] [-E char_string] [-n num_of_pass] [-mX number] [-t] [-p] [-v] [-h]
 
 Flags:
     -a ALGORITH          Choose the password generation algorithm (Default: 1)
