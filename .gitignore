@@ -29,4 +29,5 @@ examples/*
 .idea/
 .idea/.gitignore
 
+.env
 dist/
