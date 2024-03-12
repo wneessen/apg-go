@@ -299,14 +299,14 @@ func TestGenerateCoinFlip(t *testing.T) {
 	}
 }
 
-func TestGeneratePronouncable(t *testing.T) {
+func TestGeneratePronounceable(t *testing.T) {
 	config := NewConfig()
 	generator := New(config)
 	foundSylables := 0
 	for range 100 {
-		res, err := generator.generatePronouncable()
+		res, err := generator.generatePronounceable()
 		if err != nil {
-			t.Errorf("generatePronouncable() failed: %s", err)
+			t.Errorf("generatePronounceable() failed: %s", err)
 			return
 		}
 		for _, syl := range KoremutakeSyllables {
@@ -316,7 +316,7 @@ func TestGeneratePronouncable(t *testing.T) {
 		}
 	}
 	if foundSylables < 100 {
-		t.Errorf("generatePronouncable() failed, expected at least 1 sylable, got none")
+		t.Errorf("generatePronounceable() failed, expected at least 1 sylable, got none")
 	}
 
 }
@@ -440,8 +440,8 @@ func TestGenerate(t *testing.T) {
 		expectedErr error
 	}{
 		{
-			name:      "Pronouncable",
-			algorithm: AlgoPronouncable,
+			name:      "Pronounceable",
+			algorithm: AlgoPronounceable,
 		},
 		{
 			name:      "CoinFlip",

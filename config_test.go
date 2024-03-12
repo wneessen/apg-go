@@ -35,7 +35,7 @@ func TestWithAlgorithm(t *testing.T) {
 		algo Algorithm
 		want int
 	}{
-		{"Pronouncble passwords", AlgoPronouncable, 0},
+		{"Pronouncble passwords", AlgoPronounceable, 0},
 		{"Random passwords", AlgoRandom, 1},
 		{"Coinflip", AlgoCoinFlip, 2},
 		{"Unsupported", AlgoUnsupported, 3},

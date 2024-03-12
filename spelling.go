@@ -93,6 +93,31 @@ func Spell(input string) (string, error) {
 	return strings.Join(returnString, "/"), nil
 }
 
+// Pronounce returns last generated pronounceable password as spelled syllables string
+func (g *Generator) Pronounce() (string, error) {
+	var returnString []string
+	for _, syllable := range g.syllables {
+		isKoremutake := false
+		for _, x := range KoremutakeSyllables {
+			if x == strings.ToLower(syllable) {
+				isKoremutake = true
+			}
+		}
+
+		if isKoremutake {
+			returnString = append(returnString, syllable)
+			continue
+		}
+
+		curSpellString, err := ConvertByteToWord(syllable[0])
+		if err != nil {
+			return "", err
+		}
+		returnString = append(returnString, curSpellString)
+	}
+	return strings.Join(returnString, "-"), nil
+}
+
 // ConvertByteToWord converts a given ASCII byte into the corresponding spelled version
 // of the english phonetic alphabet
 func ConvertByteToWord(charByte byte) (string, error) {

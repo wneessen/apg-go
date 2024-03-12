@@ -5,9 +5,9 @@ package apg
 type Algorithm int
 
 const (
-	// AlgoPronouncable represents the algorithm for pronouncable passwords
+	// AlgoPronounceable represents the algorithm for pronounceable passwords
 	// (koremutake syllables)
-	AlgoPronouncable Algorithm = iota
+	AlgoPronounceable Algorithm = iota
 	// AlgoRandom represents the algorithm for purely random passwords according
 	// to the provided password modes/flags
 	AlgoRandom
@@ -23,7 +23,7 @@ const (
 func IntToAlgo(a int) Algorithm {
 	switch a {
 	case 0:
-		return AlgoPronouncable
+		return AlgoPronounceable
 	case 1:
 		return AlgoRandom
 	case 2:

@@ -43,6 +43,9 @@ type Config struct {
 	NumberPass int64
 	// SpellPassword if set will spell the generated passwords in the phonetic alphabet
 	SpellPassword bool
+	// SpellPronounceable if set will spell the generated pronounceable passwords in
+	// as its corresponding syllables
+	SpellPronounceable bool
 }
 
 // Option is a function that can override default Config settings

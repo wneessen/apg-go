@@ -42,6 +42,7 @@ func main() {
 	flag.StringVar(&modeString, "M", "", "")
 	flag.Int64Var(&config.NumberPass, "n", config.NumberPass, "")
 	flag.BoolVar(&config.SpellPassword, "l", false, "")
+	flag.BoolVar(&config.SpellPronounceable, "t", false, "")
 	flag.Usage = usage
 	flag.Parse()
 
@@ -114,12 +115,20 @@ func main() {
 			_, _ = fmt.Fprintf(os.Stderr, "failed to generate password: %s\n", err)
 			os.Exit(1)
 		}
-		if config.SpellPassword {
+		if config.Algorithm == apg.AlgoRandom && config.SpellPassword {
 			spellPass, err := apg.Spell(password)
 			if err != nil {
 				_, _ = fmt.Fprintf(os.Stderr, "failed to spell password: %s\n", err)
 			}
 			fmt.Printf("%s (%s)\n", password, spellPass)
+			continue
+		}
+		if config.Algorithm == apg.AlgoPronounceable && config.SpellPronounceable {
+			pronouncePass, err := generator.Pronounce()
+			if err != nil {
+				_, _ = fmt.Fprintf(os.Stderr, "failed to pronounce password: %s\n", err)
+			}
+			fmt.Printf("%s (%s)\n", password, pronouncePass)
 			continue
 		}
 		fmt.Println(password)
@@ -145,6 +154,8 @@ Flags:
     -m LENGTH            Minimum length of the password to be generated (Default: 12)
     -x LENGTH            Maximum length of the password to be generated (Default: 20)
     -f LENGTH            Fixed length of the password to be generated (Ignores -m and -x)
+                          - Note: Due to the way the pronounceable password algorithm works,
+	                        this setting might not always apply
     -n NUMBER            Amount of password to be generated (Default: 6)
     -E CHARS             List of characters to be excluded in the generated password
     -M [LUNSHClunshc]    New style password flags
@@ -155,6 +166,8 @@ Flags:
     -mU NUMBER           Minimum amount of upper-case characters (implies -U)
                           - Note: any of the "Minimum amount of" modes may result in
                             extraordinarily long calculation times
+                          - Note 2: The "minimum amount of" modes do not apply in
+                            pronounceable mode (-a 0)
     -C                   Enable complex password mode (implies -L -U -N -S and disables -H)
     -H                   Avoid ambiguous characters in passwords (i. e.: 1, l, I, O, 0) (Default: off)
     -L                   Toggle lower-case characters in passwords (Default: on)
@@ -163,6 +176,8 @@ Flags:
     -U                   Toggle upper-case characters in passwords (Default: on)
                           - Note: this flag has higher priority than the other old-style flags
     -l                   Spell generated passwords in phonetic alphabet (Default: off)
+    -t                   Spell generated pronounceable passwords with the corresponding 
+                         syllables (Default: off)
     -p                   Check the HIBP database if the generated passwords was found in a leak before (Default: off)
                           - Note: this feature requires internet connectivity
     -h                   Show this help text

@@ -7,6 +7,9 @@ const VERSION = "2.0.0"
 type Generator struct {
 	// config is a pointer to the apg config instance
 	config *Config
+	// syllables holds the single syllables of the lasst generated
+	// pronounceable password
+	syllables []string
 }
 
 // New returns a new password Generator type

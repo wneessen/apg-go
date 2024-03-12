@@ -8,7 +8,7 @@ func TestIntToAlgo(t *testing.T) {
 		a    int
 		e    Algorithm
 	}{
-		{"AlgoPronouncable", 0, AlgoPronouncable},
+		{"AlgoPronounceable", 0, AlgoPronounceable},
 		{"AlgoRandom", 1, AlgoRandom},
 		{"AlgoCoinflip", 2, AlgoCoinFlip},
 		{"AlgoUnsupported", 3, AlgoUnsupported},

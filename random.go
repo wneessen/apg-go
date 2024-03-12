@@ -45,8 +45,8 @@ func (g *Generator) CoinFlipBool() bool {
 // it as string type. If the generation fails, an error will be thrown
 func (g *Generator) Generate() (string, error) {
 	switch g.config.Algorithm {
-	case AlgoPronouncable:
-		return g.generatePronouncable()
+	case AlgoPronounceable:
+		return g.generatePronounceable()
 	case AlgoCoinFlip:
 		return g.generateCoinFlip()
 	case AlgoRandom:
@@ -284,18 +284,19 @@ func (g *Generator) generateCoinFlip() (string, error) {
 	return "Tails", nil
 }
 
-// generatePronouncable is executed when Generate() is called with Algorithm set
-// to AlgoPronouncable
-func (g *Generator) generatePronouncable() (string, error) {
+// generatePronounceable is executed when Generate() is called with Algorithm set
+// to AlgoPronounceable
+func (g *Generator) generatePronounceable() (string, error) {
 	var password string
-	syllables := make([]string, 0)
+	g.syllables = make([]string, 0)
 
 	length, err := g.GetPasswordLength()
 	if err != nil {
 		return "", fmt.Errorf("failed to calculate password length: %w", err)
 	}
 
-	characterSet := append(KoremutakeSyllables, strings.Split(CharRangeNumericHuman, "")...)
+	characterSet := KoremutakeSyllables
+	characterSet = append(characterSet, strings.Split(CharRangeNumericHuman, "")...)
 	characterSet = append(characterSet, strings.Split(CharRangeSpecialHuman, "")...)
 	characterSetLength := len(characterSet)
 	for int64(len(password)) < length {
@@ -316,7 +317,7 @@ func (g *Generator) generatePronouncable() (string, error) {
 			nextSyllable = strings.ReplaceAll(nextSyllable, randomChar, strings.ToUpper(randomChar))
 		}
 		password += nextSyllable
-		syllables = append(syllables, nextSyllable)
+		g.syllables = append(g.syllables, nextSyllable)
 	}
 
 	return password, nil
