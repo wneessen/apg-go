@@ -1,13 +1,13 @@
+# SPDX-FileCopyrightText: 2021-2024 Winni Neessen <wn@neessen.dev>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 # Binaries for programs and plugins
 *.exe
 *.exe~
 *.dll
 *.so
 *.dylib
-apg
-bin
-.go
-build
 
 # Test binary, built with `go test -c`
 *.test
@@ -17,3 +17,16 @@ build
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+# Local testfiles and auth data
+.auth
+examples/*
+
+# SonarQube
+.scannerwork/
+
+# IDEA specific ignores
+.idea/
+.idea/.gitignore
+
+dist/

@@ -1,5 +1,13 @@
+<!--
+SPDX-FileCopyrightText: 2021-2024 Winni Neessen <wn@neessen.dev>
+
+SPDX-License-Identifier: CC0-1.0
+-->
+
 # A "Automated Password Generator"-clone
-[![Go Reference](https://pkg.go.dev/badge/github.com/wneessen/apg-go.svg)](https://pkg.go.dev/github.com/wneessen/apg-go) [![Go Report Card](https://goreportcard.com/badge/github.com/wneessen/apg-go)](https://goreportcard.com/report/github.com/wneessen/apg-go) [![Build Status](https://api.cirrus-ci.com/github/wneessen/apg-go.svg)](https://cirrus-ci.com/github/wneessen/apg-go) ![CodeQL workflow](https://github.com/wneessen/apg-go/actions/workflows/codeql-analysis.yml/badge.svg) <a href="https://ko-fi.com/D1D24V9IX"><img src="https://uploads-ssl.webflow.com/5c14e387dab576fe667689cf/5cbed8a4ae2b88347c06c923_BuyMeACoffee_blue.png" height="20" alt="buy ma a coffee"></a>
+[![Go Reference](https://pkg.go.dev/badge/src.neessen.cloud/wneessen/apg-go.svg)](https://pkg.go.dev/src.neessen.cloud/wneessen/apg-go) 
+[![Go Report Card](https://goreportcard.com/badge/src.neessen.cloud/wneessen/apg-go)](https://goreportcard.com/report/src.neessen.cloud/wneessen/apg-go) 
+<a href="https://ko-fi.com/D1D24V9IX"><img src="https://uploads-ssl.webflow.com/5c14e387dab576fe667689cf/5cbed8a4ae2b88347c06c923_BuyMeACoffee_blue.png" height="20" alt="buy ma a coffee"></a>
 
 _apg-go_ is a simple APG-like password generator written in Go. It tries to replicate the
 functionality of the

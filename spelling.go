@@ -1,8 +1,11 @@
-package spelling
+// SPDX-FileCopyrightText: 2021-2024 Winni Neessen <wn@neessen.dev>
+//
+// SPDX-License-Identifier: MIT
+
+package apg
 
 import (
 	"fmt"
-	"github.com/wneessen/apg-go/chars"
 	"strings"
 )
 
@@ -81,11 +84,11 @@ var (
 	}
 )
 
-// String returns an english spelled version of the given string
-func String(pwString string) (string, error) {
+// Spell returns a given string as spelled english phonetic alphabet string
+func Spell(input string) (string, error) {
 	var returnString []string
-	for _, curChar := range pwString {
-		curSpellString, err := ConvertCharToName(byte(curChar))
+	for _, curChar := range input {
+		curSpellString, err := ConvertByteToWord(byte(curChar))
 		if err != nil {
 			return "", err
 		}
@@ -94,24 +97,23 @@ func String(pwString string) (string, error) {
 	return strings.Join(returnString, "/"), nil
 }
 
-// Koremutake returns the spelling of the Koremutake password with numbers and special
-// chars spelled out in english language
-func Koremutake(sylList []string) (string, error) {
+// Pronounce returns last generated pronounceable password as spelled syllables string
+func (g *Generator) Pronounce() (string, error) {
 	var returnString []string
-	for _, curSyl := range sylList {
-		isKore := false
-		for _, x := range chars.KoremutakeSyllables {
-			if x == strings.ToLower(curSyl) {
-				isKore = true
+	for _, syllable := range g.syllables {
+		isKoremutake := false
+		for _, x := range KoremutakeSyllables {
+			if x == strings.ToLower(syllable) {
+				isKoremutake = true
 			}
 		}
 
-		if isKore {
-			returnString = append(returnString, curSyl)
+		if isKoremutake {
+			returnString = append(returnString, syllable)
 			continue
 		}
 
-		curSpellString, err := ConvertCharToName(curSyl[0])
+		curSpellString, err := ConvertByteToWord(syllable[0])
 		if err != nil {
 			return "", err
 		}
@@ -120,21 +122,21 @@ func Koremutake(sylList []string) (string, error) {
 	return strings.Join(returnString, "-"), nil
 }
 
-// ConvertCharToName converts a given ascii byte into the corresponding english spelled
-// name
-func ConvertCharToName(charByte byte) (string, error) {
+// ConvertByteToWord converts a given ASCII byte into the corresponding spelled version
+// of the english phonetic alphabet
+func ConvertByteToWord(charByte byte) (string, error) {
 	var returnString string
-	if charByte > 64 && charByte < 91 {
+	switch {
+	case charByte > 64 && charByte < 91:
 		returnString = alphabetNames[charByte]
-	} else if charByte > 96 && charByte < 123 {
+	case charByte > 96 && charByte < 123:
 		returnString = strings.ToLower(alphabetNames[charByte-32])
-	} else {
+	default:
 		returnString = symbNumNames[charByte]
 	}
 
 	if returnString == "" {
-		err := fmt.Errorf("cannot convert to character to name: %q is an unknown character", charByte)
-		return "", err
+		return "", fmt.Errorf("failed to convert given byte to word: %s is unsupported", string(charByte))
 	}
 	return returnString, nil
 }

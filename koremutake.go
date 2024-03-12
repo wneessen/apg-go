@@ -1,8 +1,13 @@
-package chars
+// SPDX-FileCopyrightText: 2021-2024 Winni Neessen <wn@neessen.dev>
+//
+// SPDX-License-Identifier: MIT
+
+package apg
 
 // KoremutakeSyllables is a slightly modified Koremutake syllables list based on
 // the mechanism described on https://shorl.com/koremutake.php
-var KoremutakeSyllables = []string{"ba", "be", "bi", "bo", "bu", "by", "da", "de", "di",
+var KoremutakeSyllables = []string{
+	"ba", "be", "bi", "bo", "bu", "by", "da", "de", "di",
 	"do", "du", "dy", "fe", "fi", "fo", "fu", "fy", "ga", "ge", "gi", "go", "gu",
 	"gy", "ha", "he", "hi", "ho", "hu", "hy", "ja", "je", "ji", "jo", "ju", "jy",
 	"ka", "ke", "ko", "ku", "ky", "la", "le", "li", "lo", "lu", "ly", "ma",
@@ -19,4 +24,5 @@ var KoremutakeSyllables = []string{"ba", "be", "bi", "bo", "bu", "by", "da", "de
 	"col", "ful", "get", "low", "son", "tle", "day", "pen", "pre", "ten",
 	"tor", "ver", "ber", "can", "ple", "fer", "gen", "den", "mag", "sub", "sur",
 	"men", "min", "out", "tal", "but", "cit", "cle", "cov", "dif", "ern",
-	"eve", "hap", "ket", "nal", "sup", "ted", "tem", "tin", "tro", "tro"}
+	"eve", "hap", "ket", "nal", "sup", "ted", "tem", "tin", "tro", "tro",
+}

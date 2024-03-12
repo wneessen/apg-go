@@ -1,0 +1,15 @@
+# SPDX-FileCopyrightText: 2021-2024 Winni Neessen <wn@neessen.dev>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+[run]
+go = "1.22"
+tests = true
+
+[linters]
+enable = ["stylecheck", "whitespace", "containedctx", "contextcheck", "decorder",
+    "errname", "errorlint", "gofmt", "gofumpt", "goimports"]
+
+[linters-settings.goimports]
+local-prefixes = "src.neessen.cloud/wneessen/apg-go"
+
