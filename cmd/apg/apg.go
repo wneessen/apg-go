@@ -43,6 +43,7 @@ func main() {
 	flag.Int64Var(&config.NumberPass, "n", config.NumberPass, "")
 	flag.BoolVar(&config.SpellPassword, "l", false, "")
 	flag.BoolVar(&config.SpellPronounceable, "t", false, "")
+	flag.BoolVar(&config.CheckHIBP, "p", false, "")
 	flag.Usage = usage
 	flag.Parse()
 
@@ -132,6 +133,17 @@ func main() {
 			continue
 		}
 		fmt.Println(password)
+
+		if config.CheckHIBP {
+			pwned, err := apg.HasBeenPwned(password)
+			if err != nil {
+				_, _ = fmt.Fprintf(os.Stderr, "failed to check HIBP database: %s\n", err)
+			}
+			if pwned {
+				fmt.Print("^-- !!WARNING: The previously generated password was found in " +
+					"HIBP database. Do not use it!!\n")
+			}
+		}
 	}
 }
 

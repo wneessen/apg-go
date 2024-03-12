@@ -15,8 +15,11 @@ const (
 
 // Config represents the apg.Generator config parameters
 type Config struct {
-	// Algo
+	// Algorithm sets the Algorithm used for the password generation
 	Algorithm Algorithm
+	// CheckHIBP sets a flag if the generated password has to be checked
+	// against the HIBP pwned password database
+	CheckHIBP bool
 	// FixedLength sets a fixed length for generated passwords and ignores
 	// the MinLength and MaxLength values
 	FixedLength int64
