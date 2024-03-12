@@ -65,6 +65,8 @@ report_sizes: true
 
 signs:
   - artifacts: checksum
+    stdin: "{{ .Env.GPG_PASSWORD }}"
+    args: ["-u", "wn@neessen.dev", "--output", "${signature}", "--detach-sign", "${artifact}"]
 
 sboms:
   - artifacts: archive
