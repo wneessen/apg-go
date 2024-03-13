@@ -106,3 +106,11 @@ docker_signs:
 
 gomod:
   mod: mod
+
+dockerhub:
+  - username: wneessen
+    description: |-
+      A "Automated Password Generator"-clone written in Go
+    full_description:
+      from_url:
+        url: https://src.neessen.cloud/wneessen/apg-go/raw/branch/main/README.md 
