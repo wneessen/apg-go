@@ -109,8 +109,9 @@ gomod:
 
 dockerhub:
   - username: wneessen
+    secret_name: '{{ .Env.DOCKER_TOKEN }}'
     description: |-
       A "Automated Password Generator"-clone written in Go
     full_description:
-      from_url:
-        url: https://src.neessen.cloud/wneessen/apg-go/raw/branch/main/README.md 
+      from_file:
+        path: ./README.md
