@@ -96,8 +96,6 @@ gitea_urls:
 dockers:
   - image_templates:
     - wneessen/apg-go
-    build_flag_templates:
-      - "--network=host"
 
 docker_signs:
   - artifacts: all
@@ -106,12 +104,3 @@ docker_signs:
 
 gomod:
   mod: mod
-
-dockerhub:
-  - username: wneessen
-    secret_name: '{{ .Env.DOCKER_TOKEN }}'
-    description: |-
-      A "Automated Password Generator"-clone written in Go
-    full_description:
-      from_file:
-        path: ./README.md
