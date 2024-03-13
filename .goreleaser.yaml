@@ -6,6 +6,7 @@ version: 1
 
 before:
   hooks:
+    - go test -cover -race -shuffle=on 
     - go mod tidy
     - go mod download
     - go mod verify
@@ -27,20 +28,18 @@ builds:
       - amd64
       - ppc64le
       - s390x
+      - mips
+      - mips64
+      - mipsle
+      - mips64le
     goarm:
       - 6
-      - 7
     goamd64:
       - v1
-      - v2
-      - v3
     main: ./cmd/apg
     binary: apg
     ldflags:
       - -w -s -extldflags "-static"
-    ignore:
-      - goos: darwin
-        goarch: 386
 
 archives:
   - format: tar.gz
