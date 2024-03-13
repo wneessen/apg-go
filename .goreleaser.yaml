@@ -34,6 +34,7 @@ builds:
       - mips64le
     goarm:
       - 6
+      - 7
     goamd64:
       - v1
     main: ./cmd/apg
@@ -74,10 +75,10 @@ nfpms:
       {{- .ConventionalExtension -}}
 
 dmg:
-  - replace: true
+  - replace: false
 
 universal_binaries:
-  - replace: true
+  - replace: false
 
 report_sizes: true
 
@@ -97,7 +98,26 @@ gomod:
   mod: mod
 
 dockers:
-  - image_templates:
+  - id: linux_amd64
+    goos: linux
+    goarch: amd64
+    image_templates:
+    - "wneessen/apg-go:{{ .Tag }}"
+    - "wneessen/apg-go:v{{ .Major }}"
+    - "wneessen/apg-go:v{{ .Major }}.{{ .Minor }}"
+    - "wneessen/apg-go:latest"
+    build_flag_templates:
+      - "--pull"
+      - "--network=host"
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.title={{.ProjectName}}"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+  - id: darwin_arm64
+    goos: darwin
+    goarch: arm64
+    goarm: 7
+    image_templates:
     - "wneessen/apg-go:{{ .Tag }}"
     - "wneessen/apg-go:v{{ .Major }}"
     - "wneessen/apg-go:v{{ .Major }}.{{ .Minor }}"
