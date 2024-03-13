@@ -98,30 +98,11 @@ gomod:
   mod: mod
 
 dockers:
-  - id: linux_amd64
-    goos: linux
-    goarch: amd64
-    image_templates:
+  - image_templates:
     - "wneessen/apg-go:{{ .Tag }}"
     - "wneessen/apg-go:v{{ .Major }}"
     - "wneessen/apg-go:v{{ .Major }}.{{ .Minor }}"
     - "wneessen/apg-go:latest"
-    build_flag_templates:
-      - "--pull"
-      - "--network=host"
-      - "--label=org.opencontainers.image.created={{.Date}}"
-      - "--label=org.opencontainers.image.title={{.ProjectName}}"
-      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
-      - "--label=org.opencontainers.image.version={{.Version}}"
-  - id: darwin_arm64
-    goos: darwin
-    goarch: arm64
-    goarm: 7
-    image_templates:
-    - "wneessen/apg-go:{{ .Tag }}-darwin_arm64"
-    - "wneessen/apg-go:v{{ .Major }}-darwin_arm64"
-    - "wneessen/apg-go:v{{ .Major }}.{{ .Minor }}-darwin_arm64"
-    - "wneessen/apg-go:latest-darwin_arm64"
     build_flag_templates:
       - "--pull"
       - "--network=host"
