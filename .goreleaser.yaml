@@ -74,3 +74,7 @@ sboms:
 gitea_urls:
   api: https://src.neessen.cloud/api/v1
   download: https://src.neessen.cloud
+
+dockers:
+  - image_templates:
+    - wneessen/apg-go
