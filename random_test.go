@@ -416,8 +416,8 @@ func TestCheckMinimumRequirements(t *testing.T) {
 }
 
 func TestGenerateRandom(t *testing.T) {
-	config := NewConfig(WithAlgorithm(AlgoRandom), WithNumberPass(1),
-		WithMinLength(1), WithMaxLength(1))
+	config := NewConfig(WithAlgorithm(AlgoRandom), WithMinLength(1),
+		WithMaxLength(1))
 	config.MinNumeric = 1
 	generator := New(config)
 	pw, err := generator.generateRandom()
