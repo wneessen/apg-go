@@ -3,8 +3,11 @@ FROM golang:latest AS builder
 RUN mkdir /builddir
 ADD . /builddir/
 WORKDIR /builddir
+RUN go mod tidy
+RUN go mod download
+RUN go mod verify
 RUN CGO_ENABLED=0 go build -a -installsuffix cgo -ldflags '-w -s -extldflags "-static"' -o apg-go \
-    github.com/wneessen/apg-go/cmd/apg
+    src.neessen.cloud/wneessen/apg-go/cmd/apg
 
 ## Create scratch image
 FROM scratch

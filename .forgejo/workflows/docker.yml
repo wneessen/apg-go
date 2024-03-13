@@ -19,7 +19,7 @@ jobs:
       run: |
         apt-get update; apt-get -y install docker; which docker
     - name: Build the Docker image
-      run: docker build --no-cache --force-rm -t apg-go:main .
+      run: sudo docker build --no-cache --force-rm -t apg-go:main .
   test:
     runs-on: docker
     steps:
