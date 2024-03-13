@@ -109,3 +109,8 @@ dockers:
       - "--label=org.opencontainers.image.title={{.ProjectName}}"
       - "--label=org.opencontainers.image.revision={{.FullCommit}}"
       - "--label=org.opencontainers.image.version={{.Version}}"
+
+docker_signs:
+  - artifacts: all
+    stdin: '{{ .Env.COSIGN_PWD }}'
+    output: true
