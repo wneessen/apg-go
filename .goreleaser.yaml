@@ -6,10 +6,10 @@ version: 1
 
 before:
   hooks:
-    # You may remove this if you don't use go modules.
+    - go test -cover -race -shuffle=on 
     - go mod tidy
-    # you may remove this if you don't need go generate
-    - go generate ./...
+    - go mod download
+    - go mod verify
 
 builds:
   - env:
@@ -21,20 +21,28 @@ builds:
     - freebsd
     - openbsd
     - netbsd
+    goarch:
+      - 386
+      - arm
+      - arm64
+      - amd64
+      - ppc64le
+      - s390x
+      - mips
+      - mips64
+      - mipsle
+      - mips64le
+    goarm:
+      - 6
+    goamd64:
+      - v1
     main: ./cmd/apg
     binary: apg
+    ldflags:
+      - -w -s -extldflags "-static"
 
 archives:
   - format: tar.gz
-    # this name template makes the OS and Arch compatible with the results of `uname`.
-    name_template: >-
-      {{ .ProjectName }}_
-      {{- title .Os }}_
-      {{- if eq .Arch "amd64" }}x86_64
-      {{- else if eq .Arch "386" }}i386
-      {{- else }}{{ .Arch }}{{ end }}
-      {{- if .Arm }}v{{ .Arm }}{{ end }}
-    # use zip for windows archives
     format_overrides:
       - goos: windows
         format: zip
@@ -48,23 +56,33 @@ changelog:
 
 nfpms:
   - vendor: Winni Neessen
+    homepage: https://src.neessen.cloud/wneessen/apg-go
     maintainer: Winni Neessen <wn@neessen.dev>
+    description: |-
+      A "Automated Password Generator"-clone written in Go
+    license: MIT
     formats:
       - apk
       - deb
       - rpm
       - termux.deb
       - archlinux
+    file_name_template: >-
+      {{- trimsuffix .ConventionalFileName .ConventionalExtension -}}
+      {{- if and (eq .Arm "6") (eq .ConventionalExtension ".deb") }}6{{ end -}}
+      {{- if not (eq .Amd64 "v1")}}{{ .Amd64 }}{{ end -}}
+      {{- .ConventionalExtension -}}
 
 dmg:
   - replace: true
 
 universal_binaries:
+  - replace: true
 
 report_sizes: true
 
 signs:
-  - artifacts: checksum
+  - artifacts: all
     stdin: "{{ .Env.GPG_PASSWORD }}"
     args: ["-u", "wn@neessen.dev", "--output", "${signature}", "--detach-sign", "${artifact}"]
 
@@ -74,3 +92,25 @@ sboms:
 gitea_urls:
   api: https://src.neessen.cloud/api/v1
   download: https://src.neessen.cloud
+
+dockers:
+  - image_templates:
+    - wneessen/apg-go
+    build_flag_templates:
+      - "--network=host"
+
+docker_signs:
+  - artifacts: all
+    stdin: '{{ .Env.COSIGN_PWD }}'
+    cmd: cosign
+
+gomod:
+  mod: mod
+
+dockerhub:
+  - username: wneessen
+    description: |-
+      A "Automated Password Generator"-clone written in Go
+    full_description:
+      from_url:
+        url: https://src.neessen.cloud/wneessen/apg-go/raw/branch/main/README.md 
