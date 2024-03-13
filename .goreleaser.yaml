@@ -133,4 +133,3 @@ dockers:
 docker_signs:
   - artifacts: all
     stdin: '{{ .Env.COSIGN_PWD }}'
-    output: true
