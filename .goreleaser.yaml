@@ -118,10 +118,10 @@ dockers:
     goarch: arm64
     goarm: 7
     image_templates:
-    - "wneessen/apg-go:{{ .Tag }}"
-    - "wneessen/apg-go:v{{ .Major }}"
-    - "wneessen/apg-go:v{{ .Major }}.{{ .Minor }}"
-    - "wneessen/apg-go:latest"
+    - "wneessen/apg-go:{{ .Tag }}-darwin_arm64"
+    - "wneessen/apg-go:v{{ .Major }}-darwin_arm64"
+    - "wneessen/apg-go:v{{ .Major }}.{{ .Minor }}-darwin_arm64"
+    - "wneessen/apg-go:latest-darwin_arm64"
     build_flag_templates:
       - "--pull"
       - "--network=host"
