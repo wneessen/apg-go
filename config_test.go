@@ -63,6 +63,44 @@ func TestWithAlgorithm(t *testing.T) {
 	}
 }
 
+func TestWithCheckHIBP(t *testing.T) {
+	c := NewConfig(WithCheckHIBP())
+	if c == nil {
+		t.Errorf("NewConfig(WithCheckHIBP()) failed, expected config pointer but got nil")
+		return
+	}
+	if c.CheckHIBP != true {
+		t.Errorf("NewConfig(WithCheckHIBP()) failed, expected min length: %t, got: %t",
+			true, c.CheckHIBP)
+	}
+}
+
+func TestWithExcludeChars(t *testing.T) {
+	e := "abcdefg"
+	c := NewConfig(WithExcludeChars(e))
+	if c == nil {
+		t.Errorf("NewConfig(WithExcludeChars()) failed, expected config pointer but got nil")
+		return
+	}
+	if c.ExcludeChars != e {
+		t.Errorf("NewConfig(WithExcludeChars()) failed, expected min length: %s, got: %s",
+			e, c.ExcludeChars)
+	}
+}
+
+func TestWithFixedLength(t *testing.T) {
+	var e int64 = 10
+	c := NewConfig(WithFixedLength(e))
+	if c == nil {
+		t.Errorf("NewConfig(WithFixedLength()) failed, expected config pointer but got nil")
+		return
+	}
+	if c.FixedLength != e {
+		t.Errorf("NewConfig(WithFixedLength()) failed, expected min length: %d, got: %d",
+			e, c.FixedLength)
+	}
+}
+
 func TestWithMaxLength(t *testing.T) {
 	var e int64 = 123
 	c := NewConfig(WithMaxLength(e))

@@ -88,6 +88,28 @@ func WithAlgorithm(algo Algorithm) Option {
 	}
 }
 
+// WithCheckHIBP enables the HIBP check for newly generated passwords
+func WithCheckHIBP() Option {
+	return func(config *Config) {
+		config.CheckHIBP = true
+	}
+}
+
+// WithExcludeChars sets a list of characters to be excluded in the generated
+// passwords
+func WithExcludeChars(chars string) Option {
+	return func(config *Config) {
+		config.ExcludeChars = chars
+	}
+}
+
+// WithFixedLength sets a fixed password length
+func WithFixedLength(length int64) Option {
+	return func(config *Config) {
+		config.FixedLength = length
+	}
+}
+
 // WithMinLength overrides the minimum password length
 func WithMinLength(length int64) Option {
 	return func(config *Config) {
