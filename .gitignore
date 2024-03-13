@@ -31,3 +31,4 @@ examples/*
 
 .env
 dist/
+cosign.key
