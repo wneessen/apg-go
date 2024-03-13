@@ -15,17 +15,17 @@ jobs:
     runs-on: docker
     steps:
     - uses: actions/checkout@v3
-    - name: Install docker-compose
+    - name: Install docker
       run: |
-        apt-get update; apt-get -y install docker-compose; which docker-compose
+        apt-get update; apt-get -y install docker; which docker
     - name: Build the Docker image
-      run: docker-compose build --no-cache --force-rm
+      run: docker build --no-cache --force-rm -t apg-go:main .
   test:
     runs-on: docker
     steps:
       - uses: actions/checkout@v2
       - name: Test the Docker image
-        run: docker-compose up -d
+        run: docker run apg-go:main
   push_to_registry:
     name: Push Docker image to Docker Hub
     runs-on: docker
