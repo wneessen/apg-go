@@ -95,3 +95,10 @@ gitea_urls:
 
 gomod:
   mod: mod
+
+dockers:
+  - image_templates:
+    - "wneessen/apg-go:{{ .Tag }}"
+    - "wneessen/apg-go:v{{ .Major }}"
+    - "wneessen/apg-go:v{{ .Major }}.{{ .Minor }}"
+    - "wneessen/apg-go:latest"
