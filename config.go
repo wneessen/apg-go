@@ -88,13 +88,6 @@ func WithAlgorithm(algo Algorithm) Option {
 	}
 }
 
-// WithCheckHIBP enables the HIBP check for newly generated passwords
-func WithCheckHIBP() Option {
-	return func(config *Config) {
-		config.CheckHIBP = true
-	}
-}
-
 // WithExcludeChars sets a list of characters to be excluded in the generated
 // passwords
 func WithExcludeChars(chars string) Option {
@@ -117,6 +110,50 @@ func WithMinLength(length int64) Option {
 	}
 }
 
+// WithMinLowercase sets the minimum amount of lowercase characters that
+// the generated password should contain
+//
+// CAVEAT: using to high values with this option, can lead to extraordinary
+// calculation times, resulting in apg-go to never finish
+func WithMinLowercase(amount int64) Option {
+	return func(config *Config) {
+		config.MinLowerCase = amount
+	}
+}
+
+// WithMinNumeric sets the minimum amount of numeric characters that
+// the generated password should contain
+//
+// CAVEAT: using to high values with this option, can lead to extraordinary
+// calculation times, resulting in apg-go to never finish
+func WithMinNumeric(amount int64) Option {
+	return func(config *Config) {
+		config.MinNumeric = amount
+	}
+}
+
+// WithMinSpecial sets the minimum amount of special characters that
+// the generated password should contain
+//
+// CAVEAT: using to high values with this option, can lead to extraordinary
+// calculation times, resulting in apg-go to never finish
+func WithMinSpecial(amount int64) Option {
+	return func(config *Config) {
+		config.MinSpecial = amount
+	}
+}
+
+// WithMinUppercase sets the minimum amount of uppercase characters that
+// the generated password should contain
+//
+// CAVEAT: using to high values with this option, can lead to extraordinary
+// calculation times, resulting in apg-go to never finish
+func WithMinUppercase(amount int64) Option {
+	return func(config *Config) {
+		config.MinUpperCase = amount
+	}
+}
+
 // WithMaxLength overrides the maximum password length
 func WithMaxLength(length int64) Option {
 	return func(config *Config) {
@@ -124,9 +161,9 @@ func WithMaxLength(length int64) Option {
 	}
 }
 
-// WithNumberPass overrides the amount of generated passwords setting
-func WithNumberPass(amount int64) Option {
+// WithModeMask overrides the default mode mask for the random algorithm
+func WithModeMask(mask ModeMask) Option {
 	return func(config *Config) {
-		config.NumberPass = amount
+		config.Mode = mask
 	}
 }
