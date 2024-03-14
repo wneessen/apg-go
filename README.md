@@ -50,7 +50,7 @@ On the [Github release page](https://github.com/wneessen/apg-go/releases) you wi
 for all supported OS and architectures. You will also find pre-built packages for the most common Linux distributions.
 Each file is digitally signed via GPG. After downloading the corresponding file, make sure that the file is verified
 with the GPG signature. The public GPG key is: 
-["Winni Neessen" (Software signing key) <wn@neessen.dev> / 10B5700F5ECCB06532CEC873C3D38948DA536E89](https://keys.openpgp.org/vks/v1/by-fingerprint/10B5700F5ECCB06532CEC873C3D38948DA536E89)
+["Winni Neessen" (Software signing key) <wn@neessen.dev>](https://keys.openpgp.org/vks/v1/by-fingerprint/10B5700F5ECCB06532CEC873C3D38948DA536E89)
 
 #### Linux/BSD/MacOS
 * Download release
