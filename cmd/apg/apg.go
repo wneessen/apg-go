@@ -118,7 +118,8 @@ func configMinRequirement(config *apg.Config) {
 
 // configOldStyle configures the old style character modes
 func configOldStyle(config *apg.Config, humanReadable, lowerCase, upperCase,
-	numeric, special, complexPass bool) {
+	numeric, special, complexPass bool,
+) {
 	if humanReadable {
 		config.Mode = apg.MaskToggleMode(config.Mode, apg.ModeHumanReadable)
 	}
