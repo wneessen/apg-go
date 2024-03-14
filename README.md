@@ -121,7 +121,7 @@ $ sudo cp apg /usr/local/bin/apg
 ```
 
 ## Programmatic interface
-Since v2.0.0 the CLI and the main package functionality have been separated from each other, which makes
+Since v1.0.0 the CLI and the main package functionality have been separated from each other, which makes
 it easier to use the `apg-go` package in other Go code as well. This way you can make of the password
 generation in your own code without having to rely on the actual apg-go binary.
 
@@ -204,7 +204,7 @@ running:
 $ ./apg-go -n 1 -C -m 32 -x 32
 5lc&HBvx=!EUY*;'/t&>B|~sudhtyDBu
 ```
-Alternatively, since v2.0.0 apg-go has the new `-f` flag, which allows to request a fixed length
+Alternatively, since v1.0.0 apg-go has the new `-f` flag, which allows to request a fixed length
 password. Instead of using `-m` and `-x` you can just use `-f 32` to get a 32 character long password:
 ```shell
 $ ./apg -n 1 -C -f 32
@@ -253,7 +253,7 @@ pEnbocydrageT*En (pEn-bo-cy-dra-geT-ASTERISK-En)
 ```
 
 ### Coinflip mode
-Sometimes you just want to quickly perform a simple, but random coinflip. Since v2.0.0 apg-go has a 
+Sometimes you just want to quickly perform a simple, but random coinflip. Since v1.0.0 apg-go has a 
 coinflip mode, which will return either "Heads" or "Tails". To use coinflip mode, use the `-a 2` argument:
 ```shell
 $ ./apg -n 10 -a 2
@@ -272,7 +272,7 @@ Heads
 ### Minimum required characters
 Even though in apg-go you can select what kind of characters are used for the password generation, it is
 not guaranteed, that if you request a password with a numeric value, that the generated password will 
-actually have a numeric value. Since v2.0.0 apg-go has a new set of arguments, that let's you define
+actually have a numeric value. Since v1.0.0 apg-go has a new set of arguments, that let's you define
 a minimum amount of characters of a specific character class to be included in the generated password.
 This can be requested with the `-mL`, `-mN`, `-mS` and `-mU` arguments. Each stands for the corresponding
 character class. If one of the arguments is give, apg-go will generate passwords until the requested amount
