@@ -65,26 +65,8 @@ func main() {
 	}
 
 	// Old style character modes
-	if humanReadable {
-		config.Mode = apg.MaskToggleMode(config.Mode, apg.ModeHumanReadable)
-	}
-	if lowerCase {
-		config.Mode = apg.MaskToggleMode(config.Mode, apg.ModeLowerCase)
-	}
-	if upperCase {
-		config.Mode = apg.MaskToggleMode(config.Mode, apg.ModeUpperCase)
-	}
-	if numeric {
-		config.Mode = apg.MaskToggleMode(config.Mode, apg.ModeNumeric)
-	}
-	if special {
-		config.Mode = apg.MaskToggleMode(config.Mode, apg.ModeSpecial)
-	}
-	if complexPass {
-		config.Mode = apg.MaskSetMode(config.Mode, apg.ModeLowerCase|apg.ModeNumeric|
-			apg.ModeSpecial|apg.ModeUpperCase)
-		config.Mode = apg.MaskClearMode(config.Mode, apg.ModeHumanReadable)
-	}
+	configOldStyle(config, humanReadable, lowerCase, upperCase, numeric,
+		special, complexPass)
 
 	// New style character modes (has higher priority than the old style modes)
 	if modeString != "" {
@@ -93,6 +75,21 @@ func main() {
 
 	// For the "minimum amount of" modes we need to imply at the type
 	// of character mode is set
+	configMinRequirement(config)
+
+	// Check if algorithm is supported
+	config.Algorithm = apg.IntToAlgo(algorithm)
+	if config.Algorithm == apg.AlgoUnsupported {
+		_, _ = fmt.Fprintf(os.Stderr, "unsupported algorithm value: %d\n", algorithm)
+		os.Exit(1)
+	}
+
+	// Generate the password based on the given flags and print it to stdout
+	generate(config)
+}
+
+// configMinRequirement configures the "minimum amount" feature
+func configMinRequirement(config *apg.Config) {
 	if config.MinLowerCase > 0 {
 		if float64(config.MinLength)/2 < float64(config.MinNumeric) {
 			_, _ = os.Stderr.WriteString(MinimumAmountTooHigh)
@@ -117,15 +114,35 @@ func main() {
 		}
 		config.Mode = apg.MaskSetMode(config.Mode, apg.ModeUpperCase)
 	}
+}
 
-	// Check if algorithm is supported
-	config.Algorithm = apg.IntToAlgo(algorithm)
-	if config.Algorithm == apg.AlgoUnsupported {
-		_, _ = fmt.Fprintf(os.Stderr, "unsupported algorithm value: %d\n", algorithm)
-		os.Exit(1)
+// configOldStyle configures the old style character modes
+func configOldStyle(config *apg.Config, humanReadable, lowerCase, upperCase,
+	numeric, special, complexPass bool,
+) {
+	if humanReadable {
+		config.Mode = apg.MaskToggleMode(config.Mode, apg.ModeHumanReadable)
 	}
+	if lowerCase {
+		config.Mode = apg.MaskToggleMode(config.Mode, apg.ModeLowerCase)
+	}
+	if upperCase {
+		config.Mode = apg.MaskToggleMode(config.Mode, apg.ModeUpperCase)
+	}
+	if numeric {
+		config.Mode = apg.MaskToggleMode(config.Mode, apg.ModeNumeric)
+	}
+	if special {
+		config.Mode = apg.MaskToggleMode(config.Mode, apg.ModeSpecial)
+	}
+	if complexPass {
+		config.Mode = apg.MaskSetMode(config.Mode, apg.ModeLowerCase|apg.ModeNumeric|
+			apg.ModeSpecial|apg.ModeUpperCase)
+		config.Mode = apg.MaskClearMode(config.Mode, apg.ModeHumanReadable)
+	}
+}
 
-	// Generate the password based on the given flags
+func generate(config *apg.Config) {
 	generator := apg.New(config)
 	for i := int64(0); i < config.NumberPass; i++ {
 		password, err := generator.Generate()

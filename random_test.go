@@ -98,7 +98,7 @@ func TestGenerator_RandomBytes(t *testing.T) {
 			}
 			bl := len(rb)
 			if int64(bl) != tc.l {
-				t.Errorf("lenght of provided bytes does not match requested length: got: %d, expected: %d",
+				t.Errorf("length of provided bytes does not match requested length: got: %d, expected: %d",
 					bl, tc.l)
 			}
 			if bytes.Equal(rb, make([]byte, tc.l)) {

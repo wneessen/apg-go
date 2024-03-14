@@ -229,13 +229,7 @@ func (g *Generator) checkMinimumRequirements(password string) bool {
 			charRange = CharRangeAlphaLower
 		}
 
-		count := 0
-		for _, char := range charRange {
-			count += strings.Count(password, string(char))
-		}
-		if int64(count) < g.config.MinLowerCase {
-			ok = false
-		}
+		matchesMinimumAmount(charRange, password, g.config.MinLowerCase, &ok)
 	}
 	if g.config.MinNumeric > 0 {
 		var charRange string
@@ -246,13 +240,7 @@ func (g *Generator) checkMinimumRequirements(password string) bool {
 			charRange = CharRangeNumeric
 		}
 
-		count := 0
-		for _, char := range charRange {
-			count += strings.Count(password, string(char))
-		}
-		if int64(count) < g.config.MinNumeric {
-			ok = false
-		}
+		matchesMinimumAmount(charRange, password, g.config.MinNumeric, &ok)
 	}
 	if g.config.MinSpecial > 0 {
 		var charRange string
@@ -263,13 +251,7 @@ func (g *Generator) checkMinimumRequirements(password string) bool {
 			charRange = CharRangeSpecial
 		}
 
-		count := 0
-		for _, char := range charRange {
-			count += strings.Count(password, string(char))
-		}
-		if int64(count) < g.config.MinSpecial {
-			ok = false
-		}
+		matchesMinimumAmount(charRange, password, g.config.MinSpecial, &ok)
 	}
 	if g.config.MinUpperCase > 0 {
 		var charRange string
@@ -280,13 +262,7 @@ func (g *Generator) checkMinimumRequirements(password string) bool {
 			charRange = CharRangeAlphaUpper
 		}
 
-		count := 0
-		for _, char := range charRange {
-			count += strings.Count(password, string(char))
-		}
-		if int64(count) < g.config.MinUpperCase {
-			ok = false
-		}
+		matchesMinimumAmount(charRange, password, g.config.MinUpperCase, &ok)
 	}
 	return ok
 }
@@ -358,4 +334,17 @@ func (g *Generator) generateRandom() (string, error) {
 	}
 
 	return password, nil
+}
+
+// matchesMinimumAmount checks if the number of occurrences of characters in
+// charRange in the password is less than minAmount and updates the
+// value of ok accordingly.
+func matchesMinimumAmount(charRange, password string, minAmount int64, ok *bool) {
+	count := 0
+	for _, char := range charRange {
+		count += strings.Count(password, string(char))
+	}
+	if int64(count) < minAmount {
+		*ok = false
+	}
 }
