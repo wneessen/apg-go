@@ -20,7 +20,7 @@ COPY ["docker-files/group", "/etc/group"]
 COPY --from=builder ["/etc/ssl/certs/ca-certificates.crt", "/etc/ssl/cert.pem"]
 COPY --chown=apg-go ["LICENSE", "/apg-go/LICENSE"]
 COPY --chown=apg-go ["README.md", "/apg-go/README.md"]
-COPY --from=builder --chown=apg-go ["/builddir/apg-go", "/apg-go/apg-go"]
+COPY --from=builder --chown=apg-go --chmod=555 ["/builddir/apg-go", "/apg-go/apg-go"]
 WORKDIR /apg-go
 USER apg-go
 ENTRYPOINT ["/apg-go/apg-go"]
