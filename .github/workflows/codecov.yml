@@ -36,7 +36,10 @@ jobs:
         go-version: ${{ matrix.go }}
     - name: Run Tests
       run: |
-        go test -v -race --coverprofile=coverage.coverprofile --covermode=atomic ./...
+        go test -v -race --coverprofile=coverage.coverprofile.tmp --covermode=atomic ./...
+    - name: Remove ignored code from coverage profile
+      run: |
+        grep -v -E '(apg-go/cmd/apg/apg.go|apg-go/example-code)' coverage.coverprofile.tmp > coverage.coverprofile
     - name: Upload coverage to Codecov
       if: success() && matrix.go == '1.22' && matrix.os == 'ubuntu-latest'
       uses: codecov/codecov-action@v3
