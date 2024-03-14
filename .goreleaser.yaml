@@ -49,15 +49,11 @@ archives:
         format: zip
 
 changelog:
-  sort: asc
-  filters:
-    exclude:
-      - "^docs:"
-      - "^test:"
+  use: github-native
 
 nfpms:
   - vendor: Winni Neessen
-    homepage: https://src.neessen.cloud/wneessen/apg-go
+    homepage: https://github.com/wneessen/apg-go
     maintainer: Winni Neessen <wn@neessen.dev>
     description: |-
       A "Automated Password Generator"-clone written in Go
@@ -90,9 +86,7 @@ signs:
 sboms:
   - artifacts: archive
 
-gitea_urls:
-  api: https://src.neessen.cloud/api/v1
-  download: https://src.neessen.cloud
+github_urls:
 
 gomod:
   mod: mod

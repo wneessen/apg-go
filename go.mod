@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-module src.neessen.cloud/wneessen/apg-go
+module github.com/wneessen/apg-go
 
 go 1.22
 

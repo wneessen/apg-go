@@ -5,10 +5,10 @@ SPDX-License-Identifier: CC0-1.0
 -->
 
 # A "Automated Password Generator"-clone
-[![Go Reference](https://pkg.go.dev/badge/src.neessen.cloud/wneessen/apg-go.svg)](https://pkg.go.dev/src.neessen.cloud/wneessen/apg-go) 
-[![Go Report Card](https://goreportcard.com/badge/src.neessen.cloud/wneessen/apg-go)](https://goreportcard.com/report/src.neessen.cloud/wneessen/apg-go)
+[![Go Reference](https://pkg.go.dev/badge/github.com/wneessen/apg-go.svg)](https://pkg.go.dev/github.com/wneessen/apg-go) 
+[![Go Report Card](https://goreportcard.com/badge/github.com/wneessen/apg-go)](https://goreportcard.com/report/github.com/wneessen/apg-go)
 [![#apg-go on Discord](https://img.shields.io/badge/Discord-%23apg%E2%80%93go-blue.svg)](https://discord.gg/ysQXkaccXk)
-[![REUSE status](https://api.reuse.software/badge/src.neessen.cloud/wneessen/apg-go)](https://api.reuse.software/info/src.neessen.cloud/wneessen/apg-go)
+[![REUSE status](https://api.reuse.software/badge/github.com/wneessen/apg-go)](https://api.reuse.software/info/github.com/wneessen/apg-go)
 <a href="https://ko-fi.com/D1D24V9IX"><img src="https://uploads-ssl.webflow.com/5c14e387dab576fe667689cf/5cbed8a4ae2b88347c06c923_BuyMeACoffee_blue.png" height="20" alt="buy ma a coffee"></a>
 
 _apg-go_ is a simple APG-like password generator written in Go. It tries to replicate the

@@ -11,5 +11,5 @@ enable = ["stylecheck", "whitespace", "containedctx", "contextcheck", "decorder"
     "errname", "errorlint", "gofmt", "gofumpt", "goimports"]
 
 [linters-settings.goimports]
-local-prefixes = "src.neessen.cloud/wneessen/apg-go"
+local-prefixes = "github.com/wneessen/apg-go"
 

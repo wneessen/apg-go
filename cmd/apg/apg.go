@@ -12,7 +12,7 @@ import (
 	"os"
 	"runtime"
 
-	"src.neessen.cloud/wneessen/apg-go"
+	"github.com/wneessen/apg-go"
 )
 
 // MinimumAmountTooHigh is an error message displayed when a minimum amount of
@@ -169,7 +169,7 @@ func usage() {
 	// Usage text
 	const ut = `apg-go v` +
 		apg.VERSION + "\n" +
-		`A OSS "Automated Password Generator"-clone -- https://src.neessen.cloud/wneessen/apg-go/
+		`A OSS "Automated Password Generator"-clone -- https://github.com/wneessen/apg-go/
 Created 2021-2024 by Winni Neessen (MIT licensed)
 
 apg [-a <algo>] [-m <length>] [-x <length>] [-L] [-U] [-N] [-S] [-H] [-C]
