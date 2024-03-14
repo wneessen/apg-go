@@ -220,6 +220,23 @@ func TestGetCharRangeFromConfig(t *testing.T) {
 	}
 }
 
+func TestGetCharRangeFromConfig_ExcludeChar(t *testing.T) {
+	defaultConf := NewConfig()
+	defaultGen := New(defaultConf)
+	defaultRange := defaultGen.GetCharRangeFromConfig()
+	defaultRange = strings.ReplaceAll(defaultRange, "a", "")
+	defaultRange = strings.ReplaceAll(defaultRange, "b", "")
+
+	config := NewConfig(WithExcludeChars("ab"))
+	generator := New(config)
+	excludeRange := generator.GetCharRangeFromConfig()
+
+	if excludeRange != defaultRange {
+		t.Errorf("GetCharRangeFromConfig(WithExcludeChars()) failed. Expected"+
+			"char range: %s, got: %s", defaultRange, excludeRange)
+	}
+}
+
 func TestGetPasswordLength(t *testing.T) {
 	config := NewConfig()
 	generator := New(config)
