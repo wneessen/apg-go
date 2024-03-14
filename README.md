@@ -7,6 +7,7 @@ SPDX-License-Identifier: CC0-1.0
 # A "Automated Password Generator"-clone
 [![Go Reference](https://pkg.go.dev/badge/github.com/wneessen/apg-go.svg)](https://pkg.go.dev/github.com/wneessen/apg-go) 
 [![Go Report Card](https://goreportcard.com/badge/github.com/wneessen/apg-go)](https://goreportcard.com/report/github.com/wneessen/apg-go)
+[![codecov](https://codecov.io/gh/wneessen/apg-go/graph/badge.svg?token=UA908LVYSL)](https://codecov.io/gh/wneessen/apg-go)
 [![#apg-go on Discord](https://img.shields.io/badge/Discord-%23apg%E2%80%93go-blue.svg)](https://discord.gg/ysQXkaccXk)
 [![REUSE status](https://api.reuse.software/badge/github.com/wneessen/apg-go)](https://api.reuse.software/info/github.com/wneessen/apg-go)
 <a href="https://ko-fi.com/D1D24V9IX"><img src="https://uploads-ssl.webflow.com/5c14e387dab576fe667689cf/5cbed8a4ae2b88347c06c923_BuyMeACoffee_blue.png" height="20" alt="buy ma a coffee"></a>
@@ -41,9 +42,16 @@ apg-go can be found as `/security/apg` in the [FreeBSD ports](https://cgit.freeb
 tree.
 #### Arch Linux
 Find apg-go in [Arch Linux AUR](https://aur.archlinux.org/packages/apg-go/). \
-Alternatively use the [PKGBUILD](https://github.com/wneessen/apg-go/tree/main/buildfiles/arch-linux) file 
-in this git repository
+Alternatively use the pre-build `zst`-package of the [latest release](https://github.com/wneessen/apg-go/releases) in 
+this git repository
+
 ### Binary releases
+On the [Github release page](https://github.com/wneessen/apg-go/releases) you will always find pre-build binaries
+for all supported OS and architectures. You will also find pre-built packages for the most common Linux distributions.
+Each file is digitally signed via GPG. After downloading the corresponding file, make sure that the file is verified
+with the GPG signature. The public GPG key is: 
+["Winni Neessen" (Software signing key) <wn@neessen.dev> / 10B5700F5ECCB06532CEC873C3D38948DA536E89](https://keys.openpgp.org/vks/v1/by-fingerprint/10B5700F5ECCB06532CEC873C3D38948DA536E89)
+
 #### Linux/BSD/MacOS
 * Download release
   ```sh
@@ -113,11 +121,11 @@ $ sudo cp apg /usr/local/bin/apg
 ```
 
 ## Programmatic interface
-Since v0.4.0 the CLI and the main package functionality have been separated from each other, which makes
+Since v2.0.0 the CLI and the main package functionality have been separated from each other, which makes
 it easier to use the `apg-go` package in other Go code as well. This way you can make of the password
 generation in your own code without having to rely on the actual apg-go binary.
 
-Code examples on how to use the package can be found in the [example-code](example-code) directory.
+A code example on how to use the package can be found in the [example-code](example-code) directory.
 
 ## Usage examples
 ### Default behaviour
@@ -196,6 +204,12 @@ running:
 $ ./apg-go -n 1 -C -m 32 -x 32
 5lc&HBvx=!EUY*;'/t&>B|~sudhtyDBu
 ```
+Alternatively, since v2.0.0 apg-go has the new `-f` flag, which allows to request a fixed length
+password. Instead of using `-m` and `-x` you can just use `-f 32` to get a 32 character long password:
+```shell
+$ ./apg -n 1 -C -f 32
+O"Q\d0zT'@(1f~%_56O*!q[!9:z[~\A*
+```
 
 ### Password spelling
 If you need to read out a password, it can be helpful to know the corresponding word for that character in
@@ -224,7 +238,7 @@ non-pronouncable password mode (`-a 1`).
 please keep in mind, that due to the nature how syllables work, your generated password might exceed 
 the desired length by one complete syllable (which can be up to 3 characters long).
 
-**Security consideration:** Please keep in mind, that pronouncable passwords are less secure then truly
+**Security consideration:** Please keep in mind, that pronouncable passwords are less secure compared to truly
 randomly created passwords, due to the nature how syllables work. As a rule of thumb, it is recommended
 to multiply the length of your generated pronouncable passwords by at least 1.5 times, compared to truly
 randomly generated passwords. It might also be helpful to run the pronoucable password mode with enabled
@@ -236,6 +250,51 @@ KebrutinernMy
 
 $ ./apg-go -a 0 -n 1 -m 15 -x 15 -t
 pEnbocydrageT*En (pEn-bo-cy-dra-geT-ASTERISK-En)
+```
+
+### Coinflip mode
+Sometimes you just want to quickly perform a simple, but random coinflip. Since v2.0.0 apg-go has a 
+coinflip mode, which will return either "Heads" or "Tails". To use coinflip mode, use the `-a 2` argument:
+```shell
+$ ./apg -n 10 -a 2
+Tails
+Tails
+Heads
+Heads
+Tails
+Tails
+Tails
+Tails
+Heads
+Heads
+```
+
+### Minimum required characters
+Even though in apg-go you can select what kind of characters are used for the password generation, it is
+not guaranteed, that if you request a password with a numeric value, that the generated password will 
+actually have a numeric value. Since v2.0.0 apg-go has a new set of arguments, that let's you define
+a minimum amount of characters of a specific character class to be included in the generated password.
+This can be requested with the `-mL`, `-mN`, `-mS` and `-mU` arguments. Each stands for the corresponding
+character class. If one of the arguments is give, apg-go will generate passwords until the requested amount
+of characters of the corresponding class is given.
+
+**Note on minimum characters**: Please keep in mind, that due to the way the "minimum amount" feature works,
+the calculation time for passwords can increase and if the amount is set too high, it can result in apt-go
+never being able to finish the job.
+
+Example:
+```shell
+$ ./apg -n 10 -a 1 -M NLUs -f 20 -mN 3
+kqFG935E280LvTFUbJ4M
+RVBJAI5tJ6hy6oWrNfXG
+uy1IWBEoOQFyG66VrLqu
+T5k9oKieImvJ9hxePfHt
+0TTpGzMUje6mU7IXaSII
+gvDjPmlj8J6glR0iy0h4
+C5OP3Ph7bx173v0gRNsn
+SEuP7I3en6ai9OuHvNSs
+yira1uPQ8qmo5OKUM4Er
+bu0nzhjoKn8Uiy3H2RjD
 ```
 
 ### Have I Been Pwned
@@ -258,11 +317,17 @@ _apg-go_ replicates most of the parameters of the original c-apg. Some parameter
 - `-a <algorithm>`: Choose password generation algorithm (Default: 1)
   - `0`: Pronouncable password generation (Koremutake syllables)
   - `1`: Random password generation according to password modes/flags
+  - `2`: Coinflip (returns heads or tails)
 - `-m <length>`: The minimum length of the password to be generated (Default: 12)
 - `-x <length>`: The maximum length of the password to be generated (Default: 20)
+- `-f <length>`: Fixed length of the password to be generated (Ignores -m and -x)
 - `-n <number of passwords>`: The amount of passwords to be generated (Default: 6)
 - `-E <list of characters>`: Do not use the specified characters in generated passwords
 - `-M <[LUNSHClunshc]>`: New style password parameters (upper-case enables, lower-case disables)
+- `-mL <number>`: Minimum amount of lower-case characters (implies -L)
+- `-mN <number>`: Minimum amount of numeric characters (implies -N)
+- `-mS <number>`: Minimum amount of special characters (implies -S)
+- `-mU <number>`: Minimum amount of upper-case characters (implies -U)
 - `-L`: Use lower-case characters in passwords (Default: on)
 - `-U`: Use upper-case characters in passwords (Default: on)
 - `-N`: Use numeric characters in passwords (Default: on)

@@ -90,21 +90,3 @@ github_urls:
 
 gomod:
   mod: mod
-
-dockers:
-  - image_templates:
-    - "wneessen/apg-go:{{ .Tag }}"
-    - "wneessen/apg-go:v{{ .Major }}"
-    - "wneessen/apg-go:v{{ .Major }}.{{ .Minor }}"
-    - "wneessen/apg-go:latest"
-    build_flag_templates:
-      - "--pull"
-      - "--network=host"
-      - "--label=org.opencontainers.image.created={{.Date}}"
-      - "--label=org.opencontainers.image.title={{.ProjectName}}"
-      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
-      - "--label=org.opencontainers.image.version={{.Version}}"
-
-docker_signs:
-  - artifacts: all
-    stdin: '{{ .Env.COSIGN_PWD }}'
