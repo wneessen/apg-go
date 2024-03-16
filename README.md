@@ -15,11 +15,11 @@ SPDX-License-Identifier: CC0-1.0
 _apg-go_ is a simple APG-like password generator written in Go. It tries to replicate the
 functionality of the
 "[Automated Password Generator](https://web.archive.org/web/20130313042424/http://www.adel.nursat.kz:80/apg)",
-which hasn't been maintained since 2003. Since more and more Unix distributions are abondoning the tool, I was
+which hasn't been maintained since 2003. Since more and more Unix distributions are abandoning the tool, I was
 looking for an alternative. FreeBSD for example recommends "security/makepasswd", which is written in Perl
 but requires a lot of dependency packages and doesn't offer the feature-set/flexibility of APG.
 
-Since FIPS-181 (pronounceable passwords) has been withdrawn in 2015, apg-go does not follow this standard. Instead
+Since FIPS-181 (pronounceable passwords) has been withdrawn in 2015, apg-go does not follow this standard. Instead,
 it implements the [Koremutake Syllables System](https://shorl.com/koremutake.php) in its pronounceable password mode.
 
 ## Installation
@@ -229,7 +229,7 @@ $ ./apg-go -n 1 -C
 ### Password length
 By default, apg-go will generate a password with a random length between 12 and 20 characters. If you
 want to be more specific, you can use the `-m` and `-x` parameters to override the defaults. Let's 
-assume you want a single complex password with a length of exactly 32 characters, you can do so by
+assume you want a single complex password with a length of exactly 32 characters you can do so by
 running:
 ```shell
 $ ./apg-go -n 1 -C -m 32 -x 32
