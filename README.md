@@ -22,6 +22,33 @@ but requires a lot of dependency packages and doesn't offer the feature-set/flex
 Since FIPS-181 (pronounceable passwords) has been withdrawn in 2015, apg-go does not follow this standard. Instead,
 it implements the [Koremutake Syllables System](https://shorl.com/koremutake.php) in its pronounceable password mode.
 
+## Examples
+This section provides some examples on how to use apg-go for common password generation tasks.
+
+### Login password for a website
+```shell
+$ apg -C -f 20 -n 1
+Zq#lIY?=?J@4_\X@\xtf
+```
+**Note:** Nowadays 20 random characters are still considered secure for passwords. You might want to adjust
+the `-f` parameter if you require a longer password.
+
+### PIN generation
+```shell
+$ apg -M lusN -f 6 -n 1
+952170
+```
+**Note:** A code example on how to programatically build a PIN generator with apg-go, can be found
+here: [pin-generator](example-code/pin-generator).
+
+### Phone verification phrase (pronounceable)
+```shell
+$ apg -a 0 -m 15 -x 15 -t -n 1
+vEbErlaFryaNgyex (vE-bEr-la-Fry-aN-gy-ex)
+```
+We generated a 15-character long pronounceable phrase with syllables output, for easy
+use in e. g. a phone verification process.
+
 ## Installation
 
 ### Docker
