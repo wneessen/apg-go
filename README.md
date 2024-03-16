@@ -19,8 +19,8 @@ which hasn't been maintained since 2003. Since more and more Unix distributions 
 looking for an alternative. FreeBSD for example recommends "security/makepasswd", which is written in Perl
 but requires a lot of dependency packages and doesn't offer the feature-set/flexibility of APG.
 
-Since FIPS-181 (pronouncable passwords) has been withdrawn in 2015, apg-go does not follow this standard. Instead
-it implements the [Koremutake Syllables System](https://shorl.com/koremutake.php) in its pronouncable password mode.
+Since FIPS-181 (pronounceable passwords) has been withdrawn in 2015, apg-go does not follow this standard. Instead
+it implements the [Koremutake Syllables System](https://shorl.com/koremutake.php) in its pronounceable password mode.
 
 ## Installation
 
@@ -252,26 +252,26 @@ fUTDKeFsU+zn3r= (foxtrot/Uniform/Tango/Delta/Kilo/echo/Foxtrot/sierra/Uniform/PL
 ```
 
 ### Pronouncable passwords
-Since v0.4.0 apg-go supports pronouncable passwords, anologous to the original c-apg using the `-a 0`
-flag. The original c-apg implemented FIPS-181, which was withdrawn in 2015 for generating pronouncable
+Since v0.4.0 apg-go supports pronounceable passwords, anologous to the original c-apg using the `-a 0`
+flag. The original c-apg implemented FIPS-181, which was withdrawn in 2015 for generating pronounceable
 passwords. Since the standard is not recommended anymore, `apg-go` instead make use of the
 [Koremutake Syllables System](https://shorl.com/koremutake.php). Similar to the original apg, `agp-go`
 will automatically randomly add special characters and number (from the human-readable pool) to each
-generated pronouncable password. Additionally it will perform a "coinflip" for each Koremutake syllable
+generated pronounceable password. Additionally it will perform a "coinflip" for each Koremutake syllable
 and decided if it should switch the case of one of the characters to an upper-case character.
 
-Using the `-t` parameter, `apg-go` will display a spelled out version of the pronouncable password, where
+Using the `-t` parameter, `apg-go` will display a spelled out version of the pronounceable password, where
 each syllable or number/special character is seperated with a "-" (dash) and if the syllable is not a
 Koremutake syllable the character will be spelled out the same was as with activated `-l` in the
-non-pronouncable password mode (`-a 1`).
+non-pronounceable password mode (`-a 1`).
 
 **Note on password length**: The `-m` and `-x` parameters will work in prouncable password mode, but
 please keep in mind, that due to the nature how syllables work, your generated password might exceed 
 the desired length by one complete syllable (which can be up to 3 characters long).
 
-**Security consideration:** Please keep in mind, that pronouncable passwords are less secure compared to truly
+**Security consideration:** Please keep in mind, that pronounceable passwords are less secure compared to truly
 randomly created passwords, due to the nature how syllables work. As a rule of thumb, it is recommended
-to multiply the length of your generated pronouncable passwords by at least 1.5 times, compared to truly
+to multiply the length of your generated pronounceable passwords by at least 1.5 times, compared to truly
 randomly generated passwords. It might also be helpful to run the pronoucable password mode with enabled
 "[HIBP](#have-i-been-pwned)" flag, so that each generated password is automatically checked against "Have I Been Pwned" 
 database.
@@ -310,7 +310,7 @@ character class. If one of the arguments is give, apg-go will generate passwords
 of characters of the corresponding class is given.
 
 **Note on minimum characters**: Please keep in mind, that due to the way the "minimum amount" feature works,
-the calculation time for passwords can increase and if the amount is set too high, it can result in apt-go
+the calculation time for passwords can increase and if the amount is set too high, it can result in apg-go
 never being able to finish the job.
 
 Example:
@@ -366,7 +366,7 @@ _apg-go_ replicates most of the parameters of the original c-apg. Some parameter
 - `-H`: Avoid ambiguous characters in passwords (i. e.: 1, l, I, o, O, 0) (Default: off)
 - `-C`: Generate complex passwords (implies -L -U -N -S and disables -H) (Default: off)
 - `-l`: Spell generated passwords in random password mode (Default: off)
-- `-t`: Spell generated passwords in pronouncable password mode (Default: off)
+- `-t`: Spell generated passwords in pronounceable password mode (Default: off)
 - `-p`: Check the HIBP database if the generated passwords was found in a leak before (Default: off) // *this feature requires internet connectivity*
 - `-h`: Show a CLI help text
 - `-v`: Show the version number
