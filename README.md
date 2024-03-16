@@ -36,80 +36,111 @@ There is a ready-to-use Docker image hosted on Github.
   $ docker run ghcr.io/wneessen/apg-go:main
   ```
 
-### Ports/Packages
+### Binary releases/Packages
+On the [Github release page](https://github.com/wneessen/apg-go/releases) you will always find pre-build binaries
+for all supported OS and architectures. You will also find pre-built packages for the most common Linux distributions.
+Each file is digitally signed via GPG. After downloading the corresponding file, make sure that the file is verified
+with the GPG signature. The public GPG key is:
+["Winni Neessen" (Software signing key) <wn@neessen.dev>](https://keys.openpgp.org/vks/v1/by-fingerprint/10B5700F5ECCB06532CEC873C3D38948DA536E89)
+
 #### FreeBSD
 apg-go can be found as `/security/apg` in the [FreeBSD ports](https://cgit.freebsd.org/ports/tree/security/apg)
 tree.
 #### Arch Linux
-Find apg-go in [Arch Linux AUR](https://aur.archlinux.org/packages/apg-go/). \
-Alternatively use the pre-build `zst`-package of the [latest release](https://github.com/wneessen/apg-go/releases) in 
+Find apg-go in [Arch Linux AUR](https://aur.archlinux.org/packages/apg-go/). Alternatively use the pre-build `zst`-package of the [latest release](https://github.com/wneessen/apg-go/releases) in 
+this git repository
+#### Debian/Redhat/Alpine
+Pre-build packages in `.deb`, `.rpm` and `.apk` format can be found on [release page](https://github.com/wneessen/apg-go/releases) in
 this git repository
 
-### Binary releases
-On the [Github release page](https://github.com/wneessen/apg-go/releases) you will always find pre-build binaries
-for all supported OS and architectures. You will also find pre-built packages for the most common Linux distributions.
-Each file is digitally signed via GPG. After downloading the corresponding file, make sure that the file is verified
-with the GPG signature. The public GPG key is: 
-["Winni Neessen" (Software signing key) <wn@neessen.dev>](https://keys.openpgp.org/vks/v1/by-fingerprint/10B5700F5ECCB06532CEC873C3D38948DA536E89)
-
-#### Linux/BSD/MacOS
+#### Binary installation on Linux/BSD/MacOS
 * Download release
   ```sh
-  $ curl -LO https://github.com/wneessen/apg-go/releases/download/v<version>/apg-v<version>-<os>-<architecture>.tar.gz
-  $ curl -LO https://github.com/wneessen/apg-go/releases/download/v<version>/apg-v<version>-<os>-<architecture>.tar.gz.sha256
+  $ curl -LO https://github.com/wneessen/apg-go/releases/download/v<version>/apg-go_<version>_<os>_<architecture>.tar.gz
+  $ curl -LO https://github.com/wneessen/apg-go/releases/download/v<version>/apg-go_<version>_<os>_<architecture>.tar.gz.sig
   ```
-* Verify the checksum
+* Import the GPG signing key
   ```sh
-  $ sha256 apg-v<version>-<os>-<architecture>.tar.gz 
-  $ cat apg-v<version>-<os>-<architecture>.tar.gz.sha256
+  $ gpg --keyserver keys.openpgp.org --recv-keys C3D38948DA536E89        
+  gpg: key C3D38948DA536E89: public key "Winni Neessen (Software signing key) <wn@neessen.dev>" imported
+  gpg: Total number processed: 1
+  gpg:               imported: 1
   ```
-  **Make sure the checksum of the downloaded file and the checksum in the .sha256 match**
+* Verify the signature
+  ```sh
+  $ gpg --verify apg-go_<version>_<os>_<architechture>.tar.gz.sig apg-go_<version>_<os>_<architecture>.tar.gz
+  gpg: Signature made Thu Mar 14 11:27:43 2024 CET
+  gpg:                using EDDSA key 10B5700F5ECCB06532CEC873C3D38948DA536E89
+  gpg:                issuer "wn@neessen.dev"
+  gpg: Good signature from "Winni Neessen (Software signing key) <wn@neessen.dev>" [unknown]
+  Primary key fingerprint: 10B5 700F 5ECC B065 32CE  C873 C3D3 8948 DA53 6E89
+  ```
+  **Make sure the signature of the downloaded file verifies as "good"**
 * Extract archive
   ```sh
-  $ tar xzf apg-v<version>-<os>-<architecture>.tar.gz
+  $ tar xzf apg-<version>_<os>_<architecture>.tar.gz
   ```
 * Execute
   ```sh
-  $ ./apg
+  $ ./apg -v
+  apg-go // A "Automated Password Generator"-clone v1.0.0
+  OS: <version> // Arch: <architecture>
+  (C) 2021-2024 by Winni Neessen
   ```
 #### Windows
 * Download release
   ```PowerShell
-  PS> Invoke-RestMethod -Uri https://github.com/wneessen/apg-go/releases/download/v<version>/apg-v<version>-windows-<architecture>.zip -OutFile apg-v<version>-windows-<architecure>.zip
-  PS> Invoke-RestMethod -Uri https://github.com/wneessen/apg-go/releases/download/v<version>/apg-v<version>-windows-<architecture>.zip.sha256 -OutFile apg-v<version>-windows-<architecure>.zip.sha256
+  PS> Invoke-RestMethod -Uri https://github.com/wneessen/apg-go/releases/download/v<version>/apg-go_<version>_windows_<architecture>.zip -OutFile apg-<version>-windows-<architecure>.zip
+  PS> Invoke-RestMethod -Uri https://github.com/wneessen/apg-go/releases/download/v<version>/apg-go_<version>_windows_<architecture>.zip.sig -OutFile apg-<version>-windows-<architecure>.zip.sig
   ```
-* Verify the checksum
+* Import the GPG signing key
   ```PowerShell
-  PS> Get-FileHash apg-v<version>-windows-<architecture>.zip | Format-List
-  PS> type apg-v<version>-windows-<architecture>.zip.sha256
+  PS> gpg --keyserver keys.openpgp.org --recv-keys C3D38948DA536E89        
+  gpg: key C3D38948DA536E89: public key "Winni Neessen (Software signing key) <wn@neessen.dev>" imported
+  gpg: Total number processed: 1
+  gpg:               imported: 1
   ```
-  **Make sure the checksum of the downloaded file and the checksum in the .sha256 match**
+* Verify the signature
+  ```PowerShell
+  PS> gpg --verify apg-go_<version>_<os>_<architechture>.tar.gz.sig apg-go_<version>_<os>_<architecture>.tar.gz
+  gpg: Signature made Thu Mar 14 11:27:43 2024 CET
+  gpg:                using EDDSA key 10B5700F5ECCB06532CEC873C3D38948DA536E89
+  gpg:                issuer "wn@neessen.dev"
+  gpg: Good signature from "Winni Neessen (Software signing key) <wn@neessen.dev>" [unknown]
+  Primary key fingerprint: 10B5 700F 5ECC B065 32CE  C873 C3D3 8948 DA53 6E89
+  ```
+  **Make sure the signature of the downloaded file verifies as "good"**
 * Extract archive
   ```PowerShell
-  PS> Expand-Archive -LiteralPath apg-v<version>-windows-<architecture>
+  PS> Expand-Archive -LiteralPath apg-<version>-windows-<architecture>.zip
   ```
 * Execute
   ```PowerShell
-  PS> cd apg-v<version>-windows-<architecture> 
   PS> apg.exe
   ```
 
 ### Sources
 * Download sources
-  ```sh
+  ```shell
   $ curl -LO https://github.com/wneessen/apg-go/archive/refs/tags/v<version>.tar.gz
   ```
 * Extract source
-  ```sh
+  ```shell
   $ tar xzf v<version>.tar.gz
   ```
-* Build binary
-  ```sh
+* Download dependencies
+  ```shell
   $ cd apg-go-<version>
-  $ go build -o apg ./...
+  $ go mod tidy
+  $ go mod download
+  $ go mod verify
+  ```
+* Build binary
+  ```shell
+  $ go build -o apg github.com/wneessen/apg-go/cmd/apg
   ```
 * Execute the brand new binary
-  ```sh
+  ```shell
   $ ./apg
   ```
 
