@@ -321,7 +321,7 @@ func (g *Generator) generatePronounceable() (string, error) {
 // generateBinary is executed when Generate() is called with Algorithm set
 // to AlgoBinary
 func (g *Generator) generateBinary() (string, error) {
-	var length int64 = DefaultBinarySize
+	length := DefaultBinarySize
 	if g.config.FixedLength > 0 {
 		length = g.config.FixedLength
 	}
