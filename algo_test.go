@@ -29,3 +29,34 @@ func TestIntToAlgo(t *testing.T) {
 		})
 	}
 }
+
+func FuzzIntToAlgo(f *testing.F) {
+	f.Add(-1)  // Test negative input
+	f.Add(4)   // Test out-of-range positive input
+	f.Add(100) // Test very large input
+	f.Fuzz(func(t *testing.T, a int) {
+		algo := IntToAlgo(a)
+		switch a {
+		case 0:
+			if algo != AlgoPronounceable {
+				t.Errorf("IntToAlgo(%d) expected AlgoPronounceable, got %v", a, algo)
+			}
+		case 1:
+			if algo != AlgoRandom {
+				t.Errorf("IntToAlgo(%d) expected AlgoRandom, got %v", a, algo)
+			}
+		case 2:
+			if algo != AlgoCoinFlip {
+				t.Errorf("IntToAlgo(%d) expected AlgoCoinFlip, got %v", a, algo)
+			}
+		case 3:
+			if algo != AlgoBinary {
+				t.Errorf("IntToAlgo(%d) expected AlgoBinary, got %v", a, algo)
+			}
+		default:
+			if algo != AlgoUnsupported {
+				t.Errorf("IntToAlgo(%d) expected AlgoUnsupported, got %v", a, algo)
+			}
+		}
+	})
+}
