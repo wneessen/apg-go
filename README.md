@@ -10,6 +10,7 @@ SPDX-License-Identifier: CC0-1.0
 [![codecov](https://codecov.io/gh/wneessen/apg-go/graph/badge.svg?token=UA908LVYSL)](https://codecov.io/gh/wneessen/apg-go)
 [![#apg-go on Discord](https://img.shields.io/badge/Discord-%23apg%E2%80%93go-blue.svg)](https://discord.gg/ysQXkaccXk)
 [![REUSE status](https://api.reuse.software/badge/github.com/wneessen/apg-go)](https://api.reuse.software/info/github.com/wneessen/apg-go)
+[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/8677/badge)](https://www.bestpractices.dev/projects/8677)
 <a href="https://ko-fi.com/D1D24V9IX"><img src="https://uploads-ssl.webflow.com/5c14e387dab576fe667689cf/5cbed8a4ae2b88347c06c923_BuyMeACoffee_blue.png" height="20" alt="buy ma a coffee"></a>
 
 _apg-go_ is a simple APG-like password generator written in Go. It tries to replicate the
