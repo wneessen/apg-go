@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: CC0-1.0
 
 name: Codecov workflow
+permissions: read-all
 on:
   push:
     branches:
