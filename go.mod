@@ -4,6 +4,6 @@
 
 module github.com/wneessen/apg-go
 
-go 1.22.1
+go 1.22
 
 require github.com/wneessen/go-hibp v1.0.6
