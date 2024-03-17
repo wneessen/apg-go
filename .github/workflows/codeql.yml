@@ -83,7 +83,7 @@ jobs:
 
     - run: |
         echo "Build Application using Go"
-        go1.22.0 build -ldflags '-s -w' -o apg github.com/wneessen/apg-go/cmd/apg
+        /usr/bin/env GOTOOLCHAIN=go1.22.1+auto go build -ldflags '-s -w' -o apg github.com/wneessen/apg-go/cmd/apg
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
