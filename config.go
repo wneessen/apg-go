@@ -10,6 +10,8 @@ const (
 	DefaultMinLength int64 = 12
 	// DefaultMaxLength reflects the default maximum length of a generated password
 	DefaultMaxLength int64 = 20
+	// DefaultBinarySize is the default byte size for generating binary random bytes
+	DefaultBinarySize int64 = 32
 	// DefaultMode sets the default character set mode bitmask to a combination of
 	// lower- and upper-case characters as well as numbers
 	DefaultMode ModeMask = ModeLowerCase | ModeNumeric | ModeUpperCase
@@ -21,6 +23,11 @@ const (
 type Config struct {
 	// Algorithm sets the Algorithm used for the password generation
 	Algorithm Algorithm
+	// BinaryHexMode if set will output the hex representation of the generated
+	// binary random string
+	BinaryHexMode bool
+	// BinaryNewline if set will print out a new line in AlgoBinary mode
+	BinaryNewline bool
 	// CheckHIBP sets a flag if the generated password has to be checked
 	// against the HIBP pwned password database
 	CheckHIBP bool
@@ -85,6 +92,13 @@ func NewConfig(opts ...Option) *Config {
 func WithAlgorithm(algo Algorithm) Option {
 	return func(config *Config) {
 		config.Algorithm = algo
+	}
+}
+
+// WithBinaryHexMode sets the hex mode for the AlgoBinary
+func WithBinaryHexMode() Option {
+	return func(config *Config) {
+		config.BinaryHexMode = true
 	}
 }
 

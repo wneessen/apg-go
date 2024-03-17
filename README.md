@@ -49,6 +49,14 @@ vEbErlaFryaNgyex (vE-bEr-la-Fry-aN-gy-ex)
 We generated a 15-character long pronounceable phrase with syllables output, for easy
 use in e. g. a phone verification process.
 
+### Cryptographic key for encryption
+```shell
+$ apg -a 3 -f 32 -bh
+```
+We generated a 32 bytes/256 bits long fully binary secret that can be used i. e. as
+encryption key for a AES-256 symmetric encryption. The output is represented in 
+hexadecimal format.
+
 ## Installation
 
 ### Docker
@@ -327,6 +335,24 @@ Heads
 Heads
 ```
 
+### Binary mode
+Since v1.0.1 apg-go has a new algorithm for binary secrets. This is a very basic mode that will ignore
+most of the available options, as it will only generate binary secrets with full 256 bits of randomness.
+The only available options for this mode are: `-f` to set the length of the returned secret in bytes, 
+`-bh` to tell apg-go to output the generated secret in hexadecial representation and `-bn` to instruct
+apg-go to return a newline after the generated secret. Any other option available in the other modes
+will be ignored.
+
+This mode can be useful for example if you need to generate a AES-256 encryption key. Since 32 bytes is
+the default length for the secret generation in this mode, you can simply generate a secret key with 
+the following command:
+```shell
+$ apg -a 3 -bh
+a1cdab8db365af3d70828b1fe43b7896190c157ad3f1ae2a0a1d52ec1628c6b5
+```
+*For ease for readability we used the `-bh` flag, to instruct apg-go to output the secret in its
+hexadecimal representation*
+
 ### Minimum required characters
 Even though in apg-go you can select what kind of characters are used for the password generation, it is
 not guaranteed, that if you request a password with a numeric value, that the generated password will 
@@ -376,6 +402,9 @@ _apg-go_ replicates most of the parameters of the original c-apg. Some parameter
   - `0`: Pronouncable password generation (Koremutake syllables)
   - `1`: Random password generation according to password modes/flags
   - `2`: Coinflip (returns heads or tails)
+  - `3`: Binary mode (returns a secret with 256 bits of randomness)
+- `-bh`: When set, will print the generated secret in its hex representation (Default: off)
+- `-bn`: When set, will return a new line character after the generated secret (Default: off)
 - `-m <length>`: The minimum length of the password to be generated (Default: 12)
 - `-x <length>`: The maximum length of the password to be generated (Default: 20)
 - `-f <length>`: Fixed length of the password to be generated (Ignores -m and -x)

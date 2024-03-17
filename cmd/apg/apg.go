@@ -31,6 +31,8 @@ func main() {
 	var modeString string
 	var complexPass, humanReadable, lowerCase, numeric, special, showVer, upperCase bool
 	flag.IntVar(&algorithm, "a", 1, "")
+	flag.BoolVar(&config.BinaryHexMode, "bh", false, "")
+	flag.BoolVar(&config.BinaryNewline, "bn", false, "")
 	flag.BoolVar(&complexPass, "C", false, "")
 	flag.StringVar(&config.ExcludeChars, "E", "", "")
 	flag.Int64Var(&config.FixedLength, "f", 0, "")
@@ -144,6 +146,23 @@ func configOldStyle(config *apg.Config, humanReadable, lowerCase, upperCase,
 
 func generate(config *apg.Config) {
 	generator := apg.New(config)
+
+	// In binary mode we only generate a single secret
+	if config.Algorithm == apg.AlgoBinary {
+		password, err := generator.Generate()
+		if err != nil {
+			_, _ = fmt.Fprintf(os.Stderr, "failed to generate password: %s\n", err)
+			os.Exit(1)
+		}
+		if config.BinaryNewline {
+			fmt.Println(password)
+			return
+		}
+		fmt.Print(password)
+		return
+	}
+
+	// For any other mode we cycle through the amount of passwords to be generated
 	for i := int64(0); i < config.NumberPass; i++ {
 		password, err := generator.Generate()
 		if err != nil {
@@ -197,12 +216,17 @@ Flags:
                           - 0: pronounceable password generation (koremutake syllables)
                           - 1: random password generation according to password modes/flags
                           - 2: coinflip (returns heads or tails)
+                          - 3: full binary mode (generates simple 256 bit randomness)
+    -bh                  When set, will print the generated secret in its hex representation (Default: off)
+    -bn                  When set, will return a new line character after the generated secret (Default: off)
+                          - Note: The -bX options only apply to binary mode (Algo: 3)
     -m LENGTH            Minimum length of the password to be generated (Default: 12)
     -x LENGTH            Maximum length of the password to be generated (Default: 20)
     -f LENGTH            Fixed length of the password to be generated (Ignores -m and -x)
                           - Note: Due to the way the pronounceable password algorithm works,
 	                        this setting might not always apply
     -n NUMBER            Amount of password to be generated (Default: 6)
+                          - Note: Does not apply to binary mode (Algo: 3)
     -E CHARS             List of characters to be excluded in the generated password
     -M [LUNSHClunshc]    New style password flags
                           - Note: new-style flags have higher priority than any of the old-style flags

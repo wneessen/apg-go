@@ -141,6 +141,12 @@ func TestPronounce(t *testing.T) {
 			wantErr:   false,
 		},
 		{
+			name:      "Pronounce_Mixed",
+			syllables: []string{"mu", "1"},
+			want:      "mu-ONE",
+			wantErr:   false,
+		},
+		{
 			name:      "Pronounce_NonKoremutakeSyllable",
 			syllables: []string{"ä"},
 			wantErr:   true,

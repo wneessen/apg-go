@@ -46,7 +46,8 @@ func TestWithAlgorithm(t *testing.T) {
 		{"Pronounceable passwords", AlgoPronounceable, 0},
 		{"Random passwords", AlgoRandom, 1},
 		{"Coinflip", AlgoCoinFlip, 2},
-		{"Unsupported", AlgoUnsupported, 3},
+		{"Binary", AlgoBinary, 3},
+		{"Unsupported", AlgoUnsupported, 4},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -64,6 +65,18 @@ func TestWithAlgorithm(t *testing.T) {
 					tt.want, c.Algorithm)
 			}
 		})
+	}
+}
+
+func TestWithBinaryHexMode(t *testing.T) {
+	c := NewConfig(WithBinaryHexMode())
+	if c == nil {
+		t.Errorf("NewConfig(WithBinaryHexMode()) failed, expected config pointer but got nil")
+		return
+	}
+	if !c.BinaryHexMode {
+		t.Errorf("NewConfig(WithBinaryHexMode()) failed, expected chars: %t, got: %t",
+			true, c.BinaryHexMode)
 	}
 }
 
