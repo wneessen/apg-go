@@ -57,10 +57,13 @@ func (g *Generator) Generate() (string, error) {
 		return g.generateCoinFlip()
 	case AlgoRandom:
 		return g.generateRandom()
+	case AlgoBinary:
+		return g.generateBinary()
 	case AlgoUnsupported:
 		return "", fmt.Errorf("unsupported algorithm")
+	default:
+		return "", fmt.Errorf("unsupported algorithm")
 	}
-	return "", nil
 }
 
 // GetCharRangeFromConfig checks the Mode from the Config and returns a
@@ -315,8 +318,26 @@ func (g *Generator) generatePronounceable() (string, error) {
 	return password, nil
 }
 
+// generateBinary is executed when Generate() is called with Algorithm set
+// to AlgoBinary
+func (g *Generator) generateBinary() (string, error) {
+	var length int64 = DefaultBinarySize
+	if g.config.FixedLength > 0 {
+		length = g.config.FixedLength
+	}
+	randBytes := make([]byte, length)
+	_, err := rand.Read(randBytes)
+	if err != nil {
+		return "", fmt.Errorf("failed to generate random bytes: %w", err)
+	}
+	if g.config.BinaryHexMode {
+		return fmt.Sprintf("%x", randBytes), nil
+	}
+	return string(randBytes), nil
+}
+
 // generateRandom is executed when Generate() is called with Algorithm set
-// to AlgoRandmom
+// to AlgoRandom
 func (g *Generator) generateRandom() (string, error) {
 	length, err := g.GetPasswordLength()
 	if err != nil {

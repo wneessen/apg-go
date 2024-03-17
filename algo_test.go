@@ -4,7 +4,9 @@
 
 package apg
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestIntToAlgo(t *testing.T) {
 	tt := []struct {
@@ -15,7 +17,8 @@ func TestIntToAlgo(t *testing.T) {
 		{"AlgoPronounceable", 0, AlgoPronounceable},
 		{"AlgoRandom", 1, AlgoRandom},
 		{"AlgoCoinflip", 2, AlgoCoinFlip},
-		{"AlgoUnsupported", 3, AlgoUnsupported},
+		{"AlgoBinary", 3, AlgoBinary},
+		{"AlgoUnsupported", 4, AlgoUnsupported},
 	}
 	for _, tc := range tt {
 		t.Run(tc.name, func(t *testing.T) {

@@ -472,6 +472,10 @@ func TestGenerate(t *testing.T) {
 			algorithm: AlgoRandom,
 		},
 		{
+			name:      "Binary",
+			algorithm: AlgoBinary,
+		},
+		{
 			name:        "Unsupported",
 			algorithm:   AlgoUnsupported,
 			expectedErr: fmt.Errorf("unsupported algorithm"),
@@ -528,5 +532,40 @@ func BenchmarkGenerator_RandomString(b *testing.B) {
 		if err != nil {
 			b.Errorf("RandomStringFromCharRange() failed: %s", err)
 		}
+	}
+}
+
+func TestGenerator_generateBinary(t *testing.T) {
+	tests := []struct {
+		name    string
+		config  *Config
+		wantErr bool
+	}{
+		{
+			name:    "Positive Case - Binary in Hex",
+			config:  &Config{FixedLength: 10, BinaryHexMode: true},
+			wantErr: false,
+		},
+		{
+			name:    "Negative Case - Insufficient length",
+			config:  &Config{FixedLength: -1, BinaryHexMode: false},
+			wantErr: false,
+		},
+		{
+			name:    "Positive Case - Binary without Hex",
+			config:  &Config{FixedLength: 10, BinaryHexMode: false},
+			wantErr: false,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			g := &Generator{config: tt.config}
+			_, err := g.generateBinary()
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Generator.generateBinary() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+		})
 	}
 }

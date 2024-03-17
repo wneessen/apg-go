@@ -18,6 +18,9 @@ const (
 	// AlgoCoinFlip represents a very simple coinflip algorithm returning "heads"
 	// or "tails"
 	AlgoCoinFlip
+	// AlgoBinary represents a full binary randomness mode with up to 256 bits
+	// of randomness
+	AlgoBinary
 	// AlgoUnsupported represents an unsupported algorithm
 	AlgoUnsupported
 )
@@ -32,6 +35,8 @@ func IntToAlgo(a int) Algorithm {
 		return AlgoRandom
 	case 2:
 		return AlgoCoinFlip
+	case 3:
+		return AlgoBinary
 	default:
 		return AlgoUnsupported
 	}

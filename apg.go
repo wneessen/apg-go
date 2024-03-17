@@ -5,7 +5,7 @@
 package apg
 
 // VERSION represents the version string
-const VERSION = "1.0.0"
+const VERSION = "1.0.1"
 
 // Generator is the password generator type of the APG package
 type Generator struct {
