@@ -83,10 +83,7 @@ jobs:
 
     - run: |
         echo "Build Application using Go"
-        go mod tidy
-        go mod download
-        go mod verify
-        go build -ldflags '-s -w' -o apg github.com/wneessen/apg-go/cmd/apg
+        go1.22.0 build -ldflags '-s -w' -o apg github.com/wneessen/apg-go/cmd/apg
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
