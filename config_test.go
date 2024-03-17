@@ -196,3 +196,18 @@ func TestWithModeMask(t *testing.T) {
 			e, c.Mode)
 	}
 }
+
+func FuzzWithAlgorithm(f *testing.F) {
+	f.Add(0)
+	f.Add(1)
+	f.Add(2)
+	f.Add(3)
+	f.Add(-1)
+	f.Add(100)
+	f.Fuzz(func(t *testing.T, algo int) {
+		config := NewConfig(WithAlgorithm(Algorithm(algo)))
+		if config.MaxLength < config.MinLength {
+			t.Errorf("Invalid algorithm: %d", algo)
+		}
+	})
+}
