@@ -336,7 +336,7 @@ Heads
 ```
 
 ### Binary mode
-Since v1.0.1 apg-go has a new algorithm for binary secrets. This is a very basic mode that will ignore
+Since v1.1.0 apg-go has a new algorithm for binary secrets. This is a very basic mode that will ignore
 most of the available options, as it will only generate binary secrets with full 256 bits of randomness.
 The only available options for this mode are: `-f` to set the length of the returned secret in bytes, 
 `-bh` to tell apg-go to output the generated secret in hexadecial representation and `-bn` to instruct
