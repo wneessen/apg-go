@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
         with:
           fetch-depth: 0
-      - uses: sonarsource/sonarqube-scan-action@1b9d398800bf807ad36901b351fff52deba642d6 # master
+      - uses: sonarsource/sonarqube-scan-action@9ad16418d1dd6d28912bc0047ee387e90181ce1c # master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
