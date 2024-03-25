@@ -36,6 +36,7 @@ func main() {
 	flag.BoolVar(&complexPass, "C", false, "")
 	flag.StringVar(&config.ExcludeChars, "E", "", "")
 	flag.Int64Var(&config.FixedLength, "f", 0, "")
+	flag.BoolVar(&config.MobileGrouping, "g", false, "")
 	flag.BoolVar(&humanReadable, "H", false, "")
 	flag.BoolVar(&config.SpellPassword, "l", false, "")
 	flag.BoolVar(&lowerCase, "L", false, "")
@@ -225,6 +226,9 @@ Flags:
     -f LENGTH            Fixed length of the password to be generated (Ignores -m and -x)
                           - Note: Due to the way the pronounceable password algorithm works,
 	                        this setting might not always apply
+    -g                   When set, mobile-friendly character grouping will be enabled in Algo: 1
+                          - Note: Grouping characters in random passwords makes them much
+                            more predictable and lowers the entropy of the generated password.
     -n NUMBER            Amount of password to be generated (Default: 6)
                           - Note: Does not apply to binary mode (Algo: 3)
     -E CHARS             List of characters to be excluded in the generated password
