@@ -11,7 +11,7 @@ on:
     paths:
       - '**.go'
       - 'go.*'
-      - '.github/**'
+      - '.github/workflow/codecov.yml'
       - 'codecov.yml'
   pull_request:
     branches:
@@ -19,7 +19,7 @@ on:
     paths:
       - '**.go'
       - 'go.*'
-      - '.github/**'
+      - '.github/workflow/codecov.yml'
       - 'codecov.yml'
 jobs:
   run:

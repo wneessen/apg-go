@@ -9,7 +9,17 @@ on:
       - v*
     branches:
       - main
+    paths:
+      - '**.go'
+      - 'go.*'
+      - '.github/workflow/golangci-lint.yml'
+      - 'codecov.yml'
   pull_request:
+    paths:
+      - '**.go'
+      - 'go.*'
+      - '.github/workflow/golangci-lint.yml'
+      - 'codecov.yml'
 permissions:
   contents: read
   # Optional: allow read access to pull request. Use with `only-new-issues` option.

@@ -8,6 +8,11 @@ on:
   push:
     branches:
       - main # or the name of your main branch
+    paths:
+      - '**.go'
+      - 'go.*'
+      - '.github/workflow/sonarqube.yml'
+      - 'codecov.yml'
 jobs:
   build:
     name: Build
