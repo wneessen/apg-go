@@ -184,6 +184,18 @@ func TestWithMinUppercase(t *testing.T) {
 	}
 }
 
+func TestWithMobileGrouping(t *testing.T) {
+	c := NewConfig(WithMobileGrouping())
+	if c == nil {
+		t.Errorf("NewConfig(WithMobileGrouping()) failed, expected config pointer but got nil")
+		return
+	}
+	if c.MobileGrouping != true {
+		t.Errorf("NewConfig(WithMobileGrouping()) failed, expected: %t, got: %t",
+			true, c.MobileGrouping)
+	}
+}
+
 func TestWithModeMask(t *testing.T) {
 	e := DefaultMode
 	c := NewConfig(WithModeMask(e))
