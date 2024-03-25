@@ -14,10 +14,20 @@ on:
     - cron: '24 12 * * *'
   push:
     branches: [ main ]
+    paths:
+      - '**.go'
+      - 'go.*'
+      - '.github/workflow/docker-publish.yml'
+      - 'codecov.yml'
     # Publish semver tags as releases.
     tags: [ 'v*.*.*' ]
   pull_request:
     branches: [ main ]
+    paths:
+      - '**.go'
+      - 'go.*'
+      - '.github/workflow/docker-publish.yml'
+      - 'codecov.yml'
 
 permissions:
   contents: read
