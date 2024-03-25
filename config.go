@@ -53,6 +53,9 @@ type Config struct {
 	// MinUpperCase represents the minimum amount of upper-case characters that have
 	// to be part of the generated password
 	MinUpperCase int64
+	// MobileGrouping indicates if the generated password should be grouped in a
+	// mobile-friendly manner
+	MobileGrouping bool
 	// Mode holds the different character modes for the Random algorithm
 	Mode ModeMask
 	// NumberPass sets the number of passwords that are generated
@@ -172,6 +175,13 @@ func WithMinUppercase(amount int64) Option {
 func WithMaxLength(length int64) Option {
 	return func(config *Config) {
 		config.MaxLength = length
+	}
+}
+
+// WithMobileGrouping enables the mobile-friendly character grouping for AlgoRandom
+func WithMobileGrouping() Option {
+	return func(config *Config) {
+		config.MobileGrouping = true
 	}
 }
 

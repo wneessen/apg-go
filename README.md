@@ -28,7 +28,7 @@ This section provides some examples on how to use apg-go for common password gen
 
 ### Login password for a website
 ```shell
-$ apg -C -f 20 -n 1
+$ apg-go -C -f 20 -n 1
 Zq#lIY?=?J@4_\X@\xtf
 ```
 **Note:** Nowadays 20 random characters are still considered secure for passwords. You might want to adjust
@@ -36,7 +36,7 @@ the `-f` parameter if you require a longer password.
 
 ### PIN generation
 ```shell
-$ apg -M lusN -f 6 -n 1
+$ apg-go -M lusN -f 6 -n 1
 952170
 ```
 **Note:** A code example on how to programatically build a PIN generator with apg-go, can be found
@@ -44,7 +44,7 @@ here: [pin-generator](example-code/pin-generator).
 
 ### Phone verification phrase (pronounceable)
 ```shell
-$ apg -a 0 -m 15 -x 15 -t -n 1
+$ apg-go -a 0 -m 15 -x 15 -t -n 1
 vEbErlaFryaNgyex (vE-bEr-la-Fry-aN-gy-ex)
 ```
 We generated a 15-character long pronounceable phrase with syllables output, for easy
@@ -52,7 +52,7 @@ use in e. g. a phone verification process.
 
 ### Cryptographic key for encryption
 ```shell
-$ apg -a 3 -f 32 -bh
+$ apg-go -a 3 -f 32 -bh
 ```
 We generated a 32 bytes/256 bits long fully binary secret that can be used i. e. as
 encryption key for a AES-256 symmetric encryption. The output is represented in 
@@ -200,7 +200,7 @@ By default apg-go will generate 6 passwords, with a minimum length of 12 charact
 maxiumum length of 20 characters. The generated password will use a character set constructed 
 from lower case, upper case and numeric characters.
 ```shell
-$ ./apg-go
+$ apg-go
 R8rCC8bw5NvJmTUK2g
 cHB9qogTbfdzFgnH
 hoHfpWAHHSNa4Q
@@ -216,7 +216,7 @@ by setting the `-L` parameter. In addition you would set the `-S` parameter to e
 characters. Finally the parameter `-n 1` is needed to keep apg-go from generating more than one
 password:
 ```shell
-$ ./apg-go -n 1 -L -S
+$ apg-go -n 1 -L -S
 XY7>}H@5U40&_A1*9I$
 ```
 
@@ -226,7 +226,7 @@ parameters instead. The new style is all combined in the `-M` parameter. Using t
 version of a parameter argument enables a feature, while the lower case version disabled it. The
 previous example could be represented like this in new style:
 ```shell
-$ ./apg-go -n 1 -M lUSN
+$ apg-go -n 1 -M lUSN
 $</K?*|M)%8\U$5JA5~
 ```
 
@@ -239,7 +239,7 @@ readability, you can set the `-H` parameter to toggle on the "human readable" fe
 option is set, apg-go will avoid using any of the typical ambiguous characters in the generated
 passwords.
 ```shell
-$ ./apg-go -n 1 -M LUSN -H
+$ apg-go -n 1 -M LUSN -H
 YpranThY3b6b5%\6ARx
 ```
 
@@ -248,7 +248,7 @@ Let's assume, that for whatever reason, your generated password can never includ
 this specific case, you can use the `-E` parameter to specify a list of characters that are to be excluded 
 from the password generation character set:
 ```shell
-$ ./apg-go -n 1 -M lUSN -H -E :
+$ apg-go -n 1 -M lUSN -H -E :
 ~B2\%E_|\VV|/5C7EF=
 ```
 
@@ -258,7 +258,7 @@ parameter, apg-go will automatically default to the most secure settings. The co
 basically implies that the password will use all available characters (lower case, upper case, 
 numeric and special) and will make sure that human readability is disabled.
 ```shell
-$ ./apg-go -n 1 -C
+$ apg-go -n 1 -C
 {q6cvz9le5_fo"X7
 ```
 
@@ -268,13 +268,13 @@ want to be more specific, you can use the `-m` and `-x` parameters to override t
 assume you want a single complex password with a length of exactly 32 characters you can do so by
 running:
 ```shell
-$ ./apg-go -n 1 -C -m 32 -x 32
+$ apg-go -n 1 -C -m 32 -x 32
 5lc&HBvx=!EUY*;'/t&>B|~sudhtyDBu
 ```
 Alternatively, since v1.0.0 apg-go has the new `-f` flag, which allows to request a fixed length
 password. Instead of using `-m` and `-x` you can just use `-f 32` to get a 32 character long password:
 ```shell
-$ ./apg -n 1 -C -f 32
+$ apg-go -n 1 -C -f 32
 O"Q\d0zT'@(1f~%_56O*!q[!9:z[~\A*
 ```
 
@@ -283,7 +283,7 @@ If you need to read out a password, it can be helpful to know the corresponding 
 the phonetic alphabet. By setting the `-l` parameter, agp-go will provide you with the phonetic spelling 
 (english language) of your newly created password:
 ```shell
-$ ./apg-go -n 1 -M LUSN -H -E : -l
+$ apg-go -n 1 -M LUSN -H -E : -l
 fUTDKeFsU+zn3r= (foxtrot/Uniform/Tango/Delta/Kilo/echo/Foxtrot/sierra/Uniform/PLUS_SIGN/zulu/november/THREE/romeo/EQUAL_SIGN)
 ```
 
@@ -312,10 +312,10 @@ randomly generated passwords. It might also be helpful to run the pronoucable pa
 "[HIBP](#have-i-been-pwned)" flag, so that each generated password is automatically checked against "Have I Been Pwned" 
 database.
 ```shell
-$ ./apg-go -a 0 -n 1
+$ apg-go -a 0 -n 1
 KebrutinernMy
 
-$ ./apg-go -a 0 -n 1 -m 15 -x 15 -t
+$ apg-go -a 0 -n 1 -m 15 -x 15 -t
 pEnbocydrageT*En (pEn-bo-cy-dra-geT-ASTERISK-En)
 ```
 
@@ -323,7 +323,7 @@ pEnbocydrageT*En (pEn-bo-cy-dra-geT-ASTERISK-En)
 Sometimes you just want to quickly perform a simple, but random coinflip. Since v1.0.0 apg-go has a 
 coinflip mode, which will return either "Heads" or "Tails". To use coinflip mode, use the `-a 2` argument:
 ```shell
-$ ./apg -n 10 -a 2
+$ apg-go -n 10 -a 2
 Tails
 Tails
 Heads
@@ -348,11 +348,28 @@ This mode can be useful for example if you need to generate a AES-256 encryption
 the default length for the secret generation in this mode, you can simply generate a secret key with 
 the following command:
 ```shell
-$ apg -a 3 -bh
+$ apg-go -a 3 -bh
 a1cdab8db365af3d70828b1fe43b7896190c157ad3f1ae2a0a1d52ec1628c6b5
 ```
 *For ease for readability we used the `-bh` flag, to instruct apg-go to output the secret in its
 hexadecimal representation*
+
+### Mobile-friendly character grouping
+Since v1.2.0 apg-go supports grouping of characters in a mobile-friendly manner. Entering a random string 
+of characters with a smartphone touch screen is tedious and error prone due to the need to toggle keypads 
+to gain access to different character tables. For this reason, this feature groups the characters of the
+generated password in "keypad-order". It does so by groupoing the characters into character groups. The
+following precedense is used: Upper-case characters, lower-case characters, numeric values, any other 
+character.
+
+Example:
+```shell
+$ apg-go -C -f 20 -n 1 -g
+CETMPGGxuamj346!)>})
+```
+
+**Please note that this feature makes the generated passwords much more predictable and lowers the 
+entropy of the generated password. Please use this feature with caution**
 
 ### Minimum required characters
 Even though in apg-go you can select what kind of characters are used for the password generation, it is
@@ -369,7 +386,7 @@ never being able to finish the job.
 
 Example:
 ```shell
-$ ./apg -n 10 -a 1 -M NLUs -f 20 -mN 3
+$ apg-go -n 10 -a 1 -M NLUs -f 20 -mN 3
 kqFG935E280LvTFUbJ4M
 RVBJAI5tJ6hy6oWrNfXG
 uy1IWBEoOQFyG66VrLqu
@@ -409,6 +426,7 @@ _apg-go_ replicates most of the parameters of the original c-apg. Some parameter
 - `-m <length>`: The minimum length of the password to be generated (Default: 12)
 - `-x <length>`: The maximum length of the password to be generated (Default: 20)
 - `-f <length>`: Fixed length of the password to be generated (Ignores -m and -x)
+- `-g`: When set, mobile-friendly character grouping will be enabled in Algo: 1 (Default: off)
 - `-n <number of passwords>`: The amount of passwords to be generated (Default: 6)
 - `-E <list of characters>`: Do not use the specified characters in generated passwords
 - `-M <[LUNSHClunshc]>`: New style password parameters (upper-case enables, lower-case disables)

@@ -453,6 +453,27 @@ func TestGenerateRandom(t *testing.T) {
 	}
 }
 
+func TestGenerateRandom_withGrouping(t *testing.T) {
+	config := NewConfig(WithAlgorithm(AlgoRandom), WithMinLength(1),
+		WithMaxLength(1), WithMobileGrouping())
+	config.MinNumeric = 1
+	generator := New(config)
+	pw, err := generator.generateRandom()
+	if err != nil {
+		t.Errorf("generateRandom() failed: %s", err)
+	}
+	if len(pw) > 1 {
+		t.Errorf("expected password with length 1 but got: %d", len(pw))
+	}
+	n, err := strconv.Atoi(pw)
+	if err != nil {
+		t.Errorf("expected password to be a number but got an error: %s", err)
+	}
+	if n < 0 || n > 9 {
+		t.Errorf("expected password to be a number between 0 and 9, got: %d", n)
+	}
+}
+
 func TestGenerate(t *testing.T) {
 	tests := []struct {
 		name        string
