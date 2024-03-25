@@ -354,6 +354,9 @@ func (g *Generator) generateRandom() (string, error) {
 		ok = g.checkMinimumRequirements(password)
 	}
 
+	if g.config.MobileGrouping {
+		return GroupCharsForMobile(password), nil
+	}
 	return password, nil
 }
 
