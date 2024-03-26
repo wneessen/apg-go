@@ -523,36 +523,13 @@ func TestGenerate(t *testing.T) {
 	}
 }
 
-func BenchmarkGenerator_CoinFlip(b *testing.B) {
-	b.ReportAllocs()
-	g := New(NewConfig())
-	for i := 0; i < b.N; i++ {
-		_ = g.CoinFlip()
-	}
-}
-
-func BenchmarkGenerator_RandomBytes(b *testing.B) {
-	b.ReportAllocs()
-	g := New(NewConfig())
-	var l int64 = 1024
-	for i := 0; i < b.N; i++ {
-		_, err := g.RandomBytes(l)
-		if err != nil {
-			b.Errorf("failed to generate random bytes: %s", err)
-			return
-		}
-	}
-}
-
-func BenchmarkGenerator_RandomString(b *testing.B) {
-	b.ReportAllocs()
-	g := New(NewConfig())
-	cr := CharRangeAlphaUpper + CharRangeAlphaLower + CharRangeNumeric + CharRangeSpecial
-	for i := 0; i < b.N; i++ {
-		_, err := g.RandomStringFromCharRange(32, cr)
-		if err != nil {
-			b.Errorf("RandomStringFromCharRange() failed: %s", err)
-		}
+func TestGenerator_RandomStringFromCharRange_fail(t *testing.T) {
+	config := NewConfig()
+	gen := New(config)
+	_, err := gen.RandomStringFromCharRange(0, gen.GetCharRangeFromConfig())
+	if err == nil {
+		t.Errorf("RandomStringFromCharRange() with zero length is supposed" +
+			"to fail, but didn't")
 	}
 }
 
@@ -588,5 +565,50 @@ func TestGenerator_generateBinary(t *testing.T) {
 				return
 			}
 		})
+	}
+}
+
+func TestGenerator_checkMinimumRequirements_human(t *testing.T) {
+	config := NewConfig(WithModeMask(ModeLowerCase|ModeUpperCase|ModeNumeric|
+		ModeSpecial|ModeHumanReadable), WithMinLowercase(1), WithMinUppercase(1),
+		WithMinNumeric(1), WithMinSpecial(1))
+	gen := New(config)
+	pw, err := gen.Generate()
+	if err != nil {
+		t.Errorf("Generate() failed: %s", err)
+	}
+	_ = gen.checkMinimumRequirements(pw)
+}
+
+func BenchmarkGenerator_CoinFlip(b *testing.B) {
+	b.ReportAllocs()
+	g := New(NewConfig())
+	for i := 0; i < b.N; i++ {
+		_ = g.CoinFlip()
+	}
+}
+
+func BenchmarkGenerator_RandomBytes(b *testing.B) {
+	b.ReportAllocs()
+	g := New(NewConfig())
+	var l int64 = 1024
+	for i := 0; i < b.N; i++ {
+		_, err := g.RandomBytes(l)
+		if err != nil {
+			b.Errorf("failed to generate random bytes: %s", err)
+			return
+		}
+	}
+}
+
+func BenchmarkGenerator_RandomString(b *testing.B) {
+	b.ReportAllocs()
+	g := New(NewConfig())
+	cr := CharRangeAlphaUpper + CharRangeAlphaLower + CharRangeNumeric + CharRangeSpecial
+	for i := 0; i < b.N; i++ {
+		_, err := g.RandomStringFromCharRange(32, cr)
+		if err != nil {
+			b.Errorf("RandomStringFromCharRange() failed: %s", err)
+		}
 	}
 }
