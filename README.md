@@ -71,6 +71,36 @@ There is a ready-to-use Docker image hosted on Github.
   ```shell
   $ docker run ghcr.io/wneessen/apg-go:main
   ```
+  
+### Go install
+apg-go can be installed using the `go install` command if you have Go installed on your system. This requires
+that you have Go installed on your system and that your Go version matches or is higher than the version
+required in `go.mod`. You can install various versions using `go install`.
+
+* Verify your Go version
+  ```shell
+  $ go version
+  go version go1.22.1 linux/amd64
+  ```
+  **Note: Make sure that your Go version matches the requirements of apg-go.**
+* Install the latest version of apg-go
+  ```shell
+  $ go install github.com/wneessen/apg-go/cmd/apg@latest
+  ```
+  The `latest` tag will always install the latest release. If you want to run a different version you can replace 
+  the `latest` with the requested version (i. e. `v1.1.0`). Alternatively if you want to test the latest code, not
+  fully released code from the main branch, you can replace `latest` with `main`.
+* Execute apg-go
+  Once the `go install` command completed without errors, your apg-go binary will be installed into your Go project 
+  workspace or your `$GOPATH/bin` directory (i. e. `/home/ttester/go/bin`). If this directory is
+  part of your `$PATH` environment, you can just execute it via the `apg` command, otherwise you'll need to 
+  specify the full path: `/home/ttester/go/bin/apg`.
+  ```shell
+  $ /home/ttester/go/bin/apg -v
+  apg-go // A "Automated Password Generator"-clone v1.2.0
+  OS: linux // Arch: amd64
+  (C) 2021-2024 by Winni Neessen
+  ```
 
 ### Binary releases/Packages
 On the [Github release page](https://github.com/wneessen/apg-go/releases) you will always find pre-build binaries
