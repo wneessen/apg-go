@@ -13,6 +13,8 @@ SPDX-License-Identifier: CC0-1.0
 [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/8677/badge)](https://www.bestpractices.dev/projects/8677)
 <a href="https://ko-fi.com/D1D24V9IX"><img src="https://uploads-ssl.webflow.com/5c14e387dab576fe667689cf/5cbed8a4ae2b88347c06c923_BuyMeACoffee_blue.png" height="20" alt="buy ma a coffee"></a>
 
+<p align="center"><img src="./assets/apg-go.svg" width="250" alt="apg-go logo"/></p>
+
 _apg-go_ is a simple APG-like password generator written in Go. It tries to replicate the
 functionality of the
 "[Automated Password Generator](https://web.archive.org/web/20130313042424/http://www.adel.nursat.kz:80/apg)",

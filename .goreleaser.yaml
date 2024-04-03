@@ -10,6 +10,11 @@ before:
     - go mod tidy
     - go mod download
     - go mod verify
+    - cp assets/apg-go.ico ./logo.ico
+
+after:
+  hooks:
+    - rm ./logo.ico
 
 builds:
   - env:
@@ -72,6 +77,8 @@ nfpms:
 
 dmg:
   - replace: false
+    extra_files:
+    - logo.ico
 
 universal_binaries:
   - replace: false
