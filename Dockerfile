@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: MIT
 
-FROM golang:latest@sha256:5305905078d6c33f427b4c7dc483e1bb4bef2991ca95f4ac2e830cb1f0a717fe AS builder
+FROM golang:latest@sha256:9820aca42262f58451f006de3213055974b36f24b31508c1baa73c967fcecb99 AS builder
 RUN mkdir /builddir
 ADD . /builddir/
 WORKDIR /builddir
