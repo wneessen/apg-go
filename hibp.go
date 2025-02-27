@@ -5,6 +5,7 @@
 package apg
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/wneessen/go-hibp"
@@ -16,5 +17,8 @@ func HasBeenPwned(password string) (bool, error) {
 	hc := hibp.New(hibp.WithHTTPTimeout(time.Second*2),
 		hibp.WithPwnedPadding())
 	matches, _, err := hc.PwnedPassAPI.CheckPassword(password)
-	return matches != nil && matches.Count != 0, err
+	if err != nil {
+		return false, fmt.Errorf("failed to check password against HIBP: %w", err)
+	}
+	return matches.Present() && matches.Count > 0, err
 }
