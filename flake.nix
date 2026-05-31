@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: Winni Neessen <wn@neessen.dev>
+#
+# SPDX-License-Identifier: MIT
+
 {
   description = "apg-go binary release package";
 
